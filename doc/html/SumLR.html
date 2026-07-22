@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SumLR</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>SumLR.pl - Calculate the sum and sum of squares for the LRs in a Zmapqtl file</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+   SumLR.pl [-C column] [-i] [-h] [-j] [-r rep] [-t trait] &lt; input &gt; output</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>SumLR.pl</strong> reads from the standard input and writes to the standard output.
+It can do one of two things.   The first is to initialize a file of likelihood 
+ratio sums and sums of squares.
+The second is to read the results of a run of <strong>Zmapqtl</strong> from a the user-specified column,
+and to calculate the sum and sum of squares of those likelihood ratios.  It is a <strong>Perl</strong> script meant
+to be run in a loop with <strong>Prune</strong> and <strong>Zmapqtl</strong> or <strong>JZmapqtl</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2dc"><strong>-C</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an integer value.  It allows the user to specify the <em>Zmapqtl.out</em>
+file column for processing.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, the script outputs a <em>ZipermE.out</em> header to the
+standard output and exits.  It does require an input file of the <em>Zmapqtl.out</em> format.  
+<strong>SumLR.pl</strong> will get the model, cross, window size and number of background parameters
+from the <em>Zmapqtl.out</em> file.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dj"><strong>-j</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  It is a flag to indicate that the input file is
+a joint-mapping file from <strong>JZmapqtl</strong>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dr"><strong>-r</strong></a></strong><br />
+</dt>
+<dd>
+requires the repetition number for the bootstrap or permutation test.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+used with an integer is simply a way to pass on the trait value when using
+<strong>JZmapqtl</strong>.  It should only be used in conjuntion with the <strong>-j</strong> and <strong>-i</strong> 
+options.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>This <strong>Perl</strong> program was meant to be run in a shell script.  Here is an 
+example of a <strong>c</strong> shell program that allows the user to calculate the experimentwise
+threshold as well as comparisonwise values.</p>
+<pre>
+        #!/bin/csh
+        #           Permute 
+        #   Copyright (C) 2000 Christopher J. Basten 
+        # Usage governed by the terms of the GNU  General Public License,  version 2 or higher
+        #  See the file COPYING in this directory
+        #
+        #   This file was meant as an example.  You  will need to edit it 
+        #   to work on your particular system with your data files.
+        #
+        #  Start by setting the variables needed.  
+        # 
+        set stem=corn                           #  filename stem
+        set column=4                            #  LR column to process
+        set model=3                             #  analysis model
+        set reps=1000                           #  number of bootstraps
+        set email=basten\@statgen.ncsu.edu      #  email address for notice
+        set templog=temp.log                    #  temporary log file
+        set qbin=/user/local/bin                #  where are the QTL Cart binaries
+        set bin=/usr/bin                        #  where are the system programs
+        #
+        #   Should only need to change what is above.
+        #
+        $bin/rm -f $templog
+        echo &quot;Permutation test started &quot; &gt; $templog
+        $bin/date &gt;&gt;  $templog
+        $bin/echo &quot;Stem: &quot; $stem &gt;&gt; $templog
+        $bin/echo &quot;Model: &quot; $model &gt;&gt; $templog
+        $bin/echo &quot;Reps: &quot; $reps &gt;&gt; $templog
+        $bin/echo &quot;Email: &quot; $email &gt;&gt; $templog
+        $bin/mv $stem.log $stem.logsave
+        $bin/mv $stem.z $stem.zsave
+        $bin/rm -f $stem.z{$model}e
+        set i=1
+        $qbin/GetMaxLR.pl -i &lt; $stem.zsave &gt; $stem.z{$model}.ewt
+        $qbin/SumLR.pl -i &lt; $stem.zsave &gt; $stem.z{$model}.sss
+        $qbin/CWTupdate -C $column &lt; $stem.zsave &gt; $stem.z{$model}.cwt
+        while ( $i &lt;= $reps )
+        $qbin/Prune -A -V -i $stem.cro -b 2  &gt;&gt;&amp;  $templog
+        $bin/nice $qbin/Zmapqtl -A -V -M $model -i $stem.crb  &gt;&gt;&amp;  $templog
+        $qbin/GetMaxLR.pl -r $i -C $column &lt; $stem.z  &gt;&gt; $stem.z{$model}.ewt
+        $qbin/SumLR.pl -r $i -C $column &lt; $stem.z  &gt;&gt; $stem.z{$model}.sss
+        $qbin/CWTupdate -f $stem.z{$model}.cwt -C $column &lt; $stem.z  &gt; $stem.z{$model}.newcwt
+        $bin/mv $stem.z{$model}.newcwt $stem.z{$model}.cwt 
+        $bin/rm -f $stem.z
+        @ i++
+        end
+        $bin/echo &quot;Now your can run EWThreshold.pl on $stem.z$model.ewt&quot; &gt;&gt; $templog
+        $bin/mv $stem.zsave $stem.z
+        $bin/mv $stem.logsave $stem.log
+        $bin/date &gt;&gt;  $templog
+        /usr/ucb/mail $email &lt;  $templog</pre>
+<p>Suppose you had a data set <em>corn.cro</em> and a map file <em>corn.map</em>.  To use the above
+shell script, create a directory called <em>cornperm</em> and copy the two files into it.
+Run <strong>Qstats</strong> on the files to initialize the <em>qtlcart.rc</em> file, and <strong>SRmapqtl</strong> to
+rank a set of markers for use with composite interval mapping.  Make sure that the
+<strong>QTL Cartographer</strong> programs and scripts are installed in the <em>/usr/local/bin</em> subdirectory
+(or change the line setting <em>qbin</em> above).   The script above is set to do 
+1,000 permutations using interval mapping and restricting itself to column
+four of the <em>Zmapqtl.out</em> file.   Run it as follows:</p>
+<pre>
+        % Permute   &amp;</pre>
+<p>The script will email you a message when it is complete.</p>
+<p>Note that the above example uses <strong>-C 4</strong> for the <strong>SumLR</strong> line in the loop.
+If you want to use a different column of likelihood ratios, you can change 
+that option.</p>
+<p>Once finished, you will need to go through the file created by <strong>SumLR.pl</strong>
+to calculate the mean and standard error over all sites and all repetitions.</p>
+<p>The <strong>Permute</strong> script above has been rewritten as a <strong>Perl</strong> script and is
+described in a man page <strong>Permute.pl(1)</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Zmapqtl(1)</strong>, <strong>Prune(1)</strong>, <strong>EWThreshold.pl(1)</strong>, <strong>CWTupdate.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+name: Windows build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        shell: powershell
+        run: .\build.ps1
+      - name: Test
+        shell: powershell
+        run: .\test.ps1
+      - name: Upload Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: QTL-Cartographer-Windows-x64
+          path: build/QTL-Cartographer-Windows-x64.zip

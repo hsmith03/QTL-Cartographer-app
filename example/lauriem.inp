@@ -1,0 +1,141 @@
+# 123456789    bychromosome  -filetype map.inp   
+#
+# Look at the end of the file for documentation.  
+#
+#     Zeng, Z.-B., J. Liu, L. F. Stam, C.-H. Kao, J. M. Mercer and C.C. Laurie (2000) 
+#     Genetic architecture of a morphological shape difference between two Drosophila 
+#     species.  Genetics 154: 299-310
+#
+-type intervals
+-function     1  
+-Units       cM  
+-chromosomes  3 
+-maximum      22  
+-named      yes  
+-start 
+-Chromosome cX
+ewg     3.60
+w      10.60
+rp      9.20
+v      17.20
+sd     18.70
+run     0.0
+-Chromosome c2a
+gl      6.98
+pgk    10.10
+cg      4.94
+gpdh    6.51
+ninaC   6.19
+glt    20.46
+prd    12.78
+mhc     3.90
+ddc     4.55
+duc     7.49
+eve    30.02
+sli    16.85
+plu     4.34
+egfr    3.71
+twi     7.03
+zip     0.0
+-Chromosome c2b
+lsp     4.99
+ve      9.34 
+acr     6.97
+dbi     7.44  
+h      14.46
+cyc     6.79  
+fz      3.55
+eip     6.32
+tra    11.86
+rdg     4.58
+ht      6.85 
+ant     6.35  
+ninaE  11.79
+fas    12.88   
+mst     9.15
+odh     3.30 
+tub     7.98
+hb     13.09 
+rox    10.04  
+ald     3.70  
+mlc     9.79
+jan     3.43
+efi     0.0 
+-stop
+-end   
+
+There are four data sets from Cathy Laurie's lab.  The analysis was presented in
+
+     Zeng, Z.-B., J. Liu, L. F. Stam, C.-H. Kao, J. M. Mercer and C.C. Laurie (2000) 
+     Genetic architecture of a morphological shape difference between two Drosophila 
+     species.  Genetics 154: 299-310.
+
+
+This map file (lauriem.inp) can be used with all four of the data sets.
+The data sets include two backcrosses between Drosophila simulans and 
+D. mauritiana. Each backcross has two independent samples.  Think of
+D. mauritiana as parental line 1 (P1) and D. simulans as parental line 2 (P2).
+Then, we have B1 crosses (F1 x P1) and B2 crosses (F1 x P2).   
+
+        File             Sample Size        Contains
+     lauriem4c.inp       192                B1, first sample 
+     lauriem6c.inp       299                B1, second sample
+     lauries4c.inp       184                B2, first sample
+     lauries6c.inp       287                B2, second sample
+ 
+
+Zhao-Bang Zeng has these data sets on his web site with different names.
+Here is a key to how they relate:  
+
+184 for bs4zb.out   ---> reformatted, now in lauries4c.inp
+287 for bs6zb.out   ---> reformatted, now in lauries6c.inp
+192 for bm4zb.out   ---> reformatted, now in lauriem4c.inp
+299 for bm6zb.out   ---> reformatted, now in lauriem6c.inp
+
+
+The Data:
+
+There are 45 markers with names
+ewg, w, rp, v, sd, run, gl, pgk, cg, gpdh, 
+ninaC, glt, prd, mhc, ddc, duc, eve, sli, plu, egfr,
+twi, zip, lsp, ve, acr, dbi, h, cyc, fz, eip, 
+tra, rdg, ht, ant, ninaE, fas, mst, odh, tub, hb, 
+rox, ald, mlc, jan, efi                                   
+
+The linkage map of the markers is
+5 marker intervals (cM) for the first 6 markers on chromosome X:
+ 3.60, 10.60,  9.20, 17.20, 18.70 
+15 marker intervals (cM) for the next 16 markers on chromosom 2:
+ 6.98, 10.10,  4.94,  6.51,  6.19, 20.46, 12.78,  3.90,  4.55,  7.49, 
+30.02, 16.85,  4.34,  3.71,  7.03
+22 marker intervals (cM) for the next 23 markers on chromosom 2:
+ 4.99,   9.34,  6.97,  7.44, 14.46,  6.79,  3.55,  6.32, 11.86,  4.58,  
+ 6.85,  6.35, 11.79, 12.88,  9.15,  3.30, 7.98, 13.09, 10.04,  3.70,  
+ 9.79,  3.43
+
+These markers were reformatted above and are ready for Rmap.   
+
+There are 5 traits with names
+pc1, adjpc1, area, areat, tibia
+But the paper above only reports the results on the first trait.
+
+The code for marker data in chromosome 2 and 3 is 
+2==MM (homozygotes for mauritiana alleles)
+1==MS (heterozygote)
+0==SS (homozygotes for simulans alleles)
+
+However, for markers in chromosome X, the code differs slighty depending on the
+backcross.   
+
+If crossing the F1 to D. mauritiana, then 
+
+2==M hemizygous
+1==S hemizygous
+
+While if crossing the F1 to D. simulans, then
+
+1==M hemizygous
+0==S hemizygous
+
+Missing data are indicated by 9 for markers or 999.9999 for traits.
+

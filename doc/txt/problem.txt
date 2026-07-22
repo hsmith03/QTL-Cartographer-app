@@ -1,0 +1,43 @@
+********************************************************************************
+
+                        QTL Cartographer Problem Report
+
+If you have problems using QTL Cartographer, please fill out the following form
+and return it to Chris Basten (basten@statgen.ncsu.edu).  This will help
+a great deal in diagnosing and solving the problem.
+
+
+********************************************************************************
+
+1. Computing platform
+
+  A.  What machine are you using?  Is it a
+  
+        i.  Unix based workstation? 
+      
+       ii.  PC running Windows?  In a Cygwin environment?
+      
+      iii.  PowerPC based Macintosh?
+       
+  
+  B.  What Operating system is it running?  Please include the version.  
+
+
+  
+2. Programs  
+  
+  A.  Which program is giving you trouble, and what parameter values were used?
+  
+  B.  Are the input files simulated or real?  
+  
+  C.  Would it be possible to send me the input files, the log file and the
+      resource file (qtlcart.rc)?  I will keep the files safe and delete them 
+      when done, if requested.  
+  
+  D.  When the program crashed, did it give any diagnostics?
+  
+  E.  When did you download the programs?   
+  
+  F.  What version do you have? 
+  
+ 

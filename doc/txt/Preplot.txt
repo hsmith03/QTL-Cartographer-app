@@ -1,0 +1,101 @@
+NAME
+    Preplot - Process results of LRmapqtl and Zmapqtl for input to gnuplot
+
+SYNOPSIS
+    Preplot [ -o *output* ] [ -m *mapfile* ] [ -l *lrfile* ] [ -z *zfile* ]
+    [ -q *qtlfile* ] [ -S *threshold* ] [ -T *terminal* ] [ -H *hypo* ] [ -L
+    *lod* ]
+
+DESCRIPTION
+    Preplot reformats the output of LRmapqtl and Zmapqtl so that it can be
+    plotted by GNUPLOT. It requires a molecular map that was used in the
+    analysis of the data with LRmapqtl and Zmapqtl.
+
+OPTIONS
+    See QTLcart(1) for more information on the global options -h for help,
+    -A for automatic, -V for non-Verbose -W path for a working directory, -R
+    file to specify a resource file, -e to specify the log file, -s to
+    specify a seed for the random number generator and -X stem to specify a
+    filename stem. The options below are specific to this program.
+
+    If you use this program without specifying any options, then you will
+    get into a menu that allows you to set them interactively.
+
+    -o  This requires a filename stem for output. Preplot will overwrite the
+        file if it exists, and create a new file if it does not. If not
+        used, then Preplot will use qtlcart. The GNUPLOT file will be
+        qtlcart.plt in that case.
+
+    -m  Zmapqtl requires a genetic linkage map. This option requires the
+        name of a file containing the map. It should be in the same format
+        that Rmap outputs. The default file is qtlcart.map.
+
+    -l  This requires an input filename. This file must exist. It should be
+        in the same format as the output of LRmapqtl. The default file is
+        qtlcart.lr.
+
+    -q  This requires an input filename. This file may or may not exist. It
+        should be in the same format as the output of Rqtl. The default file
+        is qtlcart.qtl.
+
+    -z  This requires an input filename. This file must exist. It should be
+        in the same format as the output of Zmapqtl. The default file is
+        qtlcart.z.
+
+    -T  Allows the user to set the output terminal. Valid options can be
+        found in the GNUPLOT manual. The default is *x11* on UNIX, *mac* for
+        Macintosh and *windows* for MS-Windows.
+
+    -S  When given an argument, Preplot will use this significance
+        threshold. It is 3.84 by default.
+
+    -H  Preplot will get results for this hypothesis test from the Zmapqtl
+        outputfile. Test 1 is the default, which is the only value for a
+        backcross.
+
+    -L  If given an argument of 1, Preplot will output LOD scores instead of
+        the LR test statistics.
+
+EXAMPLES
+            % Preplot -L 1
+
+    Preplot will automagically reformat your results to be plotted by
+    GNUPLOT, converting the likelihood ratio test statistics into LOD scores
+    along the way.
+
+REFERENCES
+    1.  T. Williams and C. Kelley (1993) GNUPLOT: An Interactive Plotting
+        Program. Version 3.5
+
+CAVEATS
+    Preplot will search for the ouput files from Rqtl, Eqtl and MImapqtl and
+    try to process them. If you don't want them processed, rename or move
+    the files. Note that Preplot only searches for files with names
+    *stem.eqt, stem.qtl* and *stem.mqt*, where *stem* is the filename stem.
+
+BUGS
+    Preplot ignores JZmapqtl output.
+
+SEE ALSO
+    Emap(1), Rmap(1), Rqtl(1), Rcross(1), Qstats(1), LRmapqtl(1),
+    BTmapqtl(1), SRmapqtl(1), JZmapqtl(1), Eqtl(1), Prune(1), Preplot(1),
+    MImapqtl(1), MultiRegress(1), Examples(1) SSupdate.pl(1), Prepraw.pl(1),
+    EWThreshold.pl(1), GetMaxLR.pl(1), Permute.pl(1), Vert.pl(1),
+    CWTupdate.pl(1), Ztrim.pl(1), SRcompare.pl(1), Ttransform.pl(1),
+    TestExamples.pl(1), Model8.pl(1), Dobasics.pl(1), Bootstrap.pl(1)
+
+CONTACT INFO
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Bioinformatics Research Center, North Carolina State University
+            1523 Partners II Building/840 Main Campus Drive
+            Raleigh, NC 27695-7566     USA
+            Phone: (919)515-1934
+
+    Please report all bugs via email to qtlcart-bug@statgen.ncsu.edu.
+
+    The QTL Cartographer web site ( http://statgen.ncsu.edu/qtlcart ) has
+    links to the manual, man pages, ftp server and supplemental materials.
+

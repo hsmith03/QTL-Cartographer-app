@@ -1,0 +1,236 @@
+#     1472195375   -filetype cross.inp 
+#
+#   B. L. Rauh, C. Basten, E. S. Buckler IV Quantitative trait loci analysis of 
+#   growth response to varying nitrogen sources in Arabidopsis thaliana
+#   Theor Appl Genet (2002) 104: 743-750
+#
+#
+-SampleSize        101   is the sample size
+-Cross   RI1   is the type of cross
+-traits     4   is the number of traits
+-otraits    0   is the number of other traits
+-case  yes 
+-TranslationTable    
+     AA    2    A  
+     Aa    1    H  
+     aa    0    B  
+     A-   12    A-  
+     a-   10    B-  
+     --   -1    --  
+-missingtrait .   A missing trait is encoded by a solitary period.
+-start markers 
+ve001	B	A	A	B	B	-	-	B	A	A	A	B	B	B	B	A	-	B	-	A	A	A	B	-	-	-	A	A	B	B	B	A	A	B	B	B	-	B	B	A	B	B	-	B	A	B	B	B	A	A	B	B	A	B	A	A	A	A	-	B	B	B	A	B	-	B	B	B	B	B	B	A	B	A	A	A	A	B	B	B	B	B	B	A	B	B	B	B	-	B	B	A	B	A	A	B	A	A	B	A	A
+O846A	B	A	A	B	B	-	-	B	-	A	A	B	A	B	B	A	-	B	A	A	A	A	B	B	B	A	A	A	B	B	B	A	A	B	B	A	A	B	B	A	B	B	A	B	A	B	B	B	A	A	A	B	A	B	A	A	A	A	A	B	B	B	A	B	B	B	B	B	B	A	B	A	B	A	A	A	A	B	B	B	B	B	B	A	A	B	B	B	A	B	B	A	B	A	A	B	A	A	A	A	A
+m488	B	A	A	B	B	A	-	B	A	A	A	B	A	B	B	A	-	B	A	A	A	A	B	B	B	A	A	A	B	B	B	A	A	B	B	A	A	B	B	A	B	B	A	B	A	A	B	B	A	A	-	B	A	B	A	A	A	A	A	B	B	B	A	B	B	B	B	B	B	A	B	A	B	A	A	A	A	B	B	B	B	B	B	A	A	B	B	B	A	B	B	B	B	A	A	B	A	A	A	A	A
+apx1A	B	A	A	B	B	B	A	B	A	A	A	B	A	B	B	A	-	B	A	A	A	A	B	B	B	A	A	A	B	B	B	A	A	B	B	A	A	B	B	A	B	B	A	B	A	A	B	B	A	A	B	B	A	B	A	A	A	A	A	B	B	B	A	B	B	B	B	B	B	A	B	A	A	A	A	A	A	B	B	-	B	B	B	A	A	B	B	B	A	B	B	B	B	A	A	B	A	A	B	A	A
+mi443	B	A	A	B	B	-	A	B	A	A	A	B	A	B	A	A	-	B	-	A	A	A	B	B	B	A	A	A	B	B	B	A	A	B	B	A	A	B	B	A	B	B	A	B	A	A	B	-	A	A	B	B	A	B	A	A	A	A	A	B	B	B	A	B	B	B	B	A	B	A	B	A	A	A	A	A	A	B	B	B	A	B	B	A	A	B	B	A	A	B	B	B	B	A	A	B	A	A	B	A	A
+ATTS0477	B	A	A	B	B	-	-	B	A	B	A	B	A	B	A	A	B	B	-	A	A	A	B	B	B	A	A	A	B	B	B	A	A	B	B	A	A	B	B	A	B	B	A	B	A	A	B	B	A	A	B	B	A	B	A	A	A	A	A	B	B	B	A	B	-	B	B	A	B	A	B	A	A	A	A	A	A	B	B	B	A	B	B	A	A	B	B	A	B	B	B	B	B	A	A	B	A	A	B	A	A
+CDs7	B	A	A	B	B	-	-	B	A	B	A	B	A	B	A	A	B	B	-	A	-	A	B	-	B	-	A	A	B	B	B	A	A	B	B	A	-	B	B	A	B	B	-	B	A	A	B	B	A	A	B	B	A	B	A	A	A	A	B	B	B	B	A	B	-	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	A	A	B	B	A	A	B	B	B	A	A	A	B	A	A	B	A	A
+EG17G9	B	B	A	B	B	-	-	B	A	B	A	B	A	B	A	A	B	B	B	A	A	A	B	B	B	A	A	A	B	B	A	A	A	B	B	A	A	B	B	B	B	B	A	B	A	A	B	B	A	A	B	B	A	B	A	A	A	A	B	B	B	B	A	B	B	B	B	A	B	A	B	-	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	B	B	B	A	A	A	B	A	A	A	A	A
+ve007	B	B	B	B	B	-	-	B	A	B	B	B	A	B	A	A	B	B	-	A	A	A	B	B	B	A	A	A	B	B	B	A	A	B	B	A	B	B	B	B	B	B	A	B	A	A	B	B	A	A	B	B	A	B	A	A	A	A	B	B	B	B	A	B	-	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	-	B	B	B	A	A	A	B	A	A	A	A	A
+mi348	B	B	B	B	B	-	A	B	A	B	A	B	A	B	A	A	B	B	-	A	A	A	B	B	B	A	A	A	B	B	B	A	A	A	B	A	A	B	B	B	B	B	A	B	A	A	B	B	A	A	B	B	B	B	A	A	A	A	B	B	B	B	A	B	B	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	B	B	B	A	A	A	B	A	A	A	B	A
+mi113	B	B	B	B	B	-	A	B	A	B	A	B	A	B	A	A	B	B	-	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	A	B	B	B	B	B	A	B	A	A	B	B	A	A	B	B	B	B	A	A	A	A	B	B	B	B	A	B	B	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	A	A	A	B	A	A	A	B	A
+ARR7	B	B	B	B	B	-	A	B	A	B	A	B	A	B	A	A	B	B	B	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	B	B	B	B	B	B	A	B	A	A	B	B	B	A	B	B	B	B	A	A	A	A	B	B	B	B	A	B	B	B	B	A	B	A	B	A	A	A	A	A	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	B	A	A	B	A	A	A	B	A
+mi203	B	B	B	B	B	-	A	B	A	B	A	B	A	B	A	A	B	B	-	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	A	B	B	B	B	A	A	B	A	A	B	A	B	A	B	B	B	B	B	-	A	A	B	B	B	B	A	B	B	B	B	A	B	A	B	A	A	A	A	A	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	B	A	A	B	A	A	A	B	A
+g3829	B	B	B	B	B	A	-	B	A	B	A	B	A	B	A	A	A	B	-	A	B	A	B	B	-	A	A	-	B	B	A	A	A	A	B	A	A	B	B	B	B	A	A	B	A	A	B	A	B	A	-	B	B	B	B	B	A	A	B	B	B	B	A	B	B	B	B	-	-	A	B	A	A	A	A	A	A	B	B	B	A	A	B	-	A	B	-	A	A	A	-	-	B	A	A	B	A	-	-	B	A
+m235	B	B	B	B	B	A	-	B	A	B	A	B	A	B	A	A	A	B	B	A	B	A	A	B	B	A	A	A	B	B	A	A	A	A	B	A	A	B	B	B	B	A	A	B	B	A	B	A	B	A	-	B	A	B	B	B	A	A	B	B	B	B	A	B	A	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	B	A	A	B	A	A	B	B	B
+mi265	B	B	B	B	B	-	A	B	A	B	A	B	A	B	A	A	A	B	-	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	A	B	B	B	A	A	A	B	B	A	B	A	B	A	A	B	A	B	B	B	B	A	B	B	B	B	A	B	A	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	A	A	A	B	A	A	B	B	B
+mi163	B	B	B	B	B	-	A	B	A	B	A	B	B	B	A	A	A	B	-	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	A	B	B	B	A	A	A	B	B	A	B	A	B	A	A	B	A	B	B	B	B	A	B	B	B	B	A	B	A	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	A	A	A	B	A	A	B	B	B
+mi62	B	B	B	B	B	-	A	B	B	B	B	B	B	B	A	B	A	B	-	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	B	B	A	A	A	B	B	A	B	A	B	B	A	B	A	B	B	B	B	A	B	B	B	B	A	B	A	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	A	A	A	B	A	A	B	B	B
+mi116	B	B	B	B	B	-	A	B	B	B	B	B	B	B	A	B	A	B	-	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	B	A	B	B	A	B	A	B	B	B	B	A	B	B	B	B	A	B	A	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	B	A	A	B	A	A	B	B	B
+CDs12	B	B	B	B	B	-	-	B	B	B	B	B	B	B	A	A	A	B	-	A	A	A	B	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	B	A	A	B	A	B	A	B	B	B	B	A	B	B	B	B	A	B	-	B	B	A	B	B	B	A	A	A	A	A	A	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	B	A	A	B	A	B	B	B	B
+ve009	A	B	B	A	B	-	-	B	B	B	B	B	B	B	A	A	A	-	-	A	A	A	A	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	B	A	A	B	A	B	A	B	B	B	A	A	B	B	B	B	A	B	-	A	B	A	B	B	B	B	A	A	A	A	A	B	B	B	B	A	B	B	A	B	B	A	B	A	B	B	A	A	A	B	A	B	B	B	B
+m253	A	B	B	A	B	A	-	B	B	B	B	B	B	B	A	A	A	B	B	A	A	A	A	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	B	A	A	B	-	B	A	B	B	B	A	A	B	B	B	B	A	B	B	A	B	A	A	B	B	A	A	A	A	A	A	B	B	B	B	A	B	B	A	B	B	A	B	A	B	-	A	A	A	B	A	B	B	B	B
+mi423a	A	B	B	A	B	-	B	B	B	B	B	B	B	B	A	A	A	B	-	A	A	A	A	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	B	A	A	B	A	B	A	B	B	B	A	A	B	A	A	B	A	B	B	A	A	A	A	B	B	A	A	A	B	A	A	B	B	B	A	A	B	B	A	B	B	A	B	A	B	B	A	A	A	B	A	B	B	B	B
+mi63	A	B	B	A	B	-	B	B	B	B	B	B	B	B	A	A	A	B	-	A	A	A	A	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	B	A	A	B	A	A	A	B	B	B	A	A	B	A	A	B	A	B	B	B	A	A	A	B	A	A	A	A	B	A	A	B	B	B	A	A	B	B	A	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	B
+mi342	A	A	B	A	B	-	B	B	A	B	B	A	B	B	A	A	A	B	-	A	A	A	A	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	B	A	A	B	A	A	A	B	B	B	A	A	B	A	A	B	A	B	B	B	A	A	A	B	A	A	A	A	B	A	A	B	B	A	A	A	B	B	A	B	B	A	B	A	B	A	A	A	A	B	A	B	B	B	B
+mi133	A	A	B	A	B	-	B	B	A	B	B	A	B	B	A	A	A	B	-	A	A	A	A	B	B	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	A	-	B	A	B	A	A	B	A	A	B	B	B	B	A	A	B	A	A	B	A	B	B	B	A	A	A	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	A	B	B	A	B	B	B	A	A	A	A	A	A	B	B	B	B
+mi72	A	A	B	A	B	-	B	B	A	B	B	A	A	B	A	A	A	B	-	A	A	A	A	B	B	A	A	A	B	B	A	A	B	A	B	A	A	A	A	B	A	A	A	A	B	A	B	A	A	B	A	A	B	B	B	A	A	A	B	A	A	B	A	B	B	B	A	A	A	B	A	A	A	B	B	A	A	B	B	A	A	A	A	B	A	B	B	A	B	B	B	A	A	A	A	A	A	B	B	B	B
+mi291a	A	A	B	A	B	-	B	B	A	A	B	A	A	A	A	A	A	B	-	A	A	A	A	B	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	B	A	A	A	A	B	A	B	A	A	B	A	A	B	B	A	A	A	A	A	A	A	A	A	B	B	B	B	A	A	B	A	A	A	B	B	A	A	B	B	A	A	A	A	B	A	A	B	A	B	A	A	A	A	A	B	A	A	B	B	B	B
+mi208	A	A	B	A	B	-	B	B	A	A	B	A	A	A	A	A	A	B	-	A	A	A	A	B	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	B	A	A	A	A	B	A	-	A	A	B	A	A	B	B	A	A	B	B	A	A	A	A	A	B	B	B	B	A	B	B	A	A	A	B	B	A	A	B	B	A	A	A	A	B	A	A	B	A	B	A	A	A	A	A	B	A	A	B	B	B	B
+p4	A	A	B	A	B	-	B	B	A	A	B	A	A	A	A	B	A	B	-	A	A	A	A	B	B	A	A	A	A	B	-	A	B	B	A	A	A	A	B	B	A	A	A	A	B	A	B	A	A	B	A	A	B	B	A	A	B	B	A	A	A	A	A	A	-	B	B	A	B	B	A	A	A	B	B	A	A	B	B	A	A	A	A	B	A	A	B	A	B	A	A	A	A	A	B	A	A	B	A	B	B
+m213	A	A	B	A	B	B	-	B	A	A	B	A	A	A	A	A	A	B	B	A	A	A	A	B	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	-	A	A	A	A	A	A	B	B	A	B	-	A	A	B	A	-	B	B	A	A	A	A	A	B	B	B	B	A	B	B	A	A	A	B	B	A	A	B	B	A	A	A	A	B	A	A	B	A	B	A	A	A	A	A	B	A	A	B	A	B	B
+PAP240	A	A	-	A	B	-	-	B	A	A	B	A	A	A	A	A	A	B	-	A	B	A	A	B	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	B	A	A	A	A	A	A	B	B	A	B	A	A	A	B	A	A	A	B	A	A	A	A	-	B	-	B	B	-	B	-	A	B	A	B	B	A	A	B	A	A	A	A	A	B	A	A	B	A	B	A	A	A	A	A	B	A	A	B	B	A	B
+mi259	A	A	A	A	B	-	B	B	A	A	B	A	A	A	A	A	A	B	-	A	B	A	A	B	B	A	A	A	A	A	B	A	B	B	A	A	A	A	B	B	A	A	A	B	A	A	B	B	A	B	A	A	A	B	A	A	A	B	A	A	A	A	A	B	B	A	B	A	B	A	A	B	A	A	B	A	A	B	A	A	A	A	A	A	B	A	B	A	B	A	A	A	A	A	A	A	A	B	B	A	B
+agp1e	A	A	A	A	B	-	B	B	A	A	B	A	A	A	-	A	A	B	-	A	B	A	-	B	B	A	A	A	A	A	B	A	B	B	A	A	A	A	B	B	-	A	A	B	A	A	B	B	A	B	A	A	A	B	A	A	A	B	A	A	A	A	A	B	-	A	B	A	B	A	A	B	A	A	B	A	A	B	A	A	A	A	A	-	B	B	B	A	B	A	B	A	A	-	A	-	A	B	B	A	B
+mi353	A	A	A	A	B	-	A	B	A	A	B	A	A	A	A	A	A	B	-	A	B	A	A	B	B	A	A	A	A	A	A	A	B	B	A	A	A	A	B	B	A	A	A	B	A	A	B	B	A	B	A	A	A	B	A	A	A	B	A	A	A	A	A	B	B	A	B	A	B	A	A	B	A	B	B	A	A	B	A	A	A	A	A	A	B	B	A	A	B	A	B	A	A	A	A	A	A	B	B	-	B
+mi424	A	A	A	A	B	-	A	B	A	A	B	A	A	A	A	A	A	B	-	-	B	A	A	B	B	A	A	A	A	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	B	B	A	B	A	A	A	B	A	A	A	B	B	A	A	A	A	A	B	A	B	A	B	A	A	B	A	B	B	A	A	B	A	A	A	A	A	A	B	B	A	A	B	A	B	A	A	A	A	A	A	B	B	-	B
+m315	A	A	A	A	B	B	A	B	A	A	B	A	A	A	A	A	A	B	B	B	-	A	A	B	B	A	A	B	A	A	A	A	B	B	A	A	A	A	B	A	A	A	A	A	A	A	B	B	A	B	A	A	A	B	A	A	A	B	B	A	A	A	A	A	A	A	A	A	B	A	A	B	A	B	B	A	A	B	A	A	A	A	A	A	B	B	A	B	B	A	B	A	A	A	A	A	A	A	B	A	B
+mi185	A	A	A	A	A	-	A	B	A	A	B	A	A	A	A	A	A	B	-	B	B	A	A	B	B	A	A	B	A	A	B	A	B	B	A	A	A	A	B	A	A	A	A	A	A	A	B	B	A	B	A	A	A	A	A	A	A	B	B	A	A	A	A	A	A	A	A	B	B	A	A	A	A	B	B	A	A	B	B	A	A	A	A	A	B	B	A	B	B	A	B	B	B	A	B	A	A	A	B	A	B
+g4552	A	A	A	A	A	B	A	B	A	A	B	A	A	A	A	A	A	A	B	B	A	A	A	B	B	A	A	-	A	A	B	-	B	B	A	A	A	A	B	A	A	A	A	A	A	A	B	B	A	B	A	A	A	A	A	A	A	B	B	A	A	A	A	A	A	A	A	-	A	A	A	A	A	B	B	A	A	B	B	A	A	A	A	A	B	B	A	B	A	A	B	B	B	A	B	A	A	A	B	A	B
+Tag1	A	A	A	A	A	-	-	-	A	A	B	B	A	A	A	A	A	A	B	B	B	A	A	B	B	A	A	B	A	A	A	A	B	B	A	A	A	A	B	A	A	A	A	A	A	A	B	B	A	B	A	A	A	A	A	A	A	B	A	A	B	A	A	A	A	A	A	B	A	A	A	A	A	B	B	A	A	B	B	A	A	A	A	A	A	B	A	B	B	B	B	B	B	B	B	A	A	A	B	B	B
+mi103	A	A	A	A	A	-	A	B	A	B	B	B	A	A	A	A	A	A	-	B	B	A	A	B	A	A	A	B	A	A	A	A	B	B	A	A	A	A	B	A	A	A	A	A	A	A	B	B	A	B	A	A	A	A	A	A	A	B	A	A	B	A	A	A	A	A	A	B	A	A	A	A	A	B	B	A	A	B	B	A	A	A	A	A	A	B	A	B	B	B	B	B	B	B	B	A	A	A	A	A	B
+PAB5	A	A	A	A	A	-	A	-	A	B	A	B	A	A	-	A	A	A	-	B	B	A	A	B	A	A	A	B	A	A	A	A	B	B	A	A	A	A	B	-	-	A	A	A	A	A	B	B	A	B	A	A	B	A	A	-	A	B	A	A	B	A	A	A	-	A	-	B	A	A	A	A	A	B	-	A	A	B	B	A	A	A	A	A	A	B	A	B	-	B	B	B	B	B	A	A	A	A	A	-	A
+mi425	B	A	A	A	A	-	A	B	A	B	A	B	A	A	B	A	A	A	-	B	B	A	A	A	A	A	A	B	A	A	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	B	A	A	B	A	A	B	A	A	A	A	B	A	A	A	A	A	A	A	A	A	B	A	A	A	A	A	B	B	A	A	B	B	A	A	A	A	A	A	B	A	B	B	B	B	B	B	B	A	A	A	A	A	B	B
+m532	B	A	A	A	A	B	-	B	A	B	A	B	A	A	B	A	A	A	B	B	B	A	A	A	A	A	A	B	A	A	A	A	B	B	A	A	A	A	B	-	A	A	A	B	A	A	B	A	A	B	-	A	B	A	A	-	A	B	A	A	A	A	A	A	A	B	A	B	A	A	A	A	A	B	B	A	A	B	B	A	A	A	A	A	A	B	A	B	B	B	B	B	B	B	A	A	A	A	A	B	B
+ve011	B	A	A	A	A	-	-	B	A	B	A	B	A	A	B	A	A	A	-	B	B	A	A	-	-	-	A	B	A	A	A	A	B	B	A	A	-	A	B	B	A	A	-	B	A	A	B	A	A	B	A	A	B	A	A	A	A	B	A	A	A	A	A	A	-	B	A	B	A	A	A	A	A	B	B	B	B	B	B	A	A	A	A	A	A	B	A	B	-	B	B	B	B	B	A	A	A	A	A	B	B
+agp64	B	A	A	A	A	-	B	B	-	B	A	B	A	A	-	A	A	A	-	B	B	A	-	A	A	A	A	B	A	A	A	A	B	B	A	A	A	A	B	B	-	A	A	B	A	A	B	A	A	B	A	A	B	A	A	A	A	B	A	A	A	A	A	B	-	B	A	B	A	A	A	A	A	B	B	B	B	B	B	A	B	A	A	-	A	B	A	B	-	B	B	B	B	-	A	-	A	A	A	B	B
+ve043	B	-	A	A	A	-	-	B	A	B	A	B	A	A	B	A	A	A	-	B	B	A	A	A	A	A	A	B	A	A	A	A	B	B	A	A	A	A	B	B	A	A	A	B	A	A	A	A	A	B	A	A	B	A	A	A	B	A	B	A	A	A	B	B	-	B	A	B	A	A	A	A	A	B	B	B	B	B	B	A	B	A	A	A	A	B	A	B	B	B	B	B	B	B	A	A	A	A	A	B	B
+g17311	B	A	A	A	A	B	-	B	A	B	A	B	A	A	B	A	A	A	B	B	B	A	A	A	A	A	A	B	A	A	A	A	B	B	A	A	A	A	B	-	A	A	B	B	A	A	A	A	A	B	-	A	B	A	A	-	A	A	B	A	A	A	B	B	A	B	A	B	A	A	A	A	B	B	B	B	B	B	B	A	B	A	A	A	A	B	A	B	B	B	B	B	B	B	A	A	A	A	A	B	B
+pAtT32CX	B	A	-	-	B	-	A	B	A	B	A	B	A	A	B	A	A	A	-	B	B	B	A	A	-	A	A	B	A	A	A	-	B	B	A	A	A	A	B	B	-	-	-	-	B	A	-	A	A	-	B	A	B	A	A	B	B	A	B	A	A	-	B	B	-	B	B	B	B	B	A	A	A	B	-	B	B	B	B	-	-	B	-	-	-	-	-	B	B	-	B	A	B	B	A	A	A	A	-	B	B
+mi303	A	A	B	A	B	-	B	B	A	A	B	A	A	A	A	A	A	B	-	A	B	A	A	B	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	B	A	A	A	B	A	A	B	B	A	B	A	A	A	B	A	A	A	B	A	A	A	A	A	B	B	A	B	A	B	A	A	B	A	A	B	A	A	B	A	A	A	A	A	A	A	A	B	A	B	A	A	A	A	A	B	A	A	B	B	A	B
+Tel2N	B	-	A	A	A	-	-	B	-	A	-	B	B	-	-	-	A	B	-	-	-	A	-	B	-	-	-	B	-	-	-	A	B	A	A	-	-	A	A	-	-	-	A	-	-	A	-	-	B	-	B	-	-	-	B	-	A	-	-	-	-	-	-	-	-	-	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	A	-	-	-	A	-	-	-	-	-	-	-	A	-	-	A	A	-	A
+ve012	B	A	A	A	A	-	-	B	B	A	B	B	B	B	B	B	A	B	-	-	B	B	A	-	-	-	B	B	B	B	-	A	B	A	-	B	-	-	-	B	B	A	-	B	B	B	A	A	B	A	B	B	B	A	B	B	A	B	A	B	B	B	A	A	-	A	B	B	B	B	B	A	B	B	B	B	A	A	B	B	A	B	A	A	B	B	A	B	-	B	B	B	A	B	A	A	B	A	B	B	A
+mi320	B	A	A	A	A	-	B	B	B	B	B	B	B	B	B	-	A	B	-	-	B	B	A	B	B	A	B	B	B	B	B	A	B	A	A	B	A	A	A	B	B	A	A	B	B	B	A	A	B	A	-	B	B	A	B	B	A	B	B	B	B	B	A	A	A	A	B	B	B	B	B	A	B	B	B	B	A	A	B	B	A	B	A	A	B	B	A	B	A	B	B	B	B	B	A	A	B	A	B	B	A
+m246	B	A	A	A	A	B	-	B	B	B	B	B	B	B	B	A	A	B	A	B	B	B	A	B	B	A	B	B	B	B	B	A	B	A	A	B	A	A	B	B	B	A	B	B	B	B	A	A	B	A	-	B	B	A	B	B	A	B	B	B	B	B	A	A	A	A	B	B	B	B	B	A	B	B	B	B	A	A	B	B	A	B	A	A	B	B	A	B	A	B	B	-	B	B	A	A	B	A	B	B	A
+g4553	B	A	-	A	A	B	A	B	B	B	B	B	B	B	B	A	A	B	A	B	B	B	B	B	B	A	B	B	B	B	B	A	B	A	A	B	A	A	B	B	B	A	B	B	B	B	B	A	B	A	B	B	B	A	B	B	A	B	B	B	B	-	-	A	A	A	B	-	B	B	B	A	B	B	B	A	A	A	B	B	A	B	B	A	B	B	A	B	A	B	B	-	B	B	A	A	B	A	-	B	A
+mi310	B	A	A	A	A	-	A	B	B	A	B	B	B	B	B	A	A	B	-	B	B	B	B	B	B	B	B	B	B	B	B	B	B	A	A	B	A	A	B	B	B	A	A	B	B	B	A	A	B	A	B	B	B	A	B	B	A	B	B	B	B	B	A	A	A	A	B	B	B	B	B	A	B	B	B	A	B	A	B	B	A	B	B	A	B	B	A	B	A	B	B	-	B	B	A	A	B	A	B	B	A
+mi421	B	A	A	A	A	-	A	B	B	A	B	B	B	B	B	A	A	B	-	B	B	B	B	B	B	B	B	B	B	B	B	B	B	A	A	B	A	A	B	B	B	A	A	B	B	B	A	A	B	A	B	B	B	A	B	B	A	B	B	B	B	B	A	A	A	A	B	B	B	B	B	B	B	B	B	A	B	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	B	B	A	A	B	A	B	B	A
+g4133	B	A	A	A	A	B	A	B	B	A	B	B	B	B	B	A	A	B	A	B	B	B	B	B	B	B	-	-	B	B	A	B	B	A	A	B	B	A	B	B	B	A	B	B	B	B	A	A	B	A	-	B	B	A	B	B	A	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	B	B	B	A	B	A	B	B	A	B	B	A	B	B	A	A	A	B	B	-	B	A	A	A	B	A	-	A	A
+PR1	B	A	A	A	A	-	-	B	B	A	B	B	B	B	B	A	A	B	-	B	B	B	B	B	B	B	B	B	B	B	A	B	B	A	-	B	B	A	B	B	B	A	A	B	B	B	A	A	B	A	B	B	B	-	B	B	A	B	B	B	B	B	A	A	-	B	B	B	B	B	B	B	A	B	B	A	B	A	B	B	A	B	B	A	B	A	A	A	A	-	A	A	B	A	A	A	B	A	B	A	B
+mi398	B	A	A	A	A	-	A	B	B	A	B	B	B	B	B	A	A	B	-	B	B	B	B	B	B	B	B	B	B	B	A	B	B	A	A	B	B	A	B	B	B	B	A	B	B	B	A	A	B	B	B	B	B	A	B	B	A	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	A	B	B	A	B	A	B	B	A	B	B	A	B	A	A	A	B	B	A	-	B	B	A	A	B	A	B	B	B
+THY_1	-	A	-	A	A	-	A	B	B	A	B	-	B	B	B	A	A	B	-	B	B	B	B	B	B	B	B	B	B	B	A	B	B	A	A	B	B	B	-	B	B	A	A	B	B	B	A	A	B	B	A	B	B	A	B	B	A	B	-	B	B	B	A	A	-	B	B	B	B	B	B	B	A	B	B	A	B	A	B	B	A	A	B	A	B	A	A	-	-	B	A	-	B	B	A	A	B	A	B	A	B
+m216	B	A	A	A	A	B	-	B	B	A	B	A	B	B	B	A	A	B	A	B	B	B	B	B	B	B	B	B	B	B	A	B	B	A	A	B	B	B	B	B	B	A	B	B	B	B	A	A	B	B	-	B	B	A	B	B	A	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	A	B	B	A	B	A	-	B	A	A	B	A	B	A	A	A	B	B	A	-	B	B	A	A	B	A	B	A	B
+mi139	B	A	A	A	A	-	A	B	B	A	B	A	B	B	B	B	A	B	-	B	B	B	B	B	B	B	B	B	B	B	A	B	B	A	A	B	B	B	B	B	B	A	B	B	B	-	A	A	B	B	A	B	B	A	A	B	A	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	A	B	B	A	B	A	-	B	A	A	B	A	B	A	B	A	B	B	A	A	B	B	A	A	B	A	B	A	B
+mi148	B	A	A	A	A	-	A	B	B	A	B	A	B	B	B	B	A	B	-	B	B	B	B	B	B	B	B	B	B	B	A	B	B	A	A	B	B	B	B	B	B	A	B	B	B	-	A	A	B	B	A	B	B	A	A	B	A	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	A	B	B	A	B	A	A	B	A	A	B	A	B	B	B	A	B	B	B	-	B	B	A	A	B	A	B	A	B
+mi238	B	A	A	A	A	-	A	B	B	A	B	A	B	B	B	B	A	B	-	B	B	A	B	B	B	A	B	B	B	B	A	B	B	A	A	B	B	B	B	B	B	A	B	B	B	-	A	A	B	B	A	B	B	B	A	A	A	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	B	B	B	A	B	A	A	B	A	A	B	A	B	B	B	A	B	B	B	-	B	B	A	A	B	A	B	A	B
+O802F	B	A	A	A	A	B	A	B	B	A	B	A	B	B	B	B	A	B	A	B	A	A	B	B	B	A	B	B	B	B	A	-	B	A	A	B	B	B	B	B	B	A	B	B	B	-	A	A	B	B	A	B	B	B	A	A	A	B	B	B	B	B	A	A	A	B	B	B	-	B	B	B	B	B	B	A	B	A	A	B	A	A	B	A	B	B	B	A	B	B	B	A	B	B	A	A	B	A	B	A	B
+g6842	B	A	A	A	A	B	-	B	B	A	B	A	B	B	A	B	A	B	A	B	A	A	B	B	-	A	A	A	B	B	A	B	B	A	B	B	B	B	B	-	A	B	B	B	B	-	A	B	B	B	-	B	B	B	A	-	A	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	B	B	B	A	B	A	B	B	A	A	B	A	B	B	-	B	B	B	B	A	B	B	A	A	B	B	-	A	B
+er	B	A	A	A	A	-	-	B	B	A	B	A	B	B	A	B	A	B	-	B	-	A	B	-	B	A	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	B	B	-	B	A	A	B	B	A	A	B	B	B	A	A	A	B	B	B	B	B	B	-	-	B	B	B	B	B	-	B	B	A	B	A	B	B	B	B	A	A	B	-	B	B	B	B	-	B	B	A	B	B	A	A	B	B	B	A	B
+mi54	B	A	A	A	A	-	A	B	B	A	B	A	B	A	A	B	A	B	-	B	A	A	B	A	B	A	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	B	A	B	B	A	A	B	B	A	A	A	B	B	B	A	A	B	B	B	A	B	B	A	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	B	A	A	B	A	B	B	B	B	B	B	B	-	B	B	B	A	B	B	B	A	A
+m220	B	A	A	A	A	B	-	B	B	A	B	A	B	A	A	B	A	B	A	B	A	A	B	A	B	A	A	A	B	A	A	B	B	A	B	B	B	B	B	-	B	B	B	B	B	A	A	B	B	A	-	A	B	B	B	-	A	B	B	B	A	B	B	A	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	B	A	A	B	A	B	B	B	A	B	B	B	A	B	B	B	A	B	B	B	A	A
+nga361	B	A	-	A	A	-	-	-	B	A	B	A	B	A	A	A	A	-	-	B	A	A	B	A	B	A	A	A	-	A	A	B	B	A	B	B	B	B	B	B	B	B	A	B	B	A	A	B	B	A	A	A	B	B	B	A	A	B	B	B	A	B	B	A	-	B	B	B	B	B	A	B	B	A	B	A	B	B	B	B	B	A	B	A	-	A	B	A	-	B	A	B	B	B	B	A	B	B	B	A	-
+ve015	B	A	A	A	A	-	-	B	B	A	B	A	B	A	A	A	A	B	-	B	A	A	B	-	-	-	A	B	B	A	A	B	B	A	B	B	-	B	B	B	B	B	-	B	B	A	B	B	B	A	A	A	B	B	B	A	A	B	B	B	A	B	B	A	-	B	B	B	B	B	A	B	B	A	B	A	B	B	B	B	B	A	B	A	B	A	B	A	-	B	A	B	B	B	B	A	B	B	B	A	A
+mi277	B	A	A	A	A	-	A	B	B	A	B	A	B	A	A	A	A	B	-	B	A	A	B	A	B	A	A	B	B	A	A	B	B	A	B	B	B	B	B	B	B	B	A	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	B	B	A	B	B	A	A	B	B	B	B	B	A	B	B	A	B	A	B	B	B	B	B	A	B	A	B	A	B	A	B	B	A	B	B	B	B	A	B	B	B	A	A
+ve018	B	-	A	A	A	-	-	B	B	A	B	A	B	A	A	A	A	B	-	B	A	A	B	A	B	A	A	B	B	A	A	A	B	A	B	B	B	B	B	B	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	B	A	A	-	B	A	-	B	B	B	A	B	A	-	B	A	B	A	B	B	B	B	B	A	B	A	B	A	B	A	-	B	A	B	B	B	B	A	B	B	B	A	A
+O5841	-	A	A	A	A	B	B	B	-	A	B	A	B	A	A	A	A	-	B	B	A	A	B	B	B	A	A	-	-	-	A	A	B	A	B	B	B	B	-	-	-	-	-	-	-	A	B	B	B	-	-	A	B	A	B	A	B	B	A	A	A	A	B	A	A	B	B	B	A	B	A	B	B	A	B	-	B	B	B	B	B	B	B	A	B	A	B	A	B	B	A	-	B	B	B	A	B	B	B	A	A
+CK_97	B	A	A	A	A	B	-	B	B	A	A	A	B	A	A	A	A	-	-	B	A	A	B	A	B	A	A	-	B	A	-	A	B	A	-	-	B	B	B	B	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	A	A	A	A	B	A	-	B	B	-	A	-	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	A	B	A	-	-	-	-	B	B	B	-	B	B	B	A	A
+m336	B	A	-	A	A	B	B	B	B	A	A	A	B	A	A	A	A	B	B	B	B	A	A	A	-	A	A	B	B	A	A	A	B	A	B	B	B	A	B	B	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	A	A	A	A	B	A	A	B	B	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	A	B	A	A	A	B	B	A	B	B	B	B	B	B	B	B	A	A
+mi473	B	A	A	A	A	-	B	B	B	A	A	A	B	A	A	A	A	A	-	B	A	A	A	A	A	A	A	B	B	A	A	A	B	A	B	B	B	A	B	B	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	A	A	A	B	B	A	A	B	B	B	A	B	A	B	B	A	B	-	B	B	B	A	B	B	B	A	B	A	A	A	B	B	A	B	B	B	B	B	A	B	B	A	A
+mi79a	B	A	A	A	A	-	B	B	B	A	A	A	B	A	A	A	A	A	-	B	A	A	A	A	A	A	A	B	B	A	A	A	B	A	B	A	B	A	B	B	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	A	A	A	A	A	A	A	B	B	B	A	B	A	B	B	A	B	A	B	B	B	A	B	B	B	A	B	A	A	A	B	B	A	B	B	B	B	B	A	B	B	A	A
+RRS2	B	A	A	A	A	-	-	B	B	A	B	A	B	A	A	A	A	B	-	B	-	A	-	-	B	A	A	B	B	A	A	A	B	A	-	-	B	-	B	B	A	B	-	B	B	A	A	-	-	B	A	A	B	A	-	A	A	-	-	A	A	A	-	-	A	B	-	-	B	-	-	B	B	A	B	A	B	B	B	B	A	-	B	A	-	A	-	A	A	-	A	-	-	-	A	A	A	A	A	A	A
+Psm792	A	A	B	-	-	-	-	-	-	-	-	B	-	A	-	B	-	-	-	-	-	-	-	-	-	-	-	-	-	-	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	A	B	-	A	-	-	-	A	A	B	-	-	B	-	B	A	-	-	-	A	-	-	B	-	A	B	A	B	-	-	A	A	-	-	A	-	-	-	-	-	A	B	-	-	A	-	A	-	-	-	-	-	-	-	-
+CA1	B	A	A	A	B	B	-	B	A	A	B	B	A	A	B	B	B	A	-	A	B	B	A	B	A	A	B	B	A	B	A	B	A	B	B	A	B	B	A	B	A	A	B	B	B	B	A	B	B	A	B	A	B	B	A	B	A	A	B	A	B	A	A	A	-	A	B	A	B	A	A	B	A	B	A	B	A	A	A	B	B	A	B	A	B	A	A	B	B	B	A	B	A	B	B	A	B	B	A	A	A
+mi74b	B	A	A	A	B	-	B	B	A	A	B	-	A	A	B	B	B	A	-	A	B	B	A	B	A	A	B	B	A	B	A	B	A	B	B	A	B	B	A	B	A	A	B	B	B	A	A	B	B	A	B	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	B	A	A	A	B	A	A	B	A	B	A	A	B	B	B	A	B	A	B	B	A	B	B	A	A	A
+mi199	B	A	A	A	B	-	B	A	A	A	B	-	A	A	B	B	B	A	-	A	B	B	A	B	A	A	B	B	A	B	A	B	A	B	B	A	B	B	A	B	A	A	B	B	B	A	A	B	B	A	B	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	B	B	A	A	B	A	A	B	A	B	A	A	B	B	B	A	B	A	B	B	A	B	B	A	A	A
+mi172	B	A	A	A	B	-	B	A	A	A	B	B	A	A	B	B	B	A	-	A	B	B	A	B	A	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	B	B	B	A	A	B	B	B	B	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	B	B	A	A	B	A	A	B	A	B	A	A	B	B	B	A	B	A	A	B	A	B	B	A	A	A
+m583	B	A	A	A	B	-	-	A	A	A	B	B	B	A	B	B	B	A	A	A	A	B	A	B	B	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	A	B	B	A	A	B	A	B	-	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	A	B	B	A	B	A	A	B	A	B	A	-	B	B	B	A	B	A	A	B	A	B	B	A	A	A
+mi355	B	A	A	A	B	-	A	A	A	A	B	B	B	A	B	B	B	A	-	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	B	B	B	A	A	B	A	B	B	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	A	B	B	A	B	A	A	B	A	B	A	A	B	B	B	A	B	A	A	B	A	B	B	A	A	A
+mi467	B	A	A	A	B	-	A	A	A	A	B	-	B	A	B	B	B	A	-	A	B	B	A	B	A	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	B	B	B	A	A	B	A	A	-	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	A	B	B	A	B	A	A	B	A	B	A	A	B	B	B	A	B	A	A	B	A	B	B	B	A	A
+mi357	B	A	A	A	B	-	A	A	A	A	B	-	B	A	B	B	B	A	-	A	B	B	A	B	A	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	B	B	B	A	A	B	A	B	B	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	A	B	B	A	B	A	A	B	A	B	A	A	B	B	B	A	B	A	A	B	A	B	B	B	A	A
+mi207	B	A	A	A	B	-	B	A	A	A	B	A	B	A	B	B	B	A	-	A	B	B	A	B	A	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	B	B	B	A	A	B	B	B	B	A	A	B	A	B	A	A	B	A	B	A	A	A	A	A	A	A	B	A	A	B	A	A	A	A	B	B	A	B	A	A	B	A	B	A	A	B	B	B	A	B	A	A	B	A	B	B	B	A	A
+mi289	B	A	A	A	B	-	A	A	A	A	B	A	B	A	B	B	B	A	-	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	B	A	B	B	B	A	A	B	-	B	B	A	A	B	A	B	A	A	A	A	B	B	A	A	A	A	A	A	B	B	A	B	A	A	A	A	B	A	A	B	A	A	B	A	B	A	A	A	B	B	A	B	A	A	B	A	B	B	B	A	A
+mi339	B	A	A	A	B	-	A	A	A	A	B	A	B	A	B	B	B	A	-	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	B	A	B	B	B	A	A	B	-	B	B	A	A	B	A	B	A	A	A	A	B	B	A	A	A	A	A	A	B	B	A	B	A	A	A	A	B	A	A	A	A	A	B	A	B	A	A	A	B	B	A	B	A	A	B	A	B	B	B	A	A
+m105	B	A	A	B	B	B	-	A	A	A	B	A	B	A	B	B	B	A	A	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	B	A	A	A	B	A	A	A	-	B	-	A	B	B	A	B	A	A	A	A	B	B	A	A	A	A	A	A	B	B	A	B	A	A	A	A	B	A	A	A	A	A	B	A	B	A	A	A	B	A	A	B	B	A	B	A	B	B	B	A	A
+mi268	B	A	A	B	B	-	A	A	A	A	B	B	B	A	B	B	B	A	-	A	B	B	A	B	B	A	B	A	A	B	B	B	B	B	B	A	B	B	A	B	B	A	B	A	B	A	A	A	-	B	B	A	B	B	A	B	A	A	A	A	B	B	A	A	A	A	A	A	B	B	A	B	A	A	A	A	B	A	A	A	A	A	B	A	B	A	A	A	B	A	A	B	B	A	B	A	B	B	B	A	A
+mi386	-	A	A	B	B	-	A	A	A	A	B	B	B	A	B	B	B	A	-	A	B	B	A	B	B	A	B	B	A	B	B	B	B	B	B	A	B	B	A	B	B	B	B	A	B	A	A	B	-	B	B	A	B	B	A	B	A	A	A	A	B	B	B	A	A	A	A	A	B	B	A	B	A	A	A	A	A	A	A	A	B	A	B	A	B	B	A	A	A	A	B	B	B	A	B	A	B	B	B	A	A
+mi225	A	A	A	B	B	-	A	A	A	A	B	B	B	A	B	B	B	A	-	A	B	B	A	B	B	A	B	B	-	B	B	B	B	B	B	A	B	B	A	B	B	B	B	A	B	A	A	B	-	B	B	A	B	B	A	B	A	A	A	A	B	B	B	B	A	A	A	A	B	B	A	B	A	A	A	A	A	A	A	A	B	A	B	A	B	B	B	A	A	A	B	B	B	A	B	A	B	B	B	A	A
+mi178	A	A	B	A	B	-	A	B	A	A	B	B	B	A	B	B	B	A	-	A	B	B	A	B	B	A	B	B	A	B	A	B	B	B	A	A	B	B	A	B	B	B	B	A	B	A	A	B	A	B	B	A	B	A	B	B	A	A	A	A	B	B	A	B	A	A	A	A	B	B	A	B	A	B	A	A	A	A	A	A	B	A	B	A	B	B	B	A	B	A	B	A	B	A	B	A	B	B	B	A	A
+mi413	A	B	A	B	B	-	A	A	A	A	B	B	B	A	A	B	B	A	-	A	B	B	A	B	B	A	A	B	A	B	A	B	B	B	A	A	B	B	A	B	B	B	-	A	B	A	B	B	B	A	B	A	B	A	B	B	A	A	A	A	B	B	A	B	A	A	A	A	B	B	A	A	A	B	A	A	A	A	A	A	B	A	A	B	B	B	B	A	B	A	B	A	B	A	B	A	B	B	B	A	A
+mi79b	A	B	A	B	B	-	A	A	A	A	B	B	B	A	A	B	B	A	-	B	A	B	A	B	B	A	A	B	A	B	A	B	B	B	A	A	B	B	A	B	B	B	B	A	B	A	B	B	B	B	A	A	B	A	B	B	A	A	A	B	B	B	A	B	A	A	A	A	B	B	A	A	B	B	A	A	A	A	A	A	B	A	A	B	B	B	B	A	B	A	B	A	B	A	B	A	B	B	B	A	A
+ve021	A	B	A	-	-	-	-	A	A	A	B	B	B	A	A	B	A	A	-	A	A	B	A	B	B	A	A	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	A	A	A	A	B	B	B	A	A	B	A	B	B	A	A	A	A	B	B	A	B	-	B	A	A	B	B	A	-	B	B	A	A	A	-	A	A	B	A	A	B	B	B	B	A	-	A	B	A	B	A	B	A	B	B	B	A	A
+g4117	A	B	A	A	B	B	-	A	A	A	B	B	B	A	A	B	A	A	A	A	A	B	A	B	B	A	A	B	A	B	A	B	B	A	B	A	B	B	B	B	B	A	A	A	A	A	B	B	B	B	-	A	B	A	B	B	A	A	A	A	B	B	A	B	A	B	A	B	B	B	A	A	B	B	A	A	A	A	A	A	B	A	A	B	A	B	B	A	B	A	B	A	B	A	B	A	B	B	B	A	A
+g4564b	A	B	A	B	B	B	-	A	A	A	B	B	B	A	A	B	A	A	A	A	A	A	A	B	-	A	A	-	A	B	A	B	B	A	B	A	B	B	B	B	B	A	A	A	A	B	B	B	-	B	-	A	B	A	B	B	A	A	A	A	B	A	A	B	A	B	A	-	B	B	B	A	B	B	A	A	B	A	A	A	B	A	A	-	A	B	-	A	B	A	B	A	B	A	B	A	B	-	-	A	A
+g4014	A	B	-	-	-	B	A	A	B	A	B	B	B	A	A	A	A	A	A	A	A	A	A	B	B	A	A	-	A	B	A	B	B	A	B	A	B	B	-	B	B	A	A	A	A	B	-	-	B	-	B	A	A	A	B	B	A	A	A	A	B	A	A	B	A	B	B	-	-	B	B	A	B	B	A	A	B	A	A	A	B	A	A	B	A	B	B	A	B	A	B	A	B	A	B	A	-	B	-	A	A
+AtPK41A	A	B	B	B	B	-	A	A	B	A	B	B	B	A	A	A	A	A	-	-	A	A	A	B	B	A	B	-	A	B	A	B	B	A	B	A	B	-	B	B	B	A	B	-	-	-	-	B	B	B	A	A	A	A	B	B	A	A	A	B	B	A	A	B	-	B	B	A	A	B	B	A	B	B	A	A	A	A	A	-	B	A	A	B	A	B	B	A	-	A	B	A	B	A	B	A	B	B	B	A	A
+m457	A	B	B	B	B	B	-	A	B	A	B	B	B	A	A	A	A	A	B	A	A	A	A	B	B	A	B	B	A	B	A	B	B	A	B	A	B	B	B	B	B	A	-	A	A	B	B	B	B	B	-	A	A	A	B	B	A	A	A	B	B	A	A	B	A	B	B	A	A	B	B	A	B	B	B	B	A	A	A	A	B	A	A	B	A	B	B	A	B	A	B	A	B	A	B	A	B	B	B	A	A
+AFC1	A	B	B	B	B	-	A	A	B	A	B	B	B	A	A	A	A	A	-	A	A	A	A	B	B	A	B	B	A	B	A	B	B	A	B	A	A	A	B	B	B	A	B	A	A	B	B	B	B	B	A	A	A	A	B	B	A	A	A	B	B	A	A	B	-	A	B	-	A	B	B	A	B	B	B	B	A	A	A	A	B	A	A	B	A	B	B	A	B	A	B	A	B	A	B	A	B	-	-	-	-
+ve022	A	B	B	B	A	-	-	A	B	A	B	B	B	A	A	A	-	A	-	A	A	A	A	B	B	A	B	B	A	B	A	B	B	A	B	A	A	A	B	A	B	B	B	A	A	A	B	B	B	B	A	A	A	A	B	B	A	A	-	B	B	A	A	B	-	A	B	B	A	B	A	A	B	B	B	A	A	A	A	A	B	A	-	B	A	B	B	-	B	A	B	A	B	A	B	A	B	B	B	A	A
+g2778	A	B	B	B	A	B	-	A	B	A	B	B	B	A	A	A	A	A	B	B	A	A	A	B	-	A	B	-	A	B	A	B	B	A	B	A	B	A	B	-	B	A	A	A	A	A	B	B	B	A	-	A	A	A	B	-	A	A	A	B	B	A	A	B	A	A	B	B	-	B	A	A	B	B	B	A	A	A	A	A	B	A	A	-	A	B	-	A	B	A	B	A	B	A	B	A	B	B	B	A	A
+m424	A	B	A	B	A	B	-	B	B	A	B	A	B	A	A	A	A	A	B	B	A	A	B	B	-	A	B	B	A	B	B	B	B	A	B	A	B	A	B	-	B	A	A	A	A	A	B	A	B	A	-	A	A	A	B	-	A	A	A	B	B	A	A	B	A	A	B	B	A	B	A	B	B	B	B	A	A	A	A	A	B	A	A	B	A	B	B	A	B	A	B	A	B	A	B	A	B	B	B	A	A
+nga6	A	B	A	B	A	-	A	B	B	A	B	A	B	A	A	A	B	A	-	B	A	A	B	B	A	A	B	B	A	B	B	B	B	A	B	A	B	A	B	A	B	A	B	A	A	A	B	A	B	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+TSA1	-	-	-	-	-	-	-	-	-	A	B	B	B	-	-	A	-	-	-	A	-	A	A	-	-	-	B	B	A	B	A	B	-	A	-	-	A	A	B	A	B	-	-	A	-	A	B	A	B	-	-	-	A	-	-	B	A	A	-	-	-	-	-	-	-	A	B	B	A	B	-	-	-	B	B	-	A	-	-	A	-	A	-	B	A	-	B	A	-	A	B	A	-	A	-	B	B	A	-	B	A
+tai224	-	B	B	A	A	-	-	-	A	-	B	-	-	A	A	A	A	A	-	A	A	A	A	B	B	A	B	B	A	B	A	B	B	A	A	B	A	A	B	-	-	-	B	-	-	A	B	-	B	B	B	-	A	-	-	-	A	-	-	B	B	B	B	B	-	B	B	B	A	B	A	-	B	-	B	A	A	A	A	B	-	-	-	-	-	B	-	-	B	A	B	A	A	-	B	-	A	B	-	-	-
+Tel4N	B	B	B	A	A	-	-	A	-	B	-	B	B	-	-	-	B	A	-	B	-	A	-	B	-	-	-	A	-	-	-	B	B	A	B	B	-	A	A	-	-	-	A	-	-	B	-	-	B	B	A	-	-	-	B	A	B	B	-	-	-	B	B	-	-	-	B	-	-	-	-	-	-	B	-	A	-	-	-	-	-	-	A	-	-	-	B	-	-	-	B	-	-	-	B	B	B	A	A	B	B
+mi51	B	B	B	A	A	-	B	A	B	B	A	-	B	A	A	A	B	A	-	B	B	A	A	B	A	B	B	A	A	A	B	B	B	A	B	B	A	B	A	A	A	B	A	A	B	B	A	A	B	B	A	A	A	B	B	A	B	B	A	B	A	B	B	A	B	A	B	B	A	B	A	A	B	B	A	A	B	B	B	A	A	A	A	B	B	B	B	B	B	A	B	B	B	A	B	B	B	A	A	B	B
+mi204	A	B	B	A	A	-	B	A	B	B	B	A	B	A	A	A	B	A	-	B	B	A	A	B	A	B	B	A	B	A	B	B	B	A	B	B	A	B	A	A	A	B	A	A	B	B	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	B	B	A	B	A	B	B	A	B	A	A	B	B	A	A	B	B	B	A	A	A	A	B	B	B	B	B	B	A	B	B	A	A	B	B	B	A	A	B	B
+g3843	A	B	B	A	A	B	-	A	B	B	B	A	B	A	A	A	B	A	B	A	-	A	A	B	-	B	B	A	B	A	B	B	B	A	B	B	A	B	A	A	A	B	-	A	B	B	A	B	B	B	-	A	A	B	B	A	B	B	A	B	A	B	B	B	B	A	B	B	B	B	A	A	B	B	A	A	B	B	B	A	A	A	A	-	B	B	B	B	B	B	B	B	A	A	B	B	B	A	A	B	B
+mi301	A	B	B	A	A	-	B	A	B	B	B	A	B	A	A	A	B	A	-	A	B	A	A	B	A	B	B	A	B	A	B	B	B	A	B	B	A	B	A	A	A	A	B	A	B	B	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	B	B	A	A	B	B	B	B	A	A	A	B	B	B	B	B	B	B	B	B	A	A	B	B	B	A	A	B	B
+mi390	A	B	B	A	A	-	A	A	B	B	B	A	B	A	A	A	B	A	-	A	B	A	A	B	B	B	B	A	B	A	B	B	B	A	B	B	A	B	A	A	A	A	B	A	B	B	A	B	B	B	A	A	A	B	B	B	B	B	A	B	A	B	B	B	B	A	B	B	A	B	A	A	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	B	B	B	B	B	A	A	B	B	B	A	A	B	B
+app	A	B	B	A	A	-	A	A	B	B	B	B	B	A	A	B	B	A	-	A	B	A	A	B	B	B	B	A	B	A	-	B	B	A	B	B	B	B	A	A	A	A	B	A	B	B	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	B	B	A	-	A	B	B	A	B	A	A	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	B
+Gsl_ohp	A	B	-	-	A	-	-	A	B	B	B	B	B	B	A	A	B	B	-	A	B	A	A	B	-	B	B	A	B	A	B	B	B	A	B	B	A	B	B	A	A	A	-	A	B	B	A	B	B	B	A	-	-	B	A	B	-	-	A	B	A	A	B	-	-	-	B	B	A	B	A	A	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	A	B	B	B	B	A	A	B	-	B	A	A	B	B
+m448A	A	B	B	A	A	B	A	A	B	B	B	-	B	A	A	A	B	B	B	A	B	A	A	B	B	B	B	A	B	A	B	B	B	A	B	B	A	B	A	B	A	A	B	A	B	-	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	A	B	B	-	A	B	B	B	B	A	A	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	B
+mi87	A	B	B	A	A	-	A	A	A	A	B	B	B	A	A	A	B	B	-	A	B	A	A	B	B	B	B	A	B	A	B	B	B	A	B	B	A	B	A	B	A	A	B	A	B	B	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	A	B	B	B	A	B	B	B	B	A	A	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	B
+mi167	A	B	B	A	A	-	A	A	A	A	B	B	B	A	A	A	B	B	-	A	A	A	A	B	B	B	B	A	B	A	B	B	B	A	B	B	A	B	A	B	A	A	B	A	B	B	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	A	B	B	B	A	B	B	B	B	A	A	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	A	B	B	B	B	A	A	B	B	B	A	A	B	B
+RPS18C	A	A	B	A	-	B	-	A	A	A	B	B	B	B	A	B	B	B	B	A	A	A	A	B	-	B	B	-	A	A	B	-	B	A	B	B	A	B	A	B	A	A	B	A	B	A	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	A	B	B	B	B	B	-	-	B	B	B	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	A	-	B	B	B	A	A	B	B	A	-	-	B	A
+m518A	A	A	B	A	A	B	A	A	A	A	B	-	B	B	A	B	B	B	B	A	A	A	-	B	B	B	B	A	A	A	B	A	B	A	B	B	A	B	A	B	A	A	B	A	B	A	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	A	B	B	B	B	B	A	B	B	B	B	B	B	A	A	B	B	B	B	A	A	B	B	B	B	B	A	A	B	B	B	A	A	A	B	A	A	A	B	A
+BIO206	-	A	A	A	A	-	-	-	A	A	B	B	B	B	A	B	B	A	-	-	-	A	A	B	B	-	B	A	A	-	B	A	B	A	B	B	A	B	A	-	A	B	B	-	-	A	A	B	B	B	A	-	-	B	B	A	-	B	A	B	A	A	B	B	-	B	B	B	B	B	-	B	B	A	A	B	-	-	-	B	A	A	B	B	B	B	B	A	-	B	-	B	B	A	A	B	A	A	A	A	-
+pCITd23	A	A	B	A	A	B	A	A	A	A	B	B	B	B	A	B	B	A	B	A	A	A	A	B	B	B	B	A	A	A	B	A	B	A	B	B	A	B	A	B	A	A	B	A	B	A	A	B	B	B	A	A	A	B	B	A	B	B	A	B	A	A	B	B	B	B	B	B	B	B	B	B	B	A	A	A	B	B	B	B	A	A	B	B	B	B	B	A	A	B	B	B	B	A	A	B	A	A	A	B	B
+g4108	A	A	B	A	A	-	-	A	A	A	B	B	B	B	A	-	B	A	B	A	A	A	A	B	B	B	B	A	A	A	B	A	B	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	A	A	B	B	A	B	B	A	A	-	-	-	B	-	B	B	B	B	B	A	A	A	B	B	B	B	B	A	B	B	B	B	B	A	A	-	B	B	B	A	A	B	A	A	A	B	B
+mi465	A	A	B	A	A	-	A	A	A	A	B	B	B	B	A	B	B	A	-	A	A	A	A	B	B	B	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	A	B	A	B	A	A	A	B	A	A	A	A	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	A	A	A	B	B	B	B	A	A	B	B	B	B	B	A	A	B	B	B	B	A	A	B	A	A	A	B	B
+mi128	A	A	B	A	A	-	A	A	A	A	B	B	B	B	A	B	B	A	-	A	A	A	A	B	B	B	B	A	A	A	A	A	B	A	B	A	A	A	A	B	A	A	B	A	A	A	A	A	B	A	A	A	A	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	A	B	A	B	B	B	B	A	A	B	B	B	B	B	A	A	A	B	B	B	A	A	B	A	A	A	A	B
+mi30	A	A	B	A	A	-	A	A	A	A	B	B	B	B	A	B	B	A	-	A	A	A	A	B	B	B	B	A	A	A	A	A	B	A	B	A	A	A	A	B	A	A	B	A	A	A	A	A	B	A	A	A	A	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	B	A	A	B	A	B	B	B	B	A	A	B	B	A	B	B	A	A	A	B	B	B	A	A	B	A	A	A	A	B
+m326	A	A	B	A	A	A	A	A	A	A	B	B	B	B	A	B	B	A	B	A	A	A	A	B	B	B	B	A	A	A	A	A	A	A	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	A	A	A	B	A	B	B	B	B	A	A	B	B	A	B	B	A	A	A	B	-	B	A	A	B	A	A	A	A	B
+mi260	A	A	B	A	A	-	A	A	A	A	B	B	B	B	A	B	B	B	-	A	A	A	A	B	B	B	B	A	A	A	A	A	B	A	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	A	A	A	A	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	A	A	A	B	A	B	B	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	B	A	A	A	A	A
+m226	A	A	B	A	A	A	A	A	-	A	B	B	A	B	A	B	B	B	B	A	A	A	A	B	B	B	B	A	A	A	A	A	A	A	B	A	A	A	A	B	A	A	A	B	A	A	A	A	B	A	A	A	B	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	-	A	A	B	A	B	B	B	B	A	B	B	B	A	B	B	A	A	A	B	-	B	A	A	B	A	A	A	A	A
+mi112	A	A	B	A	A	-	A	A	A	A	B	B	B	B	A	B	B	B	-	A	A	A	A	B	B	B	B	A	A	A	A	A	A	A	B	A	A	A	A	B	A	A	B	B	A	A	A	A	B	A	A	A	B	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	-	A	A	B	A	B	B	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	B	A	A	A	A	A
+mi32	A	A	B	A	A	-	A	A	A	A	B	B	B	A	A	B	B	B	-	A	A	A	A	B	B	B	B	A	A	A	A	A	A	A	B	A	A	A	A	B	B	A	B	B	A	A	A	A	B	A	A	A	B	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	B	A	A	B	A	B	B	B	B	A	B	A	B	A	B	B	A	A	A	B	A	B	A	A	B	A	A	A	A	A
+AG	A	A	B	A	A	-	A	A	A	A	B	B	B	A	A	B	B	B	-	A	A	A	A	B	B	B	B	A	A	A	A	A	A	A	B	A	A	A	B	B	A	A	A	B	A	A	A	A	-	A	A	A	B	B	A	A	B	B	B	-	B	A	B	B	-	B	B	B	B	A	B	-	A	A	B	A	B	B	B	B	A	B	-	B	A	B	B	A	A	A	B	A	B	A	A	B	A	A	A	A	A
+JGB9	A	A	B	A	A	B	B	A	A	A	B	B	B	A	A	B	B	B	B	A	A	B	A	B	B	B	B	A	A	A	A	A	A	A	B	A	A	A	A	B	A	A	A	B	A	-	A	A	B	A	A	A	B	B	A	A	B	B	B	B	B	A	B	B	-	B	B	B	B	A	B	-	A	A	B	A	B	B	B	B	A	B	-	B	A	B	B	A	A	A	B	A	B	A	A	B	A	A	A	A	B
+agp21e	A	A	B	A	A	-	B	A	A	A	B	B	B	A	-	B	B	B	-	A	A	B	-	B	B	A	B	A	A	A	A	A	A	A	B	A	A	A	B	B	-	A	A	B	A	B	A	A	B	A	A	A	B	B	A	A	B	B	B	B	B	A	B	B	-	B	B	B	B	A	B	B	A	A	B	A	B	B	B	B	A	B	B	-	A	B	B	A	-	A	B	A	B	-	A	-	A	A	A	A	B
+mi422	A	A	B	A	A	-	B	A	A	A	B	B	A	A	A	B	B	B	-	A	A	B	A	B	A	A	B	A	A	A	A	A	A	A	B	A	A	A	B	B	A	A	A	B	A	B	A	A	B	A	A	A	B	B	A	A	B	B	B	B	B	A	B	B	B	B	B	B	B	A	B	-	A	A	B	A	B	A	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	B	A	A	A	A	B
+mi475	A	A	B	A	A	-	B	A	A	B	B	B	A	A	A	B	B	B	-	A	A	B	A	B	A	A	B	A	A	A	A	B	A	A	B	A	A	A	B	B	A	A	A	B	A	B	A	A	B	A	A	B	B	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	-	A	A	B	A	B	A	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	A	A	A	A	A	B
+SEP2B	A	A	A	A	A	A	B	A	A	B	B	B	A	A	A	B	B	B	B	A	B	B	A	B	A	A	B	-	A	A	A	-	B	A	B	A	A	A	B	B	A	A	A	B	A	B	A	A	B	A	A	B	B	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	B	A	B	B	A	A	B	A	B	A	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	A	-	-	-	A	B
+mi123	A	A	A	A	A	-	B	A	A	B	B	B	A	A	A	B	B	B	-	A	A	B	A	B	A	A	B	A	A	A	A	B	B	A	B	A	A	A	B	B	A	A	A	B	A	B	A	A	B	A	A	B	B	B	A	A	B	B	A	B	B	A	B	B	B	B	B	B	A	A	B	-	A	A	B	A	B	A	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	A	A	A	A	A	B
+mi232	A	A	A	A	A	-	B	A	A	B	B	B	A	A	A	B	B	B	-	A	A	B	A	A	A	A	B	A	A	A	A	B	B	A	B	A	A	A	B	B	A	A	A	B	A	B	A	A	B	A	A	B	B	B	A	A	B	B	A	B	B	A	A	B	B	B	B	B	A	A	B	-	A	A	B	A	B	A	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	A	A	A	A	A	B
+CDs11	A	A	A	A	A	-	-	A	A	B	B	B	A	A	A	B	B	B	-	A	-	B	A	-	A	A	B	A	A	A	A	B	B	A	B	A	-	-	B	B	A	A	-	B	A	B	A	A	A	A	A	B	B	B	A	A	A	B	B	B	B	A	A	B	-	B	B	A	A	A	B	B	A	A	B	A	A	A	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	A	-	A	A	A	B
+g8300	A	A	A	A	A	B	-	A	A	B	B	B	A	A	A	B	B	B	B	A	-	B	A	B	-	A	B	A	A	A	A	B	B	A	B	A	A	A	B	-	A	A	A	B	A	B	A	A	A	A	-	B	B	B	A	-	A	B	B	B	B	A	A	B	B	B	B	A	A	A	B	A	A	A	B	A	A	A	B	B	A	B	B	B	A	B	-	A	A	A	B	A	B	A	A	A	B	A	A	A	B
+O6455	A	A	A	A	A	B	B	A	A	B	B	B	A	A	A	B	B	B	B	A	-	B	A	B	A	A	B	A	A	A	A	B	B	A	B	A	A	B	B	B	A	B	A	B	A	B	A	A	A	A	A	B	B	B	A	B	B	-	B	B	B	A	A	B	B	B	B	A	A	A	B	-	A	A	B	A	A	A	B	B	A	B	B	B	A	B	B	A	A	A	B	A	B	A	A	A	B	A	A	A	B
+fah1	B	A	A	A	A	-	B	A	A	B	B	B	A	A	A	B	B	B	-	A	A	B	A	B	A	A	-	A	A	A	A	B	B	A	B	A	B	B	B	B	A	B	-	B	-	B	B	A	A	A	A	B	B	B	A	B	B	-	B	B	B	A	A	B	-	B	B	A	A	A	B	-	-	A	B	A	B	A	B	B	B	B	B	B	A	B	A	A	B	A	B	A	B	B	A	A	B	A	A	A	B
+pCITd99	B	A	A	A	-	B	B	A	A	B	B	B	A	A	A	B	B	B	B	A	-	B	A	B	-	A	B	-	A	A	A	B	A	A	B	A	A	B	B	-	A	B	A	B	A	B	B	A	A	A	A	B	B	B	A	B	B	-	B	B	B	A	A	B	B	B	B	-	-	A	B	-	A	A	B	A	B	A	B	B	B	B	B	B	A	B	-	A	-	A	B	A	B	A	A	A	B	A	-	A	B
+m214	B	A	A	A	A	B	B	A	A	-	B	B	A	A	-	B	B	B	B	A	B	B	A	B	A	B	B	A	A	A	A	B	A	B	B	B	A	A	B	B	A	B	A	B	-	B	-	A	A	A	A	B	B	B	A	B	B	A	B	-	B	A	-	B	-	B	B	B	-	A	B	-	A	-	B	A	B	A	B	B	B	B	B	B	-	B	-	A	A	B	B	A	B	A	A	A	B	A	A	A	B
+AP2	A	A	A	A	A	B	B	A	A	B	B	-	A	A	B	B	B	B	B	A	B	B	A	A	A	A	B	A	A	A	A	B	A	B	B	A	A	A	B	B	A	B	A	B	A	A	B	A	A	A	A	-	-	-	-	-	-	-	B	B	B	A	A	B	B	B	B	A	A	A	B	-	A	A	-	-	-	-	-	-	-	B	B	B	A	B	A	-	A	-	B	A	B	A	A	A	-	-	-	-	-
+HLS1	B	-	A	A	A	-	-	A	A	B	B	B	A	A	B	B	B	B	-	-	A	B	A	A	A	A	B	A	B	A	A	B	A	B	B	A	B	A	B	-	A	B	A	-	A	A	-	A	A	A	A	A	B	A	A	B	B	A	B	B	B	A	A	B	-	-	B	A	A	A	B	-	A	A	B	A	B	A	-	-	B	B	B	B	A	B	A	A	B	A	B	A	-	A	A	-	-	A	A	A	B
+g2486	B	A	B	A	A	B	B	A	A	B	B	B	-	-	-	B	B	B	B	A	A	B	A	A	A	A	B	A	A	A	A	B	A	B	B	A	B	A	B	B	A	B	A	B	A	-	B	A	A	A	B	B	B	B	A	B	B	A	B	A	B	A	A	B	-	B	B	A	A	B	B	-	B	A	B	B	B	A	B	B	B	A	B	B	A	B	A	A	A	A	B	A	B	A	A	A	B	A	A	A	B
+um596A	B	A	B	A	A	B	B	A	A	-	B	B	A	A	B	B	B	B	B	A	A	B	A	A	A	B	B	A	A	A	A	B	A	B	B	A	B	A	B	B	A	B	A	B	A	-	-	-	A	A	B	B	B	B	A	B	-	A	B	A	B	B	A	B	-	B	B	-	A	B	B	-	B	A	B	B	B	A	B	B	B	A	B	B	A	B	A	A	A	A	B	A	B	A	A	A	B	A	A	A	B
+ve031	B	A	B	A	A	-	-	A	A	B	B	B	A	A	B	B	B	A	-	A	A	B	A	A	A	B	B	A	A	A	A	B	A	B	B	A	A	A	B	B	A	B	A	B	A	A	B	A	A	A	-	B	B	A	A	B	B	A	B	B	B	B	A	-	-	B	B	A	A	B	B	-	B	A	B	-	B	A	B	B	B	A	B	B	A	B	A	A	A	A	B	A	B	A	A	A	B	A	A	B	B
+mi369	B	A	B	A	A	-	B	A	A	B	B	B	A	A	B	B	B	B	-	B	A	B	A	A	B	B	B	A	A	A	A	B	A	B	B	A	B	A	B	B	A	B	A	B	A	A	B	A	A	A	B	B	B	A	A	B	B	A	B	B	B	B	A	B	B	B	B	A	A	B	B	-	A	A	B	B	B	A	B	B	B	A	B	B	A	B	A	A	A	A	B	A	B	A	A	A	B	A	A	B	B
+yw16	B	A	B	A	A	-	B	A	A	B	B	-	-	A	B	B	-	B	-	-	-	-	-	A	-	B	-	-	A	-	A	B	A	B	B	A	-	A	-	B	A	B	-	-	-	A	B	A	A	A	B	B	B	A	A	B	B	A	B	-	B	B	A	B	B	B	B	A	A	B	B	B	A	-	-	-	B	B	B	B	B	-	-	A	A	-	A	A	-	-	-	-	-	-	-	-	-	-	-	-	-
+SAUR_AC1	B	A	A	-	-	-	-	-	-	-	-	A	-	A	-	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	B	A	-	A	-	-	-	A	A	B	-	-	B	-	B	B	-	-	-	B	-	-	A	-	B	A	B	A	-	-	B	A	-	-	B	-	-	-	-	-	A	A	-	-	B	-	B	-	-	-	-	-	-	-	-
+SAUR	B	B	A	-	-	-	-	-	-	-	-	A	-	A	-	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	A	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	B	A	-	A	-	-	-	A	A	B	-	-	B	-	B	B	-	-	-	B	-	-	A	-	B	-	B	A	-	-	B	A	-	-	B	-	-	-	-	-	A	A	-	-	B	A	B	-	-	-	-	-	-	-	-
+PDC3	-	-	-	-	B	-	-	-	-	-	-	-	B	B	-	A	B	-	-	-	-	-	A	-	-	-	-	A	B	-	-	B	B	-	A	B	B	-	-	-	-	B	B	A	B	B	-	-	B	-	-	-	B	A	-	B	B	-	-	-	-	B	B	B	-	-	B	-	-	A	A	B	-	-	-	B	A	B	B	-	-	B	-	-	-	-	A	-	-	-	-	-	-	B	-	B	A	-	A	-	-
+O5629	A	A	B	A	B	B	B	B	B	A	B	A	A	B	B	A	B	-	B	A	A	B	A	B	A	B	B	A	B	A	B	-	B	B	B	B	B	B	B	A	A	B	B	A	B	B	B	B	B	B	B	B	B	A	B	A	B	A	A	B	B	B	B	B	B	A	B	B	A	A	A	B	B	A	B	B	A	B	B	A	A	B	A	B	A	B	A	A	A	A	B	B	B	B	A	B	A	B	A	B	B
+g3715	A	A	B	A	B	B	-	B	B	A	B	A	A	B	B	A	B	B	B	A	B	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	B	-	B	B	A	B	A	B	A	A	B	B	B	B	B	B	A	B	B	A	A	A	B	B	A	B	B	A	B	B	A	A	B	B	-	A	B	A	A	A	A	B	B	A	B	A	B	A	B	A	B	B
+mi121	A	A	B	A	B	-	B	B	B	A	B	A	A	B	B	A	A	B	-	A	A	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	B	B	B	A	A	A	B	A	A	B	B	B	B	B	B	A	B	A	A	A	A	B	B	A	B	B	A	B	B	A	A	B	B	B	A	B	A	A	A	A	B	B	A	B	A	B	A	B	A	A	B
+O6569	A	A	-	B	B	B	-	B	B	A	B	A	A	B	B	A	A	B	B	A	B	B	-	B	-	B	B	-	B	A	B	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	-	B	B	A	A	A	B	B	A	B	B	B	B	B	B	A	B	A	A	A	B	B	B	A	B	B	A	B	B	A	A	B	B	B	A	B	A	A	A	A	B	B	A	B	A	B	A	B	A	A	B
+m217	A	A	B	B	B	B	-	B	B	A	B	A	A	B	B	A	A	B	B	A	-	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	-	B	B	A	A	A	B	B	A	B	B	B	B	B	B	A	B	A	A	A	B	B	B	A	B	B	A	B	B	A	A	B	B	A	A	B	A	A	A	A	B	B	A	B	A	B	A	B	A	A	B
+g3837	A	A	B	B	B	B	-	B	B	A	B	A	A	B	B	A	A	B	B	A	A	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	-	B	B	A	B	A	B	B	A	B	B	B	B	B	B	A	B	A	A	A	B	B	B	A	B	B	A	B	B	A	A	B	B	-	A	B	A	A	A	A	B	B	A	B	A	B	A	B	A	A	B
+mi97	A	A	B	B	B	-	B	B	B	A	B	A	A	B	B	A	A	B	-	A	A	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	B	B	B	A	B	A	A	B	A	B	B	B	B	B	B	A	B	A	A	A	B	B	B	B	B	B	A	B	B	A	B	B	B	A	A	B	A	A	A	A	B	B	A	B	A	B	A	B	A	A	B
+KG31	A	A	B	B	B	B	B	B	B	A	B	A	-	B	B	A	A	B	B	A	A	B	A	B	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	A	B	B	B	B	B	-	B	B	A	A	B	B	B	B	B	A	-	B	A	A	B	B	B	B	-	A	B	A	A	A	B	B	B	B	B	B	A	B	B	A	B	B	B	A	A	B	A	A	A	A	B	B	A	B	A	B	A	B	A	A	B
+ve033	A	A	B	B	B	-	-	B	B	A	B	-	A	B	B	A	A	B	-	A	B	B	A	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	A	B	B	B	B	B	B	B	-	A	A	-	B	B	A	B	A	A	B	A	B	B	B	B	B	-	A	B	A	A	A	B	B	B	B	B	B	A	B	B	-	B	B	B	B	A	B	A	-	-	A	B	B	B	B	A	B	A	B	A	A	B
+CDs5	A	A	B	B	B	-	-	B	B	A	B	A	A	B	B	A	A	A	-	A	-	B	A	-	A	-	B	A	B	B	B	B	B	B	B	B	-	B	B	A	B	B	-	B	B	B	B	B	A	A	B	B	B	A	B	A	A	B	A	B	B	B	B	B	-	A	B	A	A	A	B	B	B	B	B	B	A	B	B	A	B	B	B	A	A	B	A	A	A	B	B	B	B	B	A	B	A	B	A	A	B
+mi174	A	A	B	B	B	-	A	B	B	A	B	A	A	B	B	A	A	A	-	A	A	B	A	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	A	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	A	B	B	A	B	B	B	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	B	A	A	A	A	B	B	B	B	A	B	A	B	A	A	B
+cor6.6	A	A	A	B	B	-	-	B	B	A	B	A	A	A	B	A	A	A	-	A	A	B	A	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	A	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	A	B	-	A	B	B	-	B	B	-	B	B	A	A	A	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	-	B	B	A	B	A	B	A	A	B
+mi322	A	A	A	B	B	-	B	B	B	B	B	A	A	A	B	A	A	A	-	A	A	B	A	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	A	B	B	B	B	B	B	B	A	A	A	B	B	B	B	B	A	B	B	A	B	B	B	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	-	B	B	A	B	A	B	A	A	B
+g4560	A	A	A	B	B	B	-	B	B	B	B	A	A	A	B	A	A	A	B	A	A	B	A	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	-	B	B	A	B	B	B	A	A	A	A	-	B	B	B	B	-	B	B	A	B	B	-	B	B	B	B	B	A	A	A	B	A	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	-	-	B	B	A	B	A	A	A	A	B
+TSL	A	A	A	B	B	B	B	B	B	B	B	A	A	A	B	A	A	A	B	A	A	B	A	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	A	A	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	B	A	A	A	B	A	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	-	B	B	A	B	A	A	A	A	B
+mi138	A	B	A	B	B	-	B	B	B	B	B	A	A	A	B	A	A	A	-	A	A	B	A	B	A	B	B	A	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	A	A	A	A	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	A	A	B	A	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	B	B	B	A	B	A	A	A	A	B
+mi433	A	B	A	B	B	-	A	B	B	B	B	A	A	A	B	A	A	A	-	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	A	A	A	A	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	A	A	B	A	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	B	B	A	A	A	A	A	A	A	B
+mi90	A	B	A	B	B	-	A	B	B	B	B	A	A	A	B	A	A	A	-	A	B	B	A	B	A	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	B	A	A	A	B	B	B	B	B	B	B	B	A	A	B	B	B	B	B	B	B	A	A	A	A	B	A	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	B	B	A	A	A	A	A	A	A	B
+aw22	B	B	A	B	B	-	A	B	-	B	B	-	-	A	B	-	A	A	-	B	B	B	A	B	A	B	-	-	B	B	B	B	B	A	A	B	-	A	B	B	-	-	B	B	B	B	A	A	-	A	A	B	-	B	B	B	B	B	A	-	B	B	B	A	B	B	A	A	A	A	B	A	B	A	B	B	B	B	B	A	B	B	B	A	A	-	B	A	-	A	-	B	B	B	A	A	A	A	B	A	B
+g4715b	A	B	A	B	A	B	-	B	A	B	B	A	A	A	B	A	A	A	-	A	A	B	A	B	-	B	B	-	A	B	-	B	-	B	B	B	B	A	B	B	B	A	A	B	B	B	A	A	A	A	-	B	B	B	B	B	B	B	A	B	B	B	B	A	B	B	A	A	A	A	B	A	B	A	B	B	B	B	B	A	B	B	B	A	A	B	-	A	B	A	B	B	B	B	A	A	A	B	B	A	B
+mi219	A	B	A	B	B	-	A	B	A	B	B	A	A	A	B	A	B	A	-	A	B	B	A	B	A	B	B	B	A	B	B	B	B	B	B	B	B	-	B	B	B	A	B	B	B	B	A	A	A	A	B	B	B	B	B	B	B	B	A	B	B	A	B	A	B	B	A	A	A	A	B	A	B	A	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	B	B	B	A	A	A	B	A	A	B
+mi125	A	B	A	B	B	-	A	B	A	B	B	A	A	A	A	A	B	A	-	A	B	A	A	B	B	B	B	B	A	B	B	B	B	B	B	A	A	-	B	B	B	A	B	B	B	B	A	B	A	B	B	B	B	A	-	B	A	A	A	B	B	A	B	A	B	B	A	A	A	A	B	A	B	A	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	B	A	B	B	B	A	B	A	A	A
+mi137	A	B	A	A	B	-	A	B	A	B	B	A	A	A	A	A	B	A	-	A	B	A	A	B	B	B	B	B	A	B	B	B	B	B	B	B	A	B	A	B	B	A	B	B	B	B	A	B	A	B	B	A	A	A	B	B	A	A	A	B	B	A	B	A	B	A	B	A	A	A	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	A	B	B	B	-	B	B	A	B	A	A	A
+CATTS019	A	A	A	A	B	-	-	B	A	B	B	A	A	A	B	A	B	A	-	A	-	A	A	-	B	-	B	B	B	B	A	A	B	A	B	A	-	B	A	A	B	A	-	B	B	B	A	B	A	B	B	A	B	A	B	A	A	A	A	B	B	A	B	A	-	A	B	A	A	A	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	A	B	A	B	A	A	B	B	A	B	B	A	B	A	A	A
+mi323	A	A	A	A	B	-	A	B	A	B	B	A	A	A	B	A	B	A	-	A	B	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	A	B	A	A	B	A	B	B	B	B	A	B	A	B	B	A	B	A	A	A	A	A	A	B	B	A	B	A	B	A	B	A	A	A	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	A	B	A	B	A	A	B	B	A	B	B	A	B	A	A	A
+m247	A	A	A	A	B	B	-	B	A	B	B	A	A	A	B	A	B	A	B	A	A	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	A	B	A	A	B	A	A	B	B	B	A	B	A	B	-	A	B	A	A	A	A	A	A	B	B	A	B	A	B	A	B	A	A	A	B	B	B	B	B	B	B	B	B	A	B	B	B	A	A	A	B	A	B	A	A	B	B	A	B	B	A	B	A	A	A
+g4028	B	A	A	A	B	B	-	B	A	B	B	A	A	A	B	A	B	A	B	B	A	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	A	B	B	A	B	A	A	B	B	B	A	B	A	B	-	B	B	B	A	A	A	A	A	B	B	A	A	A	B	A	B	A	A	A	B	B	A	B	B	B	B	A	B	A	B	B	B	A	A	A	B	A	B	A	A	B	B	-	B	B	A	B	A	A	A
+mCH1	B	A	A	A	B	-	A	B	A	B	B	A	B	A	B	A	B	A	-	B	B	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	B	B	B	A	B	A	B	B	B	B	A	B	A	B	B	B	B	B	A	A	A	A	A	B	B	A	A	A	-	A	B	A	A	A	B	B	A	B	B	B	B	A	B	B	B	B	B	A	A	A	B	A	B	A	A	B	B	B	B	B	A	B	A	A	A
+mi194	B	A	B	A	B	-	A	B	A	B	B	A	B	A	B	A	B	A	-	B	B	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	A	B	B	A	B	B	B	B	B	B	A	B	A	B	B	B	B	B	A	A	A	A	A	B	B	A	A	A	B	A	B	A	A	A	B	B	A	A	B	B	B	A	A	A	A	B	B	A	A	A	B	A	B	A	A	B	B	-	B	B	A	B	A	A	A
+mi83	B	A	B	B	B	-	A	B	A	B	B	A	B	A	B	A	B	A	-	B	B	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	A	B	B	A	B	B	B	B	B	B	A	B	A	B	B	B	B	B	A	A	A	A	A	B	B	A	A	A	B	A	B	A	A	A	B	B	A	A	B	B	A	A	A	A	A	B	B	A	A	A	B	A	B	A	A	B	B	-	B	B	A	B	A	A	A
+mi423b	B	A	B	B	A	-	A	B	A	B	B	A	B	A	B	B	B	A	-	B	B	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	A	B	B	A	A	B	B	B	B	B	A	B	A	B	B	A	B	B	A	A	A	A	A	B	B	A	A	A	B	A	B	A	A	A	B	A	A	A	B	B	A	A	A	A	A	B	B	A	A	A	B	A	B	A	A	B	A	A	B	B	A	B	A	A	A
+mi61	B	A	B	B	A	-	A	B	A	B	B	A	B	A	B	B	B	A	-	B	B	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	A	B	B	A	A	B	B	B	B	B	A	B	A	B	B	A	B	B	A	A	A	A	A	B	-	A	A	A	B	A	B	A	A	A	B	A	A	A	B	B	A	A	A	B	A	B	B	A	A	A	B	A	B	A	A	B	A	-	B	B	A	B	A	A	A
+ve027	B	A	B	A	A	-	-	B	A	B	B	A	B	A	B	B	B	A	-	B	B	A	A	B	B	B	B	B	B	B	A	A	B	A	B	A	B	B	B	A	A	B	A	B	B	B	A	B	A	B	-	A	B	A	A	A	B	A	A	B	A	A	A	A	-	A	B	A	A	A	B	A	A	A	B	B	A	A	A	B	A	-	B	A	A	A	B	A	B	A	A	B	A	A	B	B	A	B	A	A	A
+mi271	B	A	B	B	A	-	A	B	A	B	B	A	B	A	B	B	B	A	-	B	B	A	A	B	B	B	B	B	B	A	A	A	B	A	B	A	A	B	B	A	A	B	A	B	B	B	A	B	A	B	B	A	B	B	A	A	-	A	A	B	A	B	A	A	B	A	B	A	A	A	B	A	A	A	B	B	A	A	A	B	A	B	B	A	A	A	B	A	B	A	A	B	A	-	B	B	A	A	A	A	A
+PAP3	B	A	-	B	A	-	-	B	A	A	B	A	B	B	B	B	B	A	-	B	B	A	A	B	B	A	B	B	B	A	A	B	B	A	B	A	A	B	B	A	A	B	A	B	B	B	A	A	A	B	B	A	B	-	A	A	B	-	-	B	A	B	A	A	-	-	-	A	B	A	B	A	A	A	B	B	A	A	-	A	A	B	B	A	A	A	B	A	B	A	A	B	A	-	B	B	A	A	A	A	A
+m435	B	A	B	B	A	B	-	A	B	A	B	A	B	B	B	B	B	A	B	B	A	A	A	B	B	A	B	B	B	A	A	B	B	A	B	A	A	B	B	A	A	B	A	B	B	B	A	B	A	B	-	A	B	B	A	A	A	A	A	B	A	B	A	A	B	A	B	A	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	A	A	A	B	A	B	A	A	B	A	A	B	B	A	A	A	A	A
+h2a1	B	A	B	B	A	-	-	A	B	A	B	A	B	B	B	B	B	A	B	B	B	A	A	B	B	A	B	B	B	A	A	B	B	A	B	A	B	B	B	A	B	B	A	B	B	B	A	B	A	B	B	A	B	A	A	A	A	A	B	B	A	B	A	A	B	A	B	A	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	A	A	A	B	A	A	A	A	B	A	A	B	B	A	A	A	A	A
+mi70	A	A	B	B	A	-	A	A	B	A	B	A	B	A	B	B	B	A	-	B	B	B	A	B	B	A	B	B	B	A	A	B	B	A	B	A	A	B	B	A	B	B	A	B	B	B	A	B	A	B	B	A	B	A	A	A	A	A	B	B	A	B	A	A	B	-	B	A	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	B	A	A	B	A	A	A	A	-	A	A	B	B	A	A	A	A	A
+mi69	B	A	B	B	A	-	A	A	B	A	B	A	B	A	B	B	B	A	-	B	B	B	A	B	B	A	B	B	B	A	A	B	B	A	B	A	A	B	B	A	B	B	A	B	B	B	A	B	A	B	B	A	B	A	A	A	A	A	B	B	A	B	A	A	B	B	B	A	B	A	B	A	B	A	B	B	A	A	A	B	A	B	B	B	A	A	B	A	A	A	A	-	A	A	B	B	A	A	A	A	A
+emb514	B	A	B	B	A	-	A	A	B	A	B	A	B	A	B	B	B	A	-	B	B	B	A	B	B	A	B	B	-	-	A	B	B	A	A	A	A	B	B	A	A	B	B	B	B	B	A	B	B	B	A	A	B	A	A	A	A	A	B	B	A	B	A	A	-	-	B	A	B	B	B	B	A	A	B	B	A	A	B	A	A	B	B	B	A	A	B	A	-	A	A	-	A	A	B	A	A	A	A	A	A
+ATR3	B	B	B	B	A	-	-	A	B	-	B	A	B	A	B	B	B	A	B	B	B	B	A	B	-	A	B	A	B	A	A	B	B	A	A	A	B	B	B	A	A	B	A	B	B	B	A	B	A	B	A	A	B	A	A	A	A	A	B	B	A	B	A	A	B	B	B	A	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	B	A	A	B	A	A	A	A	A	A	A	B	B	A	A	A	A	A
+agp27e	B	B	B	B	A	-	A	A	B	A	B	B	B	A	-	B	A	A	-	B	B	B	-	B	B	A	B	-	B	A	A	B	B	A	A	A	A	B	B	A	-	B	A	B	B	B	A	B	A	B	A	A	B	A	A	A	A	A	B	B	A	B	B	A	-	B	B	A	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	-	A	A	B	A	B	A	A	B	A	-	B	-	A	A	A	A	A
+ve032	B	B	B	B	A	-	-	A	B	A	B	B	B	B	B	B	A	A	-	B	B	B	A	B	B	A	B	B	B	A	A	B	B	A	A	A	B	B	B	A	A	B	A	B	B	B	A	B	A	B	A	A	B	A	A	A	A	A	B	B	A	B	B	A	-	-	B	A	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	B	A	A	B	A	-	A	A	A	A	A	B	A	A	A	A	A	A
+g2368	B	B	B	B	A	B	-	A	B	A	B	B	B	B	B	B	A	A	B	B	A	B	A	B	B	A	B	B	B	A	A	B	B	A	A	A	A	B	B	A	A	B	A	B	A	B	A	B	A	B	-	A	B	A	A	A	A	A	B	B	A	B	B	A	B	A	B	A	-	A	B	A	A	A	B	B	A	A	A	B	A	B	B	-	A	A	A	A	A	A	A	A	A	A	B	A	A	A	A	A	A
+mi335	B	B	B	B	A	-	A	A	A	A	B	B	B	B	B	A	A	A	-	B	B	B	A	B	B	A	B	B	B	A	A	B	B	A	A	A	A	B	B	A	A	A	B	B	A	B	A	B	A	B	A	A	B	A	A	A	A	A	A	B	A	B	B	A	A	A	A	A	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	A	A	A	A	A	A	A	A	A	A	B	B	A	A	A	B	A	A
+m555	B	-	B	B	-	B	A	A	A	A	B	B	B	B	B	A	A	A	B	B	A	B	A	B	-	A	B	B	B	A	A	B	B	A	A	A	A	B	B	A	A	A	A	A	A	B	A	B	A	B	A	A	B	A	A	A	A	A	A	B	A	B	B	A	A	A	A	-	B	A	B	A	A	A	B	B	A	A	A	B	A	B	B	A	A	A	B	A	A	A	A	A	A	B	B	A	A	A	B	A	A
+BIO205	-	B	A	A	A	-	-	-	A	A	B	B	B	B	B	A	A	A	-	-	-	B	A	B	B	-	B	-	B	-	A	B	B	A	A	A	A	B	A	A	A	B	B	-	A	B	A	B	A	B	A	A	-	A	A	A	-	A	A	B	-	B	-	A	-	-	A	A	B	A	-	-	A	-	B	B	-	-	-	-	A	A	-	A	A	-	A	A	A	A	-	A	A	B	B	A	A	A	B	A	A
+STL	-	-	-	-	A	-	-	A	-	A	B	B	-	B	-	B	A	A	-	B	B	B	A	B	B	-	B	-	B	A	A	-	-	-	A	-	-	-	B	-	B	-	-	B	A	B	-	B	-	B	-	A	-	A	B	A	-	A	-	A	-	B	-	A	-	B	-	A	B	-	A	B	A	A	B	B	A	A	A	B	B	B	B	A	A	-	A	-	A	-	A	-	-	B	B	A	-	-	-	-	-
+-stop markers 
+-start traits
+a_r_ratio1	0.99432	2.23448	4.16239	1.62091	1.33402	.	1.15400	1.63619	1.19021	.	1.89631	1.40336	14.94963	1.47870	1.53992	3.04241	1.02033	1.63092	1.84904	1.08595	2.16992	2.02712	1.55928	1.46380	2.53642	1.43662	1.46374	1.46636	1.73766	2.80735	1.47394	1.14769	1.19618	3.80014	1.38850	3.96915	2.05079	1.92821	1.27201	1.73969	1.22664	0.97940	1.76462	1.20395	3.41578	1.27825	1.99572	1.83997	1.27960	1.36471	1.39527	1.65219	1.22487	1.44662	2.26775	1.63042	1.25433	1.31875	1.25778	4.66379	2.46283	1.48198	1.69244	0.93065	1.18625	0.97653	1.67913	2.13901	1.06107	1.72254	1.33169	2.28480	1.42831	1.59266	1.48086	0.95009	1.21862	1.19110	1.02222	0.78230	1.31681	0.97720	2.01032	1.34453	1.82425	1.18519	1.49505	0.25843	1.71824	1.26310	1.16750	1.98789	1.80625	1.43022	1.73557	1.29899	1.28075	1.92518	2.30358	1.42288	1.07099
+a_r_ratio2	1.14884	1.66089	1.35918	1.82626	1.28406	.	1.63576	1.62343	1.06163	.	1.30431	1.31010	1.01275	1.14838	1.64477	1.41080	1.38128	0.93366	2.02652	1.28235	1.80470	1.33369	1.31611	1.28950	1.81600	1.25466	1.40869	1.73871	0.88366	1.17377	8.94491	1.32662	1.39129	1.43235	1.14217	1.12805	1.11651	1.47443	1.36523	1.45705	1.19016	1.08684	1.26669	0.85219	1.10042	3.46504	1.60533	1.20559	1.16403	1.55451	0.92285	1.03367	1.09796	1.64543	1.93645	1.65747	1.38531	1.54108	1.45044	1.69837	1.84890	0.91927	1.14510	1.39140	1.35657	0.77016	1.16822	1.64015	1.30544	1.15602	1.30167	4.16581	1.44453	1.45203	1.63041	1.47482	1.14414	1.17151	1.16636	1.16694	1.56953	1.21807	1.09052	1.76264	1.45750	1.93095	1.13795	1.47113	1.64023	1.08826	1.33156	1.34488	1.28469	1.10183	1.57443	1.97029	1.12147	1.48040	1.87981	1.16843	1.08475
+a_r_ratio3	1.35453	2.05752	1.82768	3.25824	2.04975	.	1.67105	1.90540	1.75680	.	1.71082	1.71407	1.69445	1.46978	1.50600	1.45745	1.66283	1.48458	1.72700	1.61531	2.40188	1.53724	1.86221	1.80682	2.27431	1.61599	1.43441	1.68293	2.18128	2.04565	1.83174	1.26545	3.20572	1.72017	1.48643	1.30323	2.48529	1.49612	1.52358	1.75182	1.96315	1.42953	1.86192	1.77213	1.58041	1.57732	1.63904	1.73581	1.60672	1.96626	1.77239	1.45892	1.81212	1.48379	2.10593	1.93862	1.37675	1.33806	2.14156	1.61885	2.10919	1.77979	1.75357	1.89602	1.50167	1.66827	1.62934	1.55256	4.79688	2.21308	1.77864	1.43962	2.49926	1.67278	1.62336	2.14797	1.38514	1.36786	1.71594	1.66836	1.92742	1.95814	1.60970	0.99398	3.01559	1.85564	1.92647	1.48271	2.26400	1.28380	1.79922	1.57718	1.56608	2.01520	2.05605	1.74229	1.53718	2.19318	2.65102	1.70628	1.88948
+a_r_ratio4	0.99735	1.80515	0.67657	1.18431	2.89250	.	1.04714	1.33994	1.36049	.	1.37161	0.91894	0.88472	0.82295	1.30458	1.06704	1.02627	1.43793	1.08853	0.96665	1.41248	1.22166	1.21993	1.58322	0.84735	0.95600	1.49414	1.41322	0.88703	1.27990	1.33679	0.69679	3.30582	0.99389	1.37979	0.91174	1.02479	0.88235	1.17040	1.19254	1.07227	0.65599	1.27365	0.91967	1.14260	0.90865	0.81418	0.74626	0.97033	0.99157	0.87435	1.14865	1.76606	0.92859	1.18367	0.93558	0.69797	1.03528	1.05195	1.36372	1.03587	1.07547	1.03945	0.94634	1.28251	0.72650	0.76692	0.99598	0.89398	1.29283	2.17186	1.80112	0.76649	0.79815	1.41896	1.26017	1.39558	1.75485	0.85321	0.85878	1.26754	1.00821	0.84119	0.92732	0.96756	1.15308	0.82357	0.89262	1.97194	0.95332	0.76828	1.31216	1.80331	0.95763	1.68823	1.50654	1.03291	2.65635	1.14456	1.47512	0.80404
+-stop traits 

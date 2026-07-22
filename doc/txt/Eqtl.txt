@@ -1,0 +1,139 @@
+NAME
+    Eqtl - Summarize the output of Zmapqtl
+
+SYNOPSIS
+    Eqtl [ -o *output* ] [ -z *zmapfile* ] [ -m *mapfile* ] [ -t *trait* ] [
+    -M *Model* ] [ -a *size* ] [ -S *threshold* ][ -L *lod* ] [ -I
+    *workcode* ]
+
+DESCRIPTION
+    Eqtl reformats the prodigous output of Zmapqtl. The output file has a
+    section that is suitable for input to Rcross. There are other sections
+    to the output that are more readable. Eqtl can also detect whether a
+    bootstrap, permutation or jackknife analysis was performed and process
+    the interim files produced by those analyses.
+
+OPTIONS
+    See QTLcart(1) for more information on the global options -h for help,
+    -A for automatic, -V for non-Verbose -W path for a working directory, -R
+    file to specify a resource file, -e to specify the log file, -s to
+    specify a seed for the random number generator and -X stem to specify a
+    filename stem. The options below are specific to this program.
+
+    If you use this program without specifying any options, then you will
+    get into a menu that allows you to set them interactively.
+
+    -o  This requires a filename for output. Eqtl will overwrite the file if
+        it exists, and create a new file if it does not. If not used, then
+        Eqtl will use qtlcart.eqt.
+
+    -z  This requires an input filename. This file must exist. It should be
+        in the same format as the output of Zmapqtl. The default file is
+        qtlcart.z.
+
+    -m  Eqtl requires a genetic linkage map. This option requires the name
+        of a file containing the map. It should be in the same format that
+        Rmap outputs. The default file is qtlcart.map.
+
+    -H  Allows the user to specify which hypothesis test results to process.
+        Use values 10 or 14 for data with two marker classes, and 30, 31,
+        32, 34 for those with three marker classes.
+
+    -S  Tells Eqtl the significance threshold. It assumes that the test
+        statistic is significant if greater than this value. It is 3.84 by
+        default.
+
+    -a  Eqtl uses the specified size (alpha) to determine the significance
+        threshold from the experiment-wise permutation results. If used, the
+        -S option is ignored, and the significance threshold is set and
+        saved from the experiment-wise permutation test results. The size is
+        0.05 by default.
+
+    -L  If used with argument 1, it causes LOD scores to be output rather
+        than the LR statistics. It is 0 by default.
+
+    -I  This should be followed by a string of no more than eight
+        characters. It allows the user to control which files Eqtl will
+        process. The default is *ZM*, which means process the results of
+        Zmapqtl and JZmapqtl (the *M* is for multitrait). You can also add
+        the letters *P* for permutations, *B* for bootstraps or *J* for
+        jackknives. Prior to implementing this option, the default was
+        *PBJZM*. Note that the order of the letters indicates the order of
+        processing: If you want to use the threshold from a permutation
+        test, then the *P* should precede the *Z* and *M* values. Also, you
+        need to have at least one action.
+
+INPUT FORMAT
+    The input format of the molecular map should be the same as that of the
+    output format from the program Rmap. The input format of the individual
+    data should be the same as the output format of the program Rcross. The
+    other files should have been created by Zmapqtl. Take care that Zmapqtl
+    completed its analysis: An incomplete qtlcart.z file can cause Eqtl to
+    crash.
+
+EXAMPLES
+            % Eqtl -m example.map -z example.z -S 13.2
+
+    reprocesses the results of example.z based on the map in example.map
+    using a significance threshold of 13.2. If you had run JZmapqtl, then
+    those results would also have been processed.
+
+BOOTSTRAPS, JACKKNIVES AND PERMUTATIONS
+    If Zmapqtl was used to do a bootstrap experiment or a permutation test,
+    then there will be interim results files. With the default filename stem
+    and model 3, there will be files qtlcart.z3c and qtlcart.z3e if a
+    permutation test was done, and qtlcart.z3a if a bootstrap was done.
+    Using the work code *PBZM* will direct Eqtl to detect these files and
+    processes their results. It will open a qtlcart.z3e file and determine
+    an experimentwise threshold based on the size specified with the -a
+    option.
+
+    If the qtlcart.z3a file exists, then Eqtl opens it and computes the
+    means and standard deviations, at each test site, of the likelihood
+    ratio test statistic, additive effect and dominance effect. The results
+    are printed to qtlcart.z3b.
+
+    The jackknife procedure produces a qtlcart.z3i file. Adding a *J* to the
+    work code directs Eqtl to computes the means and standard deviations of
+    the likelihood ratio test statistic, additive effect and dominance
+    effect at each test site. The results are printed to qtlcart.z3j.
+
+REFERENCES
+BUGS
+    If the resource file indicates that there are more than one trait, then
+    Eqtl will try to estimate positions and additive effects for all the
+    traits. This will happen even if no analysis was done on the extra
+    traits. The output file will then have some null estimates.
+
+    When doing a jackknife with Zmapqtl, the user should check that the file
+    ending in the letter i is truely the last version of the interim
+    jackknife file. Zmapqtl switches between a file ending in i and another
+    ending in j, so check both and move the j file onto the i file if
+    required.
+
+    If you set the significance threshold too high, then Eqtl may find no
+    QTL in the qtlcart.z output. If this is the case, then Eqtl will crash.
+
+SEE ALSO
+    Emap(1), Rmap(1), Rqtl(1), Rcross(1), Qstats(1), LRmapqtl(1),
+    BTmapqtl(1), SRmapqtl(1), JZmapqtl(1), Eqtl(1), Prune(1), Preplot(1),
+    MImapqtl(1), MultiRegress(1), Examples(1) SSupdate.pl(1), Prepraw.pl(1),
+    EWThreshold.pl(1), GetMaxLR.pl(1), Permute.pl(1), Vert.pl(1),
+    CWTupdate.pl(1), Ztrim.pl(1), SRcompare.pl(1), Ttransform.pl(1),
+    TestExamples.pl(1), Model8.pl(1), Dobasics.pl(1), Bootstrap.pl(1)
+
+CONTACT INFO
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Bioinformatics Research Center, North Carolina State University
+            1523 Partners II Building/840 Main Campus Drive
+            Raleigh, NC 27695-7566     USA
+            Phone: (919)515-1934
+
+    Please report all bugs via email to qtlcart-bug@statgen.ncsu.edu.
+
+    The QTL Cartographer web site ( http://statgen.ncsu.edu/qtlcart ) has
+    links to the manual, man pages, ftp server and supplemental materials.
+

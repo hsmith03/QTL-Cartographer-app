@@ -1,0 +1,104 @@
+NAME
+    SRmapqtl - Map quantitative traits on a molecular map.
+
+SYNOPSIS
+    SRmapqtl [ -o *output* ] [ -i *input* ] [ -m *mapfile* ] [ -t *trait* ]
+    [ -M *Model* ] [ -F *pFin* ] [ -B *pFout* ] [ -u *MaxSteps* ]
+
+DESCRIPTION
+    SRmapqtl uses stepwise regression to map quantitative trait loci to a
+    map of molecular markers. It requires a molecular map that could be a
+    random one produced by Rmap, or a real one in the same format as the
+    output of Rmap. The sample could be a randomly generated one from Rcross
+    or a real one in the same format as the output of Rcross.
+
+    This program should be run before .Zmapqtl if you want to use composite
+    interval mapping. The results will be used to pick markers background
+    control in composite interval mapping. The main result from using this
+    program is to rank the markers in terms of their influence on the trait
+    of interest.
+
+OPTIONS
+    See QTLcart(1) for more information on the global options -h for help,
+    -A for automatic, -V for non-Verbose -W path for a working directory, -R
+    file to specify a resource file, -e to specify the log file, -s to
+    specify a seed for the random number generator and -X stem to specify a
+    filename stem. The options below are specific to this program.
+
+    If you use this program without specifying any options, then you will
+    get into a menu that allows you to set them interactively.
+
+    -o  This requires a filename for output. SRmapqtl will append the file
+        if it exists, and create a new file if it does not. If not used,
+        then SRmapqtl will use qtlcart.sr.
+
+    -i  This requires an input filename. This file must exist. It should be
+        in the same format as the output of Rcross. The default file is
+        qtlcart.cro.
+
+    -m  SRmapqtl requires a genetic linkage map. This option requires the
+        name of a file containing the map. It should be in the same format
+        that Rmap outputs. The default file is qtlcart.map.
+
+    -t  Use this to specify which trait SRmapqtl will analyze. If this
+        number is greater than the number of traits, then all traits will be
+        analyzed. The default is to analyze trait 1 only.
+
+    -M  This tells SRmapqtl what type of analysis to perform. Use a 0 for
+        forward stepwise (FS) regression, a 1 for backward elimination (BE)
+        and a 2 for forward regression with a backward elimination step at
+        the end (FB). It is probably best to use Model 2 here.
+
+    -F  Requires a real number in the range 0.0 to 1.0. This is a threshold
+        p value for adding markers in model 2 during the forward stepwise
+        regression step. The default is 0.05.
+
+    -B  Requires a real number in the range 0.0 to 1.0. This is a threshold
+        p value for deleting markers in model 2 during the backward
+        elimination step. It should probably be the same as the previous
+        option. The default is 0.05.
+
+    -u  Requires an integer valued argument. This allows you to specify a
+        hard limit to the number of steps in a forward regression analysis.
+        It is valid for models 0 and 2. By default, it is 100.
+
+INPUT FORMAT
+    The input format of the molecular map should be the same as that of the
+    output format from the program Rmap. The input format of the individual
+    data should be the same as the output format of the program Rcross.
+
+EXAMPLES
+            % SRmapqtl -i corn.cro -m corn.map -M 2
+
+    Does a forward stepwise regression with a backward elimination step for
+    the dataset in corn.cro using the genetic linkage map in corn.map.
+
+REFERENCES
+BUGS
+    Forward and backward regression should probably use the thresholds for
+    adding and deleting markers from the model. When that feature is added,
+    the -F and -B options will have more use.
+
+SEE ALSO
+    Emap(1), Rmap(1), Rqtl(1), Rcross(1), Qstats(1), LRmapqtl(1),
+    BTmapqtl(1), SRmapqtl(1), JZmapqtl(1), Eqtl(1), Prune(1), Preplot(1),
+    MImapqtl(1), MultiRegress(1), Examples(1) SSupdate.pl(1), Prepraw.pl(1),
+    EWThreshold.pl(1), GetMaxLR.pl(1), Permute.pl(1), Vert.pl(1),
+    CWTupdate.pl(1), Ztrim.pl(1), SRcompare.pl(1), Ttransform.pl(1),
+    TestExamples.pl(1), Model8.pl(1), Dobasics.pl(1), Bootstrap.pl(1)
+
+CONTACT INFO
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Bioinformatics Research Center, North Carolina State University
+            1523 Partners II Building/840 Main Campus Drive
+            Raleigh, NC 27695-7566     USA
+            Phone: (919)515-1934
+
+    Please report all bugs via email to qtlcart-bug@statgen.ncsu.edu.
+
+    The QTL Cartographer web site ( http://statgen.ncsu.edu/qtlcart ) has
+    links to the manual, man pages, ftp server and supplemental materials.
+

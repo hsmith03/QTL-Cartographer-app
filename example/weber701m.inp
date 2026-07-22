@@ -1,0 +1,63 @@
+# 1005473127    bychromosome  -filetype map.inp   
+#  
+# Weber, K., R. Eisman, S. Higgins, L. Morey, A. Patty, M. Tausek and Z.-B. Zeng (2001) 
+# An analysis of polygenes affecting wing shape on chromosome 2 in 
+# Drosophila melanogaster. Genetics 159: 1045-1057.
+#
+ -type positions
+ -function 1
+ -Units cM
+ -chromosomes 1
+ -maximum 48 
+ -named yes
+ -start
+ -Chromosome C1
+  22A2            2.2000
+  22B2            2.4000
+  23B1            6.6000
+  23C3            7.5000
+  24C1           10.3000
+  24D4           11.2000
+  24E5           12.0000
+  25A1           13.0000
+  25A3           13.5000
+  27B1           19.8000
+  29F1           30.4000
+  32C1           42.9000
+  33A1           44.3000
+  34A5           46.2000
+  34B2           46.5000
+  35B6           50.4000
+  37B8           53.7000
+  37D1           53.9000
+  38B1           54.4000
+  38D1           54.6000
+  38E1           54.7000
+  39E1           54.9000
+  41D1           55.5000
+  42B1           55.6000
+  42B2           55.7000
+  42C1           55.8000
+  42C3           55.9000
+  43A1           56.4000
+  43B3           56.5000
+  44F1           58.3000
+  46C1           59.7000
+  46C6           59.8000
+  46F1           60.0000
+  47B4           60.3000
+  47D1           60.9000
+  48D1           62.5000
+  49E4           66.7000
+  50D1           70.8000
+  51D6           73.5000
+  52A1           74.6000
+  55C4           83.8000
+  56B7           87.5000
+  56F3           90.0000
+  57E6           98.1000
+  58D1           99.2000
+  59A1          101.7000
+  59B8          102.3000
+  60F1          108.1000
+ -stop

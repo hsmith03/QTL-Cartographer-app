@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SRmapqtl</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>SRmapqtl - Map quantitative traits on a molecular map.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>SRmapqtl</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-i</strong> <em>input</em> ] [ <strong>-m</strong> <em>mapfile</em> ]
+[ <strong>-t</strong> <em>trait</em> ] [ <strong>-M</strong> <em>Model</em> ] [ <strong>-F</strong> <em>pFin</em> ] [ <strong>-B</strong> <em>pFout</em> ]   [ <strong>-u</strong> <em>MaxSteps</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>SRmapqtl</strong> uses stepwise  regression to map quantitative trait loci to
+a map of molecular markers. It requires a molecular map that could be a random one produced by 
+<strong>Rmap</strong>,  or a real one in the same format as the output of 
+<strong>Rmap</strong>.   The sample could be a randomly generated one from 
+<strong>Rcross</strong> or a real one in the same format as the output of 
+<strong>Rcross</strong>.</p>
+<p>This program should be run before 
+.<strong>Zmapqtl</strong> if you want to use composite interval mapping.  The results will be used
+to pick markers background control in composite interval mapping.  The main result from using this program
+is to rank the markers in terms of their influence on the trait of interest.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename for output.   <strong>SRmapqtl</strong> will append the file if
+it exists, and create a new file if it does not.   If not used, then <strong>SRmapqtl</strong> will use
+<em>qtlcart.sr</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist.  It should be in the
+same format as the output of <strong>Rcross</strong>. The default file is <em>qtlcart.cro</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+<strong>SRmapqtl</strong> requires a genetic linkage map.  This option requires
+the name of a file containing the map.  It should be in the same format
+that <strong>Rmap</strong> outputs.  The default file is <em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+Use this to specify which trait <strong>SRmapqtl</strong>
+will analyze.  If this number is greater than
+the number of traits, then all traits will be analyzed.   The default is
+to analyze trait 1 only.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-M</strong></a></strong><br />
+</dt>
+<dd>
+This tells  <strong>SRmapqtl</strong>
+what type of analysis to perform.  Use a 0 for forward stepwise (FS) regression, a 1 for 
+backward elimination (BE) and a 2 for forward regression with a backward elimination
+step at the end (FB).  It is probably best to use Model 2 here.
+</dd>
+<p></p>
+<dt><strong><a name="item__2df"><strong>-F</strong></a></strong><br />
+</dt>
+<dd>
+Requires a real number in the range 0.0 to 1.0.  
+This is a threshold p value for adding markers in 
+model 2 during the forward stepwise regression step.  The default is 0.05.
+</dd>
+<p></p>
+<dt><strong><a name="item__2db"><strong>-B</strong></a></strong><br />
+</dt>
+<dd>
+Requires a real number in the range 0.0 to 1.0.  
+This is a threshold p value for deleting markers in model 2 during the backward elimination
+step.  It should probably be the same as the previous option.    The default is 0.05.
+</dd>
+<p></p>
+<dt><strong><a name="item__2du"><strong>-u</strong></a></strong><br />
+</dt>
+<dd>
+Requires an integer valued argument.  
+This allows you to specify a hard limit to the number of steps in a forward regression
+analysis.   It is valid for models 0 and 2.  By default, it is 100.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p>The input format of the molecular map should be the same as that of the output 
+format from the program 
+<strong>Rmap</strong>.   The input format of the individual data should be the same as the output format
+of the program 
+<strong>Rcross</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % SRmapqtl -i corn.cro -m corn.map -M 2</pre>
+<p>Does a forward stepwise regression with a backward elimination step
+for  the dataset in <em>corn.cro</em> 
+using the genetic linkage map in <em>corn.map</em>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Forward and backward regression should probably use the thresholds for adding 
+and deleting markers from the model.  When that feature is added, the <strong>-F</strong> and 
+<strong>-B</strong> options will have more use.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+# 123456789    bychromosome  -filetype map.inp   
+# Look for documentation at the end
+-type positions 
+-function     1  
+-Units       cM  
+-chromosomes  2  
+-maximum      5  
+-named      yes  
+-start 
+-Chromosome 1
+   Marker1_1    0.0
+   Marker1_2   10.2
+   Marker1_3   34.1
+   Marker1_4   43.3
+   Marker1_5   52.1
+-Chromosome 2
+   Marker2_1    0.0
+   Marker2_2   13.7
+   Marker2_3   19.1
+   Marker2_4   24.8
+-stop
+-end   
+
+#------------------  Documentation for above input file
+
+1.  First line:  it is critical that the first line 
+start with a pound symbol, a space, a number, the word 'bychromosome', a -filetype token,
+and the map.inp filetype:
+
+# 123456789    bychromosome      -filetype map.inp
+ ^          ^                ^            ^
+space      space           space        space
+
+The spaces are necessary, because the input is token based. 
+The program will read the second token in the file as a long integer
+and use it as an identifier for the file.   Thus, each file should
+have a unique identifier  following the pound symbol.
+
+The '-filetype map.inp' tells the QTL Cartographer programs that this
+is a 'map.inp' formatted file.   The 'bychromosome' word is a vestige of
+an idea that simply needs to hang around.
+
+
+2. Tokens:   A token is any string of non-whitespace
+surrounded by whitespace.  Each time a token begins with a -, it is
+read to determine what follows it.  The next token is then read and
+processed.  The program will ignore any token that it doesn't
+recognize.  The tokens that are recognized in a 'map.inp' file are 
+
+-type
+-function
+-param
+-Units
+-chromosomes
+-maximum
+-end
+-named
+-start
+-stop
+-skip
+-unskip
+-Chromosome  
+
+Note that only the first letter of these tokens is actually necessary (except for -start,
+-stop and -skip, which require more letters to distinguish between them). 
+
+Case is important.  -Units is different from -units.  -start and -Start are also different.
+
+3.  Meanings of commands:
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Token       Followed by           Means
+-------------------------------------------------------------------------------
+-type       positions          Marker positions are given 
+-type       intervals          Marker intervals are given  
+-function   integer 1-8        Code for the map function: Details in manual
+-param      real number        Extra parameter needed for some map functions
+-Units       cM, M or r        Units are in   centiMorgans (cM),   Morgans (M)  
+                               or recombination frequencies (r)                              
+-chromosomes  integer > 0      Haploid number of chromosomes
+-maximum      integer > 0      Maximum number ofmarkers on any chromosome.  
+                               Needed for array allocation.                               
+-named      yes  or no         Says whether markers will have names.   
+-skip                          Tells Rmap to skip everything until  an
+-unskip                        which is the end of the -skip.  These 
+                               cannot be within a -start to -stop block
+-start                         Start of a map    block
+-stop                          End of a map    block
+-end                           End of the file
+-Chromosome  integer, string   Gives the number of the chromosome (if integer)
+                                or the name (if a string)
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+4.  Map block:
+
+Between the -start token and the -stop token, you should have a repeating
+sequence of a -Chromosome token followed by an integer or sting,
+then markers ordered, with their names followed by the appropriate distances. 
+You should be consistent with the tokens following the -Chromosome token:  Either
+have them all be unique chromosome names or unique integers from 1 to the number
+of chromosomes indicted with the -chromosomes token.    
+
+This example has the markers followed by their positions in centiMorgans.  
+Please give all markers  unique names.
+
+-start 
+-Chromosome 1
+   Marker1_1    0.0
+   Marker1_2   10.2
+   Marker1_3   34.1
+   Marker1_4   43.3
+   Marker1_5   52.1
+-Chromosome 2
+   Marker2_1    0.0
+   Marker2_2   13.7
+   Marker2_3   19.1
+   Marker2_4   24.8
+-stop
+
+In the above,  the line
+
+   Marker1_2   10.2
+
+
+means that Marker1_2  is on chromosome 1 at position 10.2 cM from the left 
+telomere.    If you want to give the chromosomes names, then the above could have been
+
+-start 
+-Chromosome X
+   Marker1_1    0.0
+   Marker1_2   10.2
+   Marker1_3   34.1
+   Marker1_4   43.3
+   Marker1_5   52.1
+-Chromosome First
+   Marker2_1    0.0
+   Marker2_2   13.7
+   Marker2_3   19.1
+   Marker2_4   24.8
+-stop
+
+
+If -named had a value of 'no' in the preamble, then the format of the distances would be:
+-start 
+-Chromosome 1      0.0 10.2 34.1 43.3 52.1
+-Chromosome 2      0.0 13.7 19.1 24.8
+-stop  
+
+That is, the names would be skipped.
+
+You can also create a map where the markers are not on the telomeres.  If you
+are inputting the map based on positions, then
+
+-start 
+-Chromosome 1
+   Marker1_1    5.0
+   Marker1_2   10.2
+   Marker1_3   34.1
+   Marker1_4   43.3
+   Marker1_5   52.1
+   Telomere    55.3
+-Chromosome 2
+   Marker2_1    4.0
+   Marker2_2   13.7
+   Marker2_3   19.1
+   Marker2_4   24.8
+   Telomere    27.4
+-stop
+
+Would mean that there is DNA outside of the first and last markers on a Chromosome.
+The keyword 'Telomere' is recognized by Rmap as a telomere and not as a marker.
+
+
+If you are inputting intervals, then the same map would look like
+
+-start 
+-Chromosome 1
+   Telomere     5.0
+   Marker1_1    5.2
+   Marker1_2   23.9
+   Marker1_3    9.2
+   Marker1_4    8.8
+   Marker1_5    3.2
+-Chromosome 2
+   Telomere     4.0
+   Marker2_1    9.7
+   Marker2_2    5.4
+   Marker2_3    4.7
+   Marker2_4    2.6
+-stop
+
+
+That is, you need to indicate that the telomeric DNA comes first.   These two maps
+should give the same result when run through Rmap.
+
+WARNING:  do not use 'Telomere' as a marker name.   This keyword is case sensitive,
+so 'telomere' is not the same as 'Telomere'.   
+
+5. Annotation:
+
+You can annotate this file as much as you want.  Just don't put in any
+extra stuff in the -start to -stop block.  Everything after the -end
+token is ignored.  Before the -start token, only the -type, -function,
+-param, -units, -chromosomes and -maximum tokens are processed.  The token
+following each of these is read and the information used in the
+program.
+
+The format of the information between the -start and -stop commands is
+unimportant.  You just need whitespaces around each piece of information.  
+All the marker names and their distances could be on one line.
+
+6. Usage:  If this file were called 'mapin.inp', then 
+
+% Rmap -i mapin.inp
+
+would convert this file to the format required for the other programs
+in the QTLcartographer system.
+
+

@@ -1,0 +1,1265 @@
+
+NOTE:  this file is totally obsolete.  
+
+?
+                   QTL Cartographer Version 1.14
+
+        QTL Cartographer is suite of programs to map quantitative trait
+        loci using a map of molecular markers.
+
+    Copyright (C) 1994-2000 Christopher J. Basten, 
+            Bruce S. Weir and Zhao-Bang Zeng.
+    QTL Cartographer comes with ABSOLUTELY NO WARRANTY.
+    This is free software, and you are welcome to redistribute it
+    under certain conditions; choose copyright for more information.
+    
+    -filetype qtlcart.hlp   Ignore this line.
+
+?QTLcart
+                               QTLcart
+
+	QTLcart is the front end to a package of computer programs that
+	implement methods to find Quantitative Trait Loci using a map
+	of molecular markers.  It is only available for the Unix versions
+	of the programs.    QTLcart has two command line parameters,
+	-s and -f.  -s filestem sets the file name stem so that data
+	files have the specified stem and logical filename extensions,
+	i.e. stem.map for the map of molecular markers, stem.cross for
+	the file of individual data from a cross, etc.
+
+	The new QTLcart user should begin by reading the man pages that
+	come with QTLcartartographer.  From the UNIX prompt, type
+
+   %  man command
+
+        for information on command.  
+
+        The help information that you can obtain from this program
+        applies to the command line usage of the separate programs.
+        This front end manages all of the command line options so
+        that you don't have to.  Presently, this front end is rudimentary
+	but will be improved in the future.  Our plans are to make
+	it into a graphical user interface for the suite of 
+	programs, and have it run on Macintosh, WinTel and Unix
+	machines.
+
+?copyright
+
+     Copyright (C) 1994-8 by Christopher J. Basten, Bruce S. Weir
+     and Zhao-Bang Zeng.
+
+   Permission to use, copy, and distribute this software and its
+   documentation for any purpose with or without fee is hereby granted,
+   provided that the above copyright notice appear in all copies and
+   that both that copyright notice and this permission notice appear
+   in supporting documentation.
+
+   Permission to modify the software is granted, but not the right to
+   distribute the modified code.  Modifications are to be distributed
+   as patches to released version.
+
+   This software is provided "as is" without express or implied warranty.
+
+   AUTHORS
+
+     Original Software:
+         Christopher J. Basten, Bruce S. Weir and Zhao-Bang Zeng.
+
+     Help system from GNUplot, written by:
+         Russell Lang, John D. Johnson.
+
+   There is a mailing list for QTLcart users.
+
+   The address for mailing to list members is
+         qtlcart@esssjp.stat.ncsu.edu
+   and for mailing administrative requests is 
+         MajorDomo@esssjp.stat.ncsu.edu
+   The mailing list for bug reports is 
+         bug-qtlcart@esssjp.stat.ncsu.edu
+   
+   To subscribe to the mailing list qtlcart, send a message to
+      MajorDomo@esssjp.stat.ncsu.edu
+   with  
+      subscribe qtlcart 
+   in the body of the message.
+
+?introduction
+
+	QTL CARTOGRAPHER is an interactive computer program package for
+	mapping quantitative trait loci (QTLs), which implements the
+	composite interval mapping method (Zeng, 1993,1994) as well as
+	the method of Lander and Botstein (1989) and simple linear
+	regression.  This method is based on a combination of interval
+	mapping and multiple regression and is intended to linearize
+	the search process for multiple QTLs and maximize the
+	statistical power of locating QTLs. The program uses a dynamic
+	algorithm that allows a host of statistical models be fitted
+	and compared. Numerical methods implemented in the program
+	include procedures to map QTLs using multiple markers on
+	multiple traits in multiple environments in several commonly
+	used experimental designs.  The procedures to test a host of
+	QTL-related hypotheses, such as gene actions (additive,
+	dominance and epistasis), QTL-environment interaction,
+	pleiotropic effects and close linkage, are also implemented.
+	The software is built using modular programming techniques in
+	the C programming language. Among the many basic software
+	features implemented in the program are menu-driven,
+	interactive, graphic presentation of results, on-line help, and
+	batch programming.
+
+?general
+
+  This help file has been written with Mac, MS-Windows and Unix users in
+  mind, and thus some things that make sense for one user will make no
+  sense for another.  QTL Cartographer is a suite of nine programs.  For 
+  the novice user, the general order of using the programs is:
+  
+    1. Rmap
+    2. Rqtl
+    3. Rcross
+    4. Prune
+    5. Qstats
+    6. LRmapqtl
+    7. SRmapqtl
+    8. Zmapqtl
+    9. Eqtl
+   10. Preplot
+    
+  After which Gnuplot can be used to view the results graphically. When you
+  start up any of the nine programs, you will be presented with a menu to
+  set program options (unless this feature is turned off with the -A option).
+  
+?general resourcefile
+
+  The options used in the program can be saved in a resource file.  Before 
+  one uses any of the programs, create a file called qtlcart.rc and put the
+  single line
+  
+  -stem file
+  
+  where file can be any string for a file name stem (e.g. test, corn, pigs, 
+  etc.).  From then on, certain naming conventions will be adhered to in
+  the programs.  The output of Rmap will be file.map, while that of Rqtl
+  will be file.qtl, etc.  At the end of running any program, all the options
+  specified will then be saved in qtlcart.rc.  The default filename stem
+  is 'qtlcart'.  Prior to version 1.12c, no filename stem was used unless
+  it was specified.  Now, the filename stem is used by default.
+  
+  If you want, you can rename the resource file with the -R option.  For 
+  example, if you want Rmap to read use the resource file corn.rc, invoke
+  it with the command
+  
+  % Rmap -R corn.rc
+  
+  On the Mac version, you can type the -R corn.rc in the console command line
+  upon double clicking the Rmap icon.  There is a way to do this in MS-Windows,
+  but it is sufficiently complex that you are better off using the default of
+  qtlcart.rc for your resource file.  Alternatively, you can specify a 
+  resource file from the text menu that pops up when you double click the
+  program icon.
+
+?general options
+
+  All the programs will take the following command line options:
+  
+  1. -h   This prints out a help message indicating all the command line
+          options for the program, with their default values.  After 
+          printing out the information, the program quits.
+          
+  2. -A   This option initiates 'Automatic' mode, in which the interactive
+          menu for setting program options is not used.  Default, command
+          line and resource file options are then used.  Command line options
+          are processed in the order they appear on the command line, so any
+          that appear before a resource file is specified will be ignored
+          if the resource file also specifies them.
+          
+  3. -V   This option turns off the verbosity mode.  In verbosity mode,
+          the program prints out the values of all options just before 
+          it runs.  It also prints out the time when it finishes.
+          
+  4. -R   This command line option must be followed by a filename that
+          contains the parameter values for the programs.  If it can't be
+          read, then it will ignore the option. 
+  
+  5. -s   This command line option must be followed by a long integer.
+          It will act as the seed for the generation of random numbers,
+          and will be printed to the output file as an identifier.
+  
+
+?general secret  
+  
+              Secret Option in the Interactive Menu!!!
+  
+  When you are at the interactive menu, you can quit by choosing the
+  last option in the list.  When you quit, the resource file is not
+  rewritten.  If you pick an option that is one more than the last listed
+  option, the program will quit but WILL rewrite the resource file.
+  I have found this useful in the debugging process, because I could set
+  options, save the resource file, and then try running a program until
+  it crashed (usually bringing my machine to its knees).   You can 
+  call up a program, reset options in the interactive menu, and then
+  quit with a rewrite to save your choices.  
+
+?Rmap
+
+  Rmap is a program to create a random set of molecular markers.
+  It can also reformat the marker data so that Gnuplot can 
+  display it graphically.  Finally, Rmap can reformat MAPMAKER 
+  output files (*.maps) and files in a special QTL Cartographer
+  input format.
+
+
+?Rmap usage
+
+ USAGE:
+
+	Rmap [-o out] [-e err] [-i input] [-s Seed] .....
+
+?Rmap defaults
+
+  [ -i                  ] Input File
+  [ -o      qtlcart.map ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -s        861136331 ] Random Number Seed
+  [ -f                1 ] Map Function (1,2,3) => Haldane, Kosambi, Fixed
+  [ -g                1 ] Ouput (1,2,3) => Text, Graphics, Both
+  [ -c                4 ] Chromosomes
+  [ -m               16 ] Markers per Chromosome
+  [-vm         0.000000 ] Variance of Markers per Chromosome
+  [ -d        10.000000 ] Intermarker Distance (cM)
+  [-vd         0.000000 ] Variance of Intermarker Distance
+  [ -t         0.000000 ] Tails (Flanking DNA, in cM)
+
+?Rmap files
+
+    An input file for Rmap is specified with the -i option and a filename.
+
+  % Rmap -i inputfile
+
+	If the inputfile is in the format of MapMaker output, then
+	it will be converted into the standard format of QTL
+	Cartographer.  We have also designed and input format
+	similar to the output of MapMaker, but that can be
+	annotated quite freely.  This format is the best way to 
+	input a genetic linkage map.  The distribution of these
+	programs should include a file map.inp which defines the
+	input format.
+   
+	If the input file is already in the standard format, then
+	it will be  unchanged in the  output.  If the -g flag is
+	used with an argument of 2 or 3, then a set of files
+	Chrom.* will be created so that using the command
+
+  % gnuplot Chrom.plt
+ 
+   will display the map graphically.
+
+  The output file of Rmap is Rmap.out by default.  You change it with:
+
+  % Rmap -o outputfile
+
+?Rmap outputexample  
+
+       Here is an example of the output, which starts with a #:
+
+#    778877422 
+
+        This output file (Rmap.out) is for Rmap...
+
+It is 14:50:22 on Tuesday, 06 September 1994
+
+
+
+Here is the Map of Markers...
+-s
+
+-c         4  Number of Chromosomes.
+-i        17  Total Number of Markers.
+-m         6  Mean, and...
+-vm   1.0000  ...Variance for Markers/Chrom.
+-d    0.1000  Mean, and...
+-vd   0.0200  ...Variance for the InterMarker distance.
+-t    0.0000  Mean length of material outside the flanking markers.
+
+          |   Chromosome---->
+----------------------------------------
+Marker    |      1      2      3      4
+----------------------------------------
+-l      0 |  0.0000 0.0000 0.0000 0.0000
+-l      1 |  0.0575 0.0877 0.1113 0.1215
+-l      2 |  0.1117 0.0710 0.0868 0.0706
+-l      3 |  0.0570 0.0940 0.0564 0.0925
+-l      4 |  0.1038 0.0000 0.0000 0.0000
+-l      5 |  0.0000                     
+----------------------------------------
+-Number   |      5      4      4      4
+
+  The values in the above table are recombination frequencies.
+  Note that this is the format required as input for the other
+  programs in QTLcartographer.  The values in the table could
+  also be in centiMorgans or Morgans, if you place the line
+-u c
+  or
+-u M
+  just after the -s line.  -u is for units, and c means cM while
+  M means Morgans.
+
+?Rmap error
+?Rqtl error
+?Rcross error
+?Qstats error
+?LRmapqtl error
+?SRmapqtl error
+?Zmapqtl error
+?Preplot error
+?Prune error
+?log
+
+  You specify an error file for a program with the -e option, for
+  example with Rmap, 
+
+  % Rmap -e errorfile
+
+  Diagnostic messages will be written there, as well as summaries of
+  the parameters used.  This file will be appended to rather than 
+  overwritten, so all messages can be written to it.  
+
+?Rmap parameters
+  
+  The main parameters are for the average and variance of the number of
+  markers per chromosome, the average and variance for intermarker distances,
+  the number of chromosomes and the average amount of DNA outside the 
+  outermost markers on each chromosome.  The number of chromosomes are
+  specified by 
+
+  % Rmap -c integer_value
+
+  The average number and variance of markers per chromosome are specified by
+
+  % Rmap -m integer_value -vm real_value
+
+  The number of markers per chromosome will have a normal distribution with the
+  mean and variance as specified.  The average and variance of intermarker 
+  distances are specified as
+
+  % Rmap -d real_value -vd real_value
+
+  and the intermarker distances have a normal distribution with the specified
+  mean and variance.  The average amount of extraflanking DNA is 
+
+  % Rmap -t real_value
+
+  and will have a normal distribution with mean given and variance as a proportion
+  of the variance for intermarker distance.  If d is the average intermarker 
+  distance and t the average flanking amount of flanking DNA, then 
+
+  (t/d)^2 * var(d)
+
+  will be the variance of t.
+
+?Rmap outputflag 
+
+  The outputflag takes on values of 1, 2 or 3 indicating that Rmap
+  should output only a map, only files for graphic display of the map,
+  or both.  Use it as follows:
+
+  % Rmap -g 1
+
+?Rqtl
+
+        Rqtl is a program to create a random set of QTLs and place them
+        on a molecular map.  
+
+ USAGE:
+
+	Rqtl [-o out] [-e err] [-i input] [-s Seed] .....
+
+ DEFAULTS:
+
+  [ -i                  ] Input File
+  [ -o      qtlcart.qtl ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -s        861136397 ] Random Number Seed
+  [ -t                1 ] Number of Traits
+  [ -q                9 ] Number of QTL per Trait
+  [ -b         2.000000 ] Additive effect parameter beta
+  [ -d                1 ] Dominance (1,2,3,4) => None,A,a,Random
+
+?Rqtl files
+  
+  The -o filename option specifies the name of the output file.
+  % Rqtl -o filename
+  
+  The -m filename specifies the name of the file that has the 
+  molecular map.  It's format should be the output format as
+  Rmap.  If you have a MapMaker formatted file, then run it
+  through Rmap first.  
+
+  The -i filename specifies the name of a file with a user specified 
+  model.  The format of the file is the same as a file qtl.inp that is
+  included in this distribution.  
+  
+?Rqtl parameters
+
+  The main parameters are the number of traits, the number of QTLs per
+  trait (an average), the type of dominance and the value of beta.
+  The number of traits is set with the -t option:
+
+  % Rqtl -t int_value
+
+  The average number of QTLs per trait is specified by the -q option
+
+  % Rqtl -q int_value
+
+  If the -t option was also specified, then the number of QTLs per 
+  trait will be a uniformly distributed number on the integers
+  [1, int_value], where int_value was specified by the -q option.
+
+  Beta is a parameter that specifies the additive effect of a locus.
+  
+
+  Dominance is specified by -d 
+
+  % Rqtl -d int_value
+
+  The int_value can be 
+
+  1  no dominance
+  2  A completely dominant over a
+  3  a completely dominant over A
+  4  dominance is random in magnitude and direction
+
+  The A alleles are from the first population (or the High line), while the 
+  a alleles are from the second population.  This dominance is for the 
+  QTLs and not the markers.
+
+?Rcross
+
+	Perform a random cross using a specified molecular map and
+	a set of QTLs.  You can also do interactive crosses or translate
+	data files.
+
+?Rcross usage
+
+	Rcross [-o out] [-e err] [-s Seed] .....
+
+?Rcross defaults
+
+  [ -i                  ] Input File
+  [ -o      qtlcart.cro ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -q      qtlcart.qtl ] QTL Data File
+  [ -s        861136422 ] Random Number Seed
+  [ -g                0 ] Output format (0,1,2)
+  [ -c               B1 ] Cross (1,2,3) => (B1,B2,F2)
+  [ -H         0.500000 ] Heritability
+  [ -r                0 ] Replications (Not yet active)
+  [ -I                0 ] Interactive Crosses? (0,1) => (no,yes)
+  [ -E        -1.000000 ] Environmental Variance (used if > 0)
+  [ -n              200 ] Sample Size
+
+?Rcross files
+  
+  The -o filename option specifies the name of the output file.
+  % Rcross -o filename
+
+  The format of the output of Rcross is correct to input into
+  the analysis programs Qstats, LRmapqtl and Zmapqtl.
+   
+  The -m filename specifies the name of the file that has the 
+  molecular map.  It's format should be the output format as
+  Rmap.  If you have a MapMaker formatted file, then run it
+  through Rmap first.  
+
+  The -q filename specifies the name of the file that has the 
+  specifications of the quantitative trait loci.  This should 
+  be in the same format as the output of Rqtl. 
+  
+  There is a way to translate your data from an easy to read format
+  into a format compatible with the QTL Cartographer system.  The
+  file cross.inp included with the distribution is self explanatory.
+  If you put your data into such a format and use that file as the
+  input to Rcross, it will be translated.   You can also input
+  MAPMAKER raw files or files in the format of Rcross.out.  Finally,
+  the -g flag indicates the output format.  -g can take three integer
+  values: 0 for Rcross.out format, 1 for cross.inp format and 2 for
+  MAPMAKER format. 
+
+?Rcross parameters
+
+  The sample size, Heritablity, and number of replication in the
+  simulation can be set.  Rcross will simulate a cross with
+  the number of offspring specified by the -n option:
+
+  % Rcross -n 200
+
+  Will create 200 offspring.  Recombination is incorporated.  
+  The heritability of the trait is specified by -H
+
+  % Rcross -H 0.5
+
+  yields a heritability of 0.5.  
+
+  The ability to do more than one replication will we implemented
+  in the near future.
+
+?Zmapqtl cross
+?Rcross cross
+
+  We assume that the experiment starts with two inbred lines.  The first
+  will be referred to as the P1 line and the second the P2 line.  We also
+  assume that the A allele is diagnostic for the P1 line and a for the
+  P2 line over all the markers.   The program can handle backcrosses, 
+  f2, f3, etc, recombinant inbreds and test crosses. 
+
+  % Rcross -c string 
+
+  specifies the type of cross to simulate.  Choices include:
+
+    String        Cross
+    B1            P1 x F1  (P1 is parental 1, or the 'high' line)
+      B1i           i generations of backcrossing to P1 (analysis only)
+    B2            P2 x F1  (P2 is parental 2, or the 'low' line)
+      B2i           i generations of backcrossing to P2 (analysis only)
+    SF2           F1 x F1, via selfing
+    SFx           x  is an integer indicating an Fx line produced 
+                     by selfing, e.g. SF5
+    RF2           F1 x F1, via random crossing
+    RFx           x  is an integer indicating an Fx line produced 
+                     by random mating,   e.g. RF5
+    Ri0           Doubled haploid
+    Ri1           Recombinant inbred line produced by selfing
+    Ri2           This will be a recombinant inbred line produced by 
+                  sib mating, but is not yet ready.
+                  
+    T(B1)SFx      Test cross of an SFx line with P1
+    T(B2)SFx      Test cross of an SFx line with P2
+  
+  When you invoke the interactive flag, you will be able to take your 
+  initial lines and cross them to simulate anything you want. You can
+  then print them out to be analyzed.  
+  
+  Rcross can simulate, and LRmapqtl and Zmapqtl can analyze all of
+  the above crosses.  Use the string to indicate the cross.  This string
+  is valid for Rcross on the command line and in the interactive menu.
+  You can use it in the cross.inp formatted file that Rcross would 
+  translate.  Finally, you can translate a MAPMAKER raw file and edit
+  the resultant Rcross.out formatted file to indicate the right 
+  experimental design.
+   
+  One thing to remember with the UNIX version:  The UNIX shell tries to
+  interpret the parentheses.  It would probably be best to specify
+  test crosses in the interactive menu or the data input file.  
+
+?LRmapqtl
+
+  LRmapqtl does a linear regression analysis of a dataset.  It will 
+  output the parameters in the simple linear model:
+		 y = b0 + b1 x + e
+  where y is the trait value, and x is an indicator value for the marker.
+  b0 and b1 are the regression parameters and e is the environmental 
+  variable.  Both a likelihood ratio and an F statistic are written
+  to the output file, as well as a p-value for the F statistic.
+  
+?LRmapqtl usage 
+
+	LRmapqtl [-o out] [-e err] [-i data] [-s Seed] 
+
+?LRmapqtl defaults
+
+  [ -i      qtlcart.cro ] Data Input File
+  [ -o       qtlcart.lr ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -s        861136563 ] Random Number Seed
+  [ -r                0 ] Number of Permutations
+
+?LRmapqtl files
+
+  LRmapqtl requires two files.  The first is the genetic linkage map file,
+  in the format of Rmap.out.  The second is a data set in the format of
+  Rcross.out.  It will write an ouput file and send error messages to 
+  the error or log file.  See "defaults" for the options and their
+  default values.
+
+?SRmapqtl
+
+  SRmapqtl does stepwise regression to rank the markers in the 
+  dataset.  There are options for forward and backward regression.
+
+?SRmapqtl usage 
+
+	SRmapqtl [-o out] [-e err] [-i data] [-s Seed] 
+
+?SRmapqtl defaults
+
+  [ -i      qtlcart.cro ] Input File
+  [ -o       qtlcart.sr ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -s        861136606 ] Random Number Seed
+  [ -M                0 ] FS, BS or FB (0,1,2)?
+  [ -t                1 ] Trait to analyze
+  [ -F         0.100000 ] Size: p(Fin) =
+  [ -B         0.100000 ] Size: p(Fout) =
+
+?SRmapqtl files
+
+  SRmapqtl requires two files.  The first is the genetic linkage map file,
+  in the format of Rmap.out.  The second is a data set in the format of
+  Rcross.out.  It will write an ouput file and send error messages to 
+  the error or log file.  See "defaults" for the options and their
+  default values.
+  
+  SRmapqtl outputs the ranks of the markers from most important (rank 1)
+  to least important.
+
+?SRmapqtl options
+
+  The -M option determines what type of regression is done.  It takes on
+  values 0, 1 or 2.
+  
+  0. Forward Stepwise (FS) regression is performed.  The markers are ranked 
+     from 1 up to the total number of markers. 
+  1. Backward Elimination (BS) is performed.  All markers are initially 
+     included, and one by one they are thrown out.  The last marker 
+     thrown out has rank 1, the second last rank 2, etc.
+  2. FB regression starts with forward stepwise regression.  It adds markers
+     one by one as long as the partial F statistic associated with the marker
+     has a p value greater than that specified by the -F option.  When
+     no more markers can be added, each marker is tested to see if it can
+     be thrown out.  If any of the markers have a p value greater than
+     that specified by the -B option, then it is tossed.  This is the preferred
+     method of generating cofactors for Zmapqtl model 6.  
+     
+  The -t option specifies which trait to analyze.  If a value is give that is
+  one more than the number of traits in the data set, then all traits will be
+  analyzed, one at a time.
+  
+
+?Zmapqtl
+
+    Zmapqtl maps QTLs using interval or composite interval mapping.
+
+?Zmapqtl usage
+
+	Zmapqtl [-o out] [-e err] [-s Seed] .....
+	
+	The program has many parameters.  See defaults for a list.
+
+?Zmapqtl defaults
+
+  [ -i      qtlcart.cro ] Input File
+  [ -o        qtlcart.z ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -l       qtlcart.lr ] LRmapqtl Results file (Models 4&5)
+  [ -S       qtlcart.sr ] SRmapqtl Results file (Model 6)
+  [ -s        861137113 ] Random Number Seed
+  [ -M                3 ] Model [1-6], 3=>IM
+  [ -t                1 ] Trait to analyze
+  [ -c                0 ] Chromosome to analyze (0=>all)
+  [ -d         2.000000 ] Walking speed in cM
+  [ -n                5 ] Number of Background Parameters (Model 6)
+  [ -w        10.000000 ] Window Size in cM (Models 5&6)
+  [ -r                0 ] Number of Permutations
+  [ -b                0 ] Number of Bootstraps
+
+?Zmapqtl files
+
+  Zmapqtl requires up to six main files.  Input includes the molecular
+  map specified by -m, the data from the cross specified by -i,
+  the results of the linear regression analysis specified by -l.
+  The SRmapqtl results are in the file specified by the -S option.
+
+  % Zmapqtl -m map.map  -i cross.cross -l lrfile.lr
+
+  The output is specified by the -o option while errors and 
+  log messages are sent to the file specified by the -e option.
+
+?Zmapqtl parameters
+ 
+  You can specify the model, trait, chromosome and rate of walking down
+  the chromosome. Model 6 also has a pair of parameters that can be 
+  specified, and you can do bootstraps or permutation test and specify 
+  the number of them.  
+  
+?Zmapqtl permutations
+?Zmapqtl bootstraps
+?Zmapqtl jackknife
+
+  Zmapqtl can do permutation tests, and  bootstrap and jackknife
+  resampling  experiments.  Bootstraps
+  can only be done under UNIX systems, as they require Prune to create
+  the boostrapped data set that is analyzed.   
+  
+  In all cases, Zmapqtl produces interim data files.  The interim files 
+  keep track of the state of the permutation, bootstrap or jackknife.  Thus, 
+  one can do a few simulations each night while the computer is
+  not being used, or restart the simulation after a crash.  
+  
+  The file with a .zic stem (where i is an integer corresponding to the
+  model of analysis) contains the comparisonwise permutation test 
+  interim results.  It is rewritten at the end of each permutation.
+  
+  The file with a .zie stem (where i is an integer corresponding to the
+  model of analysis) contains the experimentwise permutation test 
+  interim results.  It is appended to at the end of each permutation,
+  and Eqtl will automatically process it if it exists.
+  
+  The file with a .zib stem (where i is an integer corresponding to the
+  model of analysis) contains the bootstrap experiment 
+  interim results.  It is rewritten at the end of each bootstrap.
+  It contains the sum and sum of squares of the LR statistic, additive 
+  effect and dominance effect at each test site.  If you rename it
+  with a .zia extension (done automatically in the Bootstrap.csh script),
+  then Eqtl will read it and calculate the mean and sample standard
+  deviation of the LR statistic and effects.
+
+	Jackknife resampling is performed by calculating n new estimates of
+	the parameters.  The ith estimate is calculated by deleting individual
+	i from the dataset.  The standard deviation over these n new estimates
+	provides an estimate of the standard deviation for the parameter
+	estimates.  Zmapqtl uses two interim files to perform the jackknife.
+	if you are using Model 6 in Zmapqtl and your filename stem is qtlcart,
+	then these files will be called qtlcart.z6i and qtlcart.z6j. These
+	files contain the sum and sum of squares up to their iteration.
+	Initially, the qtlcart.z6i file contains columns of zeros:  This is
+	the sum before any iterations are performed.  qtlcart.z6j will contain
+	the interim state after each odd-numbered iteration, while qtlcart.z6i
+	will contain the state after even numbered iteration.  If individual i
+	has no trait data, then that iteration will be skipped.  The interim
+	file with the greater number of iterations should be renamed
+	qtlcart.z6i so that Eqtl will recognize it and and calculate the mean
+	and sample standard deviation of the LR statistic and effects.
+
+  For example, if you are using Model 6 in Zmapqtl and your filename stem
+  is qtlcart, then the the following interim files may be produced:
+  
+    File           If running                 Contains
+  ---------------------------------------------------------------
+  qtlcart.z6e   permutation test         Experimentwise state
+  qtlcart.z6c   permutation test         Comparisonwise state
+  qtlcart.z6a   bootstrap resampling     Iteration t bootstrap  
+  qtlcart.z6b   bootstrap resampling     Iteration t+1 bootstrap 
+  qtlcart.z6i   jackknife resampling     Iteration t  jackknife  
+  qtlcart.z6j   jackknife resampling     Iteration t+1  jackknife  
+  ---------------------------------------------------------------
+  
+?Zmapqtl models
+  
+  There are six models for analysis.  The various models specify which
+  markers will be used as controls for the genetic background.  Note that
+  models 1-3 below are special cases of model 6.
+  
+  1. Use all the markers to control for the genetic background.  This is 
+     model 1 from Zeng (1993).
+     
+  2. Use all unlinked markers to control for the genetic background.  This is
+     model 2 from Zeng (1993).
+     
+  3. Don't use any markers to control for the genetic background.  This is
+     also known as interval mapping and is the same as Lander and Botstein's
+     1989 paper in Genetics.
+     
+  4. This is an ad-hoc model.  One marker from each chromosome (except for the
+     chromosome on which we are testing) is used to control for the genetic
+     background.  The results of LRmapqtl are scanned, and the marker that
+     showed the highest test statistic from each chromosome is used.
+     
+  5. This is another ad-hoc model.  Two markers from each chromosome are 
+     used to control for genetic background.  They are the top two markers
+     as determined by LRmapqtl.  In addition, all the other markers on the
+     chromosome of the test position that are more than 10 cM away from the
+     flanking markers are also thrown in.  It may be ad-hoc, but tends to 
+     work best at this time.
+    
+  6.  Model 6 requires two additional parameters.  One is the number of  
+      markers to control for the genetic background (nbp), and the other is a 
+      window size (ws).  When invoked, the program will perform a forward
+      stepwise regression to pick the most important markers to control
+      for the genetic background.  Then, when testing at any point on the 
+      genome, it will use up to nbp of these marker.  The window size will
+      block out a region of the genome on either side of the markers flanking
+      the test site. 
+  
+      Note that if ws = 0.0 and nbp equals the total number of markers, then 
+      Model 6 reduces to Model 1.  If ws is large and nbp equals the number of
+      markers, then Model 2 is the result.  If nbp is zero, then Model 3 is the
+      result.  In the future, we will reccomend that people use model 3 or model
+      6 for analysis.        
+
+?Zmapqtl secret
+
+  Zmapqtl has a secret model for analysis.  You invoke it by using model
+  7.  Model 7 first requires that the user perform a scan with some other
+  model for all the traits in turn.  Then, Eqtl must be run to produce a
+  file of estimates in the format of Rqtl.out.  Model 7 will read these
+  results, and use the estimates of positions for the background markers
+  in the analysis.  For each position in each individual, the genotype
+  is inferred from flanking markers.  Only those positions that are farther
+  than the window size (ws) away from the flanking markers of the test position
+  are used.
+
+?JZmapqtl
+
+    JZmapqtl maps QTLs for multiple traits 
+    using interval or composite interval mapping.
+
+?Zmapqtl usage
+
+	JZmapqtl [-o out] [-e err] [-s Seed] .....
+	
+	The program has many parameters.  See defaults for a list.
+
+?JZmapqtl defaults
+
+  [ -i      qtlcart.cro ] Input File
+  [ -o        qtlcart.z ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -S       qtlcart.sr ] SRmapqtl results (Model 6)
+  [ -E      qtlcart.eqt ] Eqtl results (Model 7)
+  [ -s        889036486 ] Random Number Seed
+  [ -M                3 ] Model [3,6,7], 3=>IM
+  [ -t                1 ] Trait to analyze
+  [ -c                0 ] Chromosome to analyze (0=>all)
+  [ -d         2.000000 ] Walking speed in cM
+  [ -n                5 ] Number of Background Parameters (Model 6)
+  [ -w        10.000000 ] Window Size in cM (Model 6)
+  [ -I                1 ] Hypothesis test
+
+?JZmapqtl files
+
+  JZmapqtl requires up to six main files.  Input includes the molecular
+  map specified by -m, the data from the cross specified by -i,
+  the results of the linear regression analysis specified by -l.
+  The SRmapqtl results are in the file specified by the -S option.
+
+  % JZmapqtl -m map.map  -i cross.cross -S srfile.sr
+
+  The output is specified by the -o option while errors and 
+  log messages are sent to the file specified by the -e option.
+
+?JZmapqtl parameters
+ 
+  You can specify the model, trait, chromosome and rate of walking down
+  the chromosome. Model 6 also has a pair of parameters that can be 
+  specified, and you can do bootstraps or permutation test and specify 
+  the number of them.  
+
+?JZmapqtl hypothesis
+
+  The -I option takes an integer value for indicating what hypotheses to
+  test.   It is 1 by default, and that is fine for any crosses in which there
+  are two marker classes (ie backcrosses and RI lines).   For SFx and RFx
+  lines, you want to set this equal to 30, 31 or 32.  The number correspond to 
+  the different hypotheses H3, H2, H1 and H0.  
+  
+  H0 : a = d = 0
+  H1 : a != 0, d = 0
+  H2 : a = 0, d != 0
+  H3 : a != 0, d != 0
+  
+  30 then means test H3:H0, etc.  The likelihood for H0 is always calculated,
+  so if you specify 31, then H3:H1, H3:H0 and H1:H0 are all computed.  
+ 
+?Preplot
+
+  Preplot reformats the output of the analysis programs for 
+  plotting in Gnuplot.  The output files can also be imported into
+  any plotting package, for example SigmaPlot, KaleidaGraph, Excel,
+  etc.  
+  
+  Preplot runs in what we term "automagic mode". 
+    
+  The automagic mode is the default mode.  Just fire up Preplot, reset any
+  filenames, filename stems or working directories, and choose 0.  Preplot
+  will attempt to process all the results that have been generated and
+  are in the current Zmapqtl output file, as well as any information in
+  the LRmapqtl output file.  
+  
+  
+?Preplot files  
+
+  Preplot can reformat the output of Rqtl, LRmapqtl and Zmapqtl.
+  These files are specified by the -q, -l and -z options, respectively.
+  
+  All the output files are ascii text.  One output file will contain
+  the control commands for Gnuplot.  It's name will be Results.gnu
+  by default, and can be changed using the -o option.  In addition,
+  a number of other output files will be created.  They will have names
+  c##t$$.*, where ## and $$ are integers indicating the chromosome and 
+  trait, respectively, and * indicates a filename extension indicating where
+  the results came from (with values q, l and z).  These output files will
+  contain two columns of numbers.  The first column will be a position on
+  a chromosome and the second the value of the test statistic (for l and
+  z files) or 100 times the additive effect (for q files).  
+
+?Preplot parameters
+
+  You can set the significance level,  and 
+  hypothesis test on the command line.  The hypothesis test is only
+  meaningful for F2 designs, in which you can test additive and 
+  dominance estimates.  
+  
+  The -L flag converts the LR statistics into LOD scores.
+  
+  Type defaults to see the default values.
+  
+?Preplot defaults
+
+  [ -o          qtlcart ] Gnuplot Control File Name
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -q      qtlcart.qtl ] QTL or Estimated QTL file
+  [ -l       qtlcart.lr ] LRmapqtl Output File
+  [ -z        qtlcart.z ] Zmapqtl Output File
+  [ -s         3.840000 ] Significance Level
+  [ -T              x11 ] Terminal
+  [ -i                1 ] Hypothesis (for F2 design)
+  [ -L                0 ] Output LOD scores? (0=no,1=yes)
+
+?gnuplot
+
+ GNUPLOT is a command-driven interactive function plotting program.
+
+ For help on any topic, type `help` followed by the name of the topic.
+
+ The new GNUPLOT user should begin by reading the `introduction` topic
+ (type `help introduction`) and about the `plot` command (type `help plot`).
+ Additional help can be obtained from the USENET newsgroup
+ comp.graphics.gnuplot.
+
+?gnuplot copyright
+   GNUPLOT copyright information: 
+
+      Copyright (C) 1986 - 1993   Thomas Williams, Colin Kelley
+
+   Permission to use, copy, and distribute this software and its
+   documentation for any purpose with or without fee is hereby granted,
+   provided that the above copyright notice appear in all copies and
+   that both that copyright notice and this permission notice appear
+   in supporting documentation.
+
+   Permission to modify the software is granted, but not the right to
+   distribute the modified code.  Modifications are to be distributed
+   as patches to released version.
+
+   This software is provided "as is" without express or implied warranty.
+
+
+   AUTHORS
+
+     Original Software:
+       Thomas Williams,  Colin Kelley.
+
+     Gnuplot 2.0 additions:
+         Russell Lang, Dave Kotz, John Campbell.
+
+     Gnuplot 3.0 additions:
+         Gershon Elber and many others.
+
+     For more information on GNUPLOT, see the documentation
+     that comes with the program.
+
+?Qstats
+  
+  Qstats does some basic quantitative statistics for dataset.  In addition,
+  it summarizes missing data.  It indicates the number of individuals with
+  phenotypic data, and for each marker in turn, indicates the number of 
+  individuals with both trait and marker data.
+
+?Qstats files
+
+  Qstats needs two input files and produces an output file.  The input
+  files are for a map of genetic markers and a data set.  These should 
+  be in the format of Rmap and Rcross output, respectively.  The output
+  file will contain the analysis.  
+  
+  By default, the input file for the map is in Rmap.out.  This can be
+  changed with the -m option.  The input for the data file is Rcross.out
+  by default, and can be changed using the -i option.  The ouput file
+  will be Qstats.out unless changed with the -o option.  Error and log
+  messages will be sent to QTLcart.out unless this is changed using the
+  -e option.  
+  
+?Qstats parameters
+
+  The only parameter that can be set is the seed for the random number
+  generator, with the -s option.  Random numbers are not used in this
+  program, except to give the output file a unique identifier.
+
+?Qstats usage
+
+  Qstats [-i datafile] [-o output] [-m map] [-e error] [-s Seed]
+
+?Qstats defaults 
+
+  [ -i      qtlcart.cro ] Data Input File
+  [ -o      qtlcart.qst ] Output File
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -s        861137769 ] Random Number Seed
+
+
+?Prune
+
+  Prune allows you to eliminate some of the data from the data files.
+  You can eliminate dominant markers, individuals with missing 
+  phenotypes, etc.  You can also do a single bootstrap resampling with
+  Prune. 
+  
+?Prune usage
+
+  You can eliminate data or do a bootstrap, but don't try to do
+  both. 
+  
+  To do a single bootstrap resampling on the data in test.cro with
+  map test.map,
+  
+  % Prune -o btest -m test.map -i test.cro -b 1
+  
+  This will produce a file btest.cro with a bootstrapped data set. 
+  
+?Prune files
+
+  Prune needs a data file and a map file.  
+  
+?Prune defaults
+
+  [ -o          qtlcart ] Output Filename Stem
+  [ -e      qtlcart.log ] Error File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -i      qtlcart.cro ] Data File
+  [ -s        861137785 ] Random Number Seed
+  [ -I                1 ] Interactive mode (0,1)=>(no,yes)
+  [ -b                0 ] Bootstrap (1), Permute (2) or 
+                           Simulate Missing Markers (3)
+  [ -M         0.100000 ] Percent missing data to simulate
+
+?Prune parameters
+
+  If you don't do a bootstrap, you can specify the things to do on the
+  command line.  It is easier to use the interactive mode (the default).
+  You will be presented with a menu, and you can repeatedly run commands
+  to eliminate what you want.
+  
+?Prune simulations
+
+  Prune can automatically simulate three types of deriviative datasets
+  from your dataset.
+
+  1.  You can create a single bootstrapped data set with the -b 1 option.
+  Sampling with replacement is done over individuals.
+
+  2.  You can create a single permuted data set with the -b 2 option.
+  The trait values will be permuted over individuals.
+
+  3.  You can simulate missing marker data with Prune.  Use the -M and -b options
+  (in that order).  -M specifies a level of missing marker data.  If you want
+  to simulate 10% missing markers, then use -M 10.  After you have specified
+  a level of missing markers, use the -b option (or the bootstrap option in
+  the 2nd interactive menu).  Specify 3 rather than 1 or 2 with -b.  Prune will
+  then go through each marker in each individual and set approximately 10% of
+  them to missing values (at random).  
+
+?Eqtl
+
+   Eqtl is a quick way to parse through the results of Zmapqtl and
+   estimate the positions and effects of the QTLs.  
+   
+?Eqtl usage
+
+  Eqtl -M 5 -z Zmapqtl.out
+  
+  Searches through the file Zmapqtl.out and estimates QTLs for model 5.
+  Trait 1 is assumed here, and a significance level of 10.0 is used.
+
+?Eqtl files
+
+  Eqtl needs a genetic linkage map in the format of Rmap.out and the results
+  of Zmapqtl.  It writes a file Eqtl.out and errors to the error file.
+  
+?Eqtl defaults
+
+  [ -z        qtlcart.z ] (Composite) Interval Mapping Results
+  [ -e      qtlcart.log ] Error File
+  [ -o      qtlcart.eqt ] Output File
+  [ -m      qtlcart.map ] Genetic Linkage Map File
+  [ -s        861138081 ] Random Number Seed
+  [ -M                3 ] Model from Zmapqtl
+  [ -H                1 ] Hypothesis Test (1,2,3) for F2
+  [ -t                1 ] Trait
+  [ -b                0 ] Output Rqtl.out format (0,1) => (yes,no)
+  [ -a         0.050000 ] Size (alpha)
+  [ -S         3.840000 ] Significance level
+  [ -L                0 ] Output LOD scores? (0=no,1=yes)
+
+?Eqtl parameters
+
+  The output of Zmapqtl may have results for different traits, models and
+  hypothesis tests.  You can use the -t, -M and -H options to specify 
+  which results you want.  In addition, you can specify a significance level
+  for the detection of QTLs.
+  
+  The ouput format is easily readable.  If you want to use the output to
+  do a simulation with Rcross, then invoke the -b 1 option to create a file
+  in the same format as Rqtl.out.
+
+  If you did a permutation test, you can specify the size of the test for
+  the threshold value.  For a 5% test, specify -a 0.05.  For a 10% test,
+  use -a 0.1.  If specified, and Eqtl finds the interim permutation test
+  result file (*.ziE), then the Significance level will be calculated from
+  that file based on the test size.  The -S option will be ignored.
+  
+  To print LOD scores with rather than -2log(LR), use the -L 1 flag (which
+  only works when -b 1 is also used.)
+
+?simulations
+
+  Here is an example of how to do a bootstrap on a Unix machine in the 
+  C shell.
+
+#!/bin/csh
+#   Bootstrap.csh
+#   Usage:  Permute stem permutations email
+#  where stem is the filename stem.
+#        permutations is the number of permutations
+#  and   email is the user's email address
+#  Note:  This only works if you have set and used a filename stem,
+#  and make sure that you don't use 'temp' as your stem.
+#
+if ( $1 == '-h' ) then
+echo "    Usage:  Bootstrap.csh stem model bootstraps email"
+echo "Where"
+echo "          stem  = filename stem"
+echo "         model  = Zmapqtl analysis model"
+echo "    bootstraps  = number of bootstraps"
+echo "         email  = user's email address"
+echo " "
+echo "Now exiting"
+exit
+endif
+set templog=temp.log
+/usr/bin/rm -f $templog
+echo "Bootstrap experiment started " > $templog
+/usr/bin/date >>  $templog
+echo "Stem: " $1 >> $templog
+echo "Model: " $2 >> $templog
+echo "Reps: " $3 >> $templog
+echo "Email: " $4 >> $templog
+set bindir=/usr/local/bin
+mv $1.log $1.logsave
+set i = 1
+while ( $i < $3 )
+$bindir/Prune -A -V -i $1.cro -b 1  >>&  $templog
+nice $bindir/Zmapqtl -A -V -M $2 -i $1.crb  -b 1 >>&  $templog
+/usr/bin/mv $1.z{$2}b $1.z{$2}a
+/usr/bin/rm -f temp.sr
+@ i++
+end
+mv $1.logsave $1.log
+echo "Bootstrap experiment ended " >> $templog
+/usr/bin/date >>  $templog
+/usr/ucb/mail $4 <  $templog
+
+?bugs
+
+ Please report any bugs to Chris Basten at
+
+       bug-qtlcart@statgen.ncsu.edu  or
+       basten@statgen.ncsu.edu
+
+?Platforms
+
+	The QTL Cartographer programs have been compiled and
+	tested on Unix based workstations, Intel based 386, 486
+	and Pentium PCs, and Macintosh 68k and Power Mac
+	machines.   
+
+	For permutation tests and bootstraps, we recommend
+	using Unix based workstations. The operating systems are
+	multitasking and much more stable than those of the 
+	other machines.
+
+?Platforms Macintosh
+
+	The Macintosh binaries come in two flavors:  Power Mac and
+	68k.  The Power Mac versions were compiled using
+	CodeWarrior 6.  They are native Power PC binaries, and
+	require a Power Mac to run. 
+	
+	The 68k versions were also compiled with CodeWarrior 6.
+	They require a Mac with an 020 or higher cpu and a
+	floating point chip (fpu).  They can not be run on a
+	Power Macintosh (unless floating point emulation software
+	has been installed). 
+	
+	I've tried to compile a set of binaries for the 68k
+	Macs without coprocessor support, but they run on the
+	average of 10 times slower and tend to lock up the
+	machine.  If anyone desperately wants them, I can make
+	them available (email Chris Basten at basten@statgen.ncsu.edu).
+  
+?Platforms MSWindows
+
+	The Microsoft Windows binaries were compiled using Borland
+	C/C++ version 4.5.1. They have been run under Windows 3.1
+	and 3.11 on 386, 486 and Pentium based machines.  A math
+	coprocessor is required for the 386 machines.   
+	
+	There remain a few problems with the Windows binaries. 
+	The programs generally finish what they are supposed to
+	do, but will give error messages near the end (General
+	Protection Fault).  This means that the resource files
+	will not always be updated.  Look at the output files in
+	these cases to determine if  the conversions or analyses
+	were done.  The main problems noted were with the
+	conversions of MAPMAKER files to the QTL Cartographer
+	formats using Rcross and Rmap.
+  
+?Platforms MSWindowsNT
+
+	The Microsoft Windows NT/95 binaries were compiled using MetroWorks
+	Codewarrior version  4. They run under Windows NT and Windows 95.
+	They require the 32 bit operating systems to run.   
+	  
+?Platforms Unix
+
+	We have Sun workstations running Solaris 2.6.  The
+	programs have also been compiled on DECStations running
+	Ultrix.  The Unix versions need to be compiled before
+	they can be used.  For DECStations, a compiler such as
+	gcc will be required.  Function prototypes are now used, so
+	your compiler must be able to understand them.
+
+?OtherTraits
+
+    LRmapqtl, SRmapqtl and Zmapqtl have the ability to use other traits in 
+    the regression models.  Other traits include such things as sex, line,
+    brood, etc.  If your data set has other traits, then they will be
+    listed near the beginning of the cross data file (in the format of
+    Rcross.out).  If you want any of these traits in the model, you will 
+    need to place a + sign as the first character of the name of the
+    other trait.  If the other traits looked like this
+
+    -Names of the other traits...
+      1 Sex
+      2 Line
+      
+    Then you could put Sex in the model by changing it to 
+
+    -Names of the other traits...
+      1 +Sex
+      2 Line
+  
+    In LRmapqtl, this would consider both Sex and Sex by Marker interaction
+    terms.  In Zmapqtl and SRmapqtl, the Sex by Marker term wouldn't be 
+    incorporated, but the Sex factor would.  
+    
+    All other traits that have no + sign at the beginning of their names
+    will be ignored.  
+  

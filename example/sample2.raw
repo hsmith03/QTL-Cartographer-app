@@ -1,0 +1,280 @@
+#  -filetype mapmaker.raw
+#  File processed by Prepraw on Wed Aug 23 14:09:48 EDT 2000
+#  This is the sample file with the log(weight) trait converted
+#  so that there are two traits.   lnweight is log base e of weight.
+#
+data type f2 intercross
+333   12   2
+
+
+*T175     H A H A H H A - H H H A H H A A H A A H H H A H A A A B - H 
+          A H H H A A H H H H H H H A H A H A A A - A H A H - - H H A 
+          A A H H A A - A H H H A A A H A A A A H H A A H A A H A A A 
+          H H A H A H A H A H - H H A A A H H A H A A A A H A H A A H 
+          H H A A H - A A H H H H A A H H H H A A B - H A H A A H A - 
+          A A H - A A A H A A A H A H H H A H - A H H A H - H H A H H 
+          H H H A A A A A H A A A H H H A A H A H A A H H B A A H H H 
+          H H H H A H H A A A A H A H H H H - - A A H A B A A - A A A 
+          H A A - A H H H A A A H A A A H A A H A H H A A A A A A H H 
+          A A H H H A A H A A H A H A H H A A H H H H A H A H B H H A 
+          A A A A A A H A A H H H A - - - - - - - - - - - - - - - - - 
+          - - - 
+#*T175 had 333 tokens
+*T93      H A H B H H A - H H B A B H H A H A A H H H A H A A A H A H 
+          A B A H A A H H H H B H H B A A H A H A A A H H H A A A A A 
+          A A H H A H H A B H H A A A H A A H A A H - A B A A B A - H 
+          H A A - - H A H - A - H H - - - - H H H - H - - H - H A A B 
+          - A - A A - H A H - - H A - - H H H B - - - A - - - - H - A 
+          - - H A H A H H A H H H H H H B A H B A H H A H A H A A H H 
+          H H H A A H A A H A H B B B H A A H A H A A H H B H B H H H 
+          H H H A A H H A A A H B A H A H H A A A H B A B H H B A A A 
+          H A H - A H H H A A H H H H A H B A H A H H A H A H A A H H 
+          A A H H H A H A A A H H A A H H A A B H A H A H A H B B H A 
+          H H A A A A H B A H H H A H - A A H A A H H H H A H A H A A 
+          H H - 
+#*T93 had 333 tokens
+*C35      H A H H H - A - H H H A H H A A H A A H H H A H A A A B - H 
+          A H H H A H H H H H H H H H A A H A A A A A H A H A - H A A 
+          A A H H A A - A H H H A - A H A A A A A H A A H A - - A A A 
+          H H A - A H A H A H - H H A A A H H A H A A A A H A H A A H 
+          H H A A H A H A H H - - A A H - - H A A - - H A H A A H - - 
+          - - H - A A A A A A A H A H H - A H H A H H A H A H H A H H 
+          H H H A A A A A H A H A - H H A A H A H A A H H - A A H H H 
+          H H H A A H H A A - A B A A H H H H A A A H A B A H B A A A 
+          H A A - A H A A A A H - H A A - A A H A A H A H H A A A H H 
+          A A H H H A A H A A H A H A H H A A H H A H - H A H B H H A 
+          H A A A A A H A A H H H A - - A A H A A - - H H A H A H A H 
+          H H - 
+#*C35 had 333 tokens
+*T24      H H A A A - H - A H A A A H B B A H A H H H H B B - H A - H 
+          A H B H A A A H H H A B H A H H H - B H H H B H H B - H H A 
+          A H A H H H B H H A H A - B H H B H H H B B H - H - - H B A 
+          A H - H A A B H H A - - - H B A B - A - H - A B - H H A B - 
+          A A H H B - - - H H H A - A B H B - - H H H H H H H H - H B 
+          A A B - A - A B B H A H H A - H A B - H B A H H - A A A A H 
+          B H B H H H A H H - H - H A H H H H H A H B H H A B H B B B 
+          - - H - B - B B - - H H H B H A B H A H B H H H B B H B H H 
+          H B H - A H H H B A H H B A H B A B H B H H A B B A H B H B 
+          A H H H A B H H H H A B H H A H B H B B H A H H H A H H A A 
+          H H B H H B H H B A A H H - - - - - - - - - - - - - - - - - 
+          - - - 
+#*T24 had 333 tokens
+*C66      H H H B H H A - H H B A B H H H H A - H H H A H H A A H - H 
+          A B A H A A H H H H B A B B H A H H H A A A H B H A A A A A 
+          A A H H A B A H B H A A A A H A A H A H H A A B A - H - H H 
+          H H A A A H A H A H - H H A A H H H H H A B A H H A H H A H 
+          H H A B B - H A A H H H H A H B H - H H B B H H A A H H A A 
+          H A H B H A H H A H H H A H H - A H B A H H H H A H H H H H 
+          H B A - H H H A H H H B B H H A A H A H A A H H B H - H H B 
+          B H B A A H H H H - H - H H A H A A A A H B A B H - B A H A 
+          H A H - A H H H A A H H H H H H H A H H H H A A A H A A H H 
+          A A H H H A H - A A H H A A H H A A B H A H A H A H B B H B 
+          H H A A A H H B A H H H A H - A A H A A - - - H - A A H A A 
+          - H - 
+#*C66 had 333 tokens
+*T209     B A H A H - H - H H A H A H B - A B - H H H H B H H H H - H 
+          H - A H - B H H H H - H H A B - - - B B A H H H A B - H H B 
+          H B H H A B - H B A H B - B H A H H B H - H H A B H H - H H 
+          - B H B B H H H H B - - H B B H H B H H H - H H B H - - B H 
+          H H H A H - - H H H - H B A H B B - - B H - H - H H - B H - 
+          B - - - H A - B H H A H H A A - H H B H A H B H - H A B H A 
+          H H B - B A H H A H H H A H H H A H B A H B H H A H H H H H 
+          B - - - - - - - - - H H H H H A H A A B H H B H H H H B H H 
+          - H - - A - H H - A B A B H H H H H B A H H H H H H H H H B 
+          A A H H A H H H A B H H H H H H H H H H B A H H H A A A A H 
+          H H A B A B B A H A B H H H - B H H H H - - H H - H A H H A 
+          B - - 
+#*T209 had 333 tokens
+*T50B     B H H B A - H - H H B A A H H - H A - H H H A H H A H H - H 
+          A - H H - A H A H H - A H B H A A A H A A A H B A A A A A A 
+          A A B H A H A B B H A H - A B A H H A A - A A B A H H - A H 
+          A H A A A H H H A H - H H A A H H H A A - H A H A A H H A H 
+          H H A B H - H A A H H H A A H H H - A H H - H - A A H H A A 
+          - A A - H A H H A H H H A H H - A H B H H H H H A H H H - H 
+          H B A A B H H A H H H - B H H A A A A A A A H H H A H H H B 
+          H - - - - - - - - - A H A H A H A A A A H B A B H H H A H A 
+          - A - - A H H H A H H H H H H H H A A A H H A A A H H A H H 
+          A A H H H A H A A A H H A A A H H A B H A H A H H H B H H H 
+          H B A A A A H B A A H H - H - A H H A H - H H H - A B H A A 
+          H - - 
+#*T50B had 333 tokens
+*T125     H - H A A H H - A H A A A H B H A B - H H H H H H H H A - H 
+          H H B H A A H H H H H B A A H H H B B H A H B B H B H H H A 
+          A B A B H H B H H A H A B B H A H H B A H B H H H H B H B A 
+          A H H H H A H H H A - B B B B H B B A H H H A B H H H A B A 
+          B H H H B B H A H B H H A A B H B H H H H H H H H H H A H H 
+          A A H H A H A H B H A H H A A - A H H H B H B H A A A H A A 
+          H H B H H H H H B H H H H A H B A H H H H B B A A B H B B B 
+          A H B H H B H B A H H H H B H A B H H A B H H H H B A B H H 
+          H B H - B A B H B H H A B H H B A H H B H H A H H H H H H B 
+          A H H H A B H H B H A B B H A H B H H B B A H B H A H A A A 
+          H H B H H H H H B H H H H - - - - - - - - - - - - - - - - - 
+          - - - 
+#*T125 had 333 tokens
+*T83      B A H A H H H - H H A H A H B B A B A A H H A B H H H A H H 
+          H A A H H H A A H H H H H A B B B H B B A H B H A H - H H H 
+          H B H B H H H H B A B H H B B A H H B A H H H A B H A H H B 
+          A B H B B A H H H B - H H B B H H B A A H A H H B H A A B A 
+          B A H A H B H A H B B A H A H B B H A B H B A B A A B H A H 
+          B B H H A A A B H H A A H H A H A B B H A H B H A A H B H A 
+          A H B H B H H H H A H H A A H H H A B A H B H H A H A A H H 
+          B B B H B H B B B H H H H H H A H H A B H B B H B H A B H - 
+          A H H H A A H H - A H H B A H H H H B A H A H H H H H B H B 
+          H A H H A H A H H B H B H A A H B H H H B A H H H H A A A H 
+          A A H B A B B H H A B H A H - B H H H A A H H H A A H H A A 
+          B A H 
+#*T83 had 333 tokens
+*T17      B - H H A - H - H B A H A A - A A A - A - - A B H H H H B A 
+          H - A H - B A H H H H A A H H - B A B H A H A H H B A H H B 
+          H A A H A B - A B A H B A B A H H H B A H H A A H A A A H H 
+          A B A H B A H H H B A A H B A H H B H A H H H H B A H A B A 
+          A H A H H A H H H A B A B A A B A - H B A A H B H - B B H - 
+          B H A A A A A - A H A H A A H - A H B H A H A H A A A B H H 
+          H H B A B A H A A A A A A - H H H A B A A B H A - A A A B A 
+          B - B A B A H B A - H A A H H A A A A B H H B H H A H B A A 
+          - A A - A A A A H - B H H A A A A H B H H H H H H A H H H B 
+          A A H A H A H - A B H H A H H B - B H H B A - A H A A A A H 
+          H H A B A - B A H A B - H A - B A A A H - H - - - A A A A A 
+          - - - 
+
+#*T17 had 333 tokens
+*C15      H A A A A A H - A H A A A H B H A H A H H H H H H B H A - H 
+          A H B H A A H H H H A B H A A H H B B H A H H H H - H H H A 
+          A B A B H H - H H A H A B B H H B A H A H B H A H H B A B A 
+          A H H H A A H H H A - B B B B A B B A H H H A B H A H A B A 
+          B H A H B B H A H H H H A A B H B H H H H H H H H H H A H H 
+          A A H H A A A H B H A H H A A B A H H H B A B H A A A H A A 
+          H H B H H H H H H H H A H A H B A H H H H B B A A B H H B B 
+          A H B H H B H B A H H H H B A A B H H A B H A H H B A B H H 
+          H B H - B A B H H A H A H A H B A H H B H H A H H A H H H B 
+          A H H H A B H H B H A B B H A H B H H B H A H B H A H H A A 
+          H H B H H H H H B H H H H - - H A A H H B H H H A A B B H H 
+          H A - 
+#*C15 had 333 tokens
+*T71      H - H A A H H - A H A A A H B H A B - H H H H H H H H A - H 
+          H H B H A A H H H H H B A A H H H B B H A H B B H B H H H A 
+          A B A B H H B H H A H A B B H A H H B A H B H H H H B H B A 
+          A H H H H A H H H A - B B B B H B B A H H H A B H H H A B A 
+          B A H A H H H A H B B A A A H B H H A B H H H B A A B H A H 
+          H B H B A H A - H A A A H H A H A B H A H H B H A A H H B A 
+          A H B H B H B H B A H H H A H H H H B A H B B H A H H B H H 
+          H B B H B H B H B A B H H B H A H H H H H B H H B B A B B H 
+          A H H - A A H H B A H H B H H H H H H B H H A H H H H H H B 
+          H H H B A B H H H H A B H A A H B H H H B A H H H H A A A A 
+          A A H B A B B H H A H H H A - B H H B A - H - H - A B H H H 
+          - - - 
+#*T71 had 333 tokens
+*weight        4.949       3.58          -      6.212      6.140      5.330 
+               5.761      5.470      7.897      6.790      7.559          - 
+               4.990      5.316      3.190      6.160      8.150      5.370 
+              16.330      8.990      3.220      9.540          -      6.360 
+               6.040      5.480      4.710      6.310      4.390      1.829 
+               4.321      3.930      5.680      6.440      9.850      7.660 
+               9.260      1.780      1.780      3.620      5.330      5.670 
+               5.670          -      4.460      5.940      3.880      5.740 
+               3.770      4.810      7.280     16.450      2.850      4.270 
+                   -      4.430      2.320      9.760      3.550     10.540 
+              14.610      4.380      4.408          -     10.460      4.714 
+               6.176      5.062      2.307      5.311      6.622     10.370 
+               6.195          -      4.028     13.410      8.585          - 
+               8.489      4.189      3.006          -     14.500      2.524 
+               6.865      2.864      4.902      5.573      3.209     11.000 
+              14.160      6.263     11.640      4.923      6.237      3.456 
+               4.664      3.827      9.279     21.120      2.539      4.223 
+               8.743      7.922      5.801      3.737      2.955      2.745 
+               5.143      2.572      5.641     12.780     12.290      7.574 
+                   -      9.037      3.218      8.132      7.825      6.289 
+               4.364      8.613      7.633      7.595      2.572      8.759 
+               7.407          -      1.970      4.992      3.475      5.230 
+               6.232          -      2.043      1.669      1.430      4.730 
+               5.228      6.570      6.170      7.830      4.730      2.390 
+               7.970     10.510      2.580          -      8.930      3.811 
+                   -      8.040      5.200      8.460          -      3.060 
+               6.610      4.660      3.440      5.950          -      4.710 
+               4.070     16.470      7.578      3.899     16.790      6.896 
+               4.760     19.910      1.663      6.241      4.216      6.453 
+              23.610      6.002      5.847      6.246     10.590      9.716 
+               7.008      6.311      5.114      3.582      3.900      2.483 
+               4.478     12.430          -      9.836      5.397      7.672 
+               6.702      6.767      4.608      4.278     12.660          - 
+               4.818      3.388          -          -      1.406      3.851 
+               4.084      2.537          -      1.057      3.126      3.458 
+               2.347      2.733      1.877      5.648      5.648      3.538 
+               5.277          -          -      3.013      8.003      1.712 
+               4.084      2.723      4.469      7.515      2.890      4.496 
+               5.575     16.040      3.939      1.288      9.268          - 
+               2.499      2.321      2.920          -      2.189     13.770 
+               4.409      3.992      5.663      4.759      2.734      5.644 
+               9.872          -      5.841      6.415      5.686     10.480 
+               8.750      9.340      5.411     10.060      3.617      2.751 
+               8.360      3.605      3.008          -      6.540      4.080 
+               4.570      4.030      2.200      2.750     10.570      1.740 
+              12.700      6.190      4.800      4.820     10.750      2.600 
+               3.680      4.420     14.230     11.050      5.226      2.896 
+               2.591      6.783      3.056      5.229     13.110      2.242 
+               5.050      6.585      3.889      7.879     12.230      3.716 
+               4.971      3.190      7.670      3.708      5.656      4.107 
+               4.996          -     11.400      2.670      6.713      9.013 
+               4.836      5.928      2.463     11.980      3.930      7.219 
+               8.705      6.680      1.664      6.198      8.300     11.520 
+               5.278      5.269      2.692      7.519      4.749      7.570 
+               3.786      9.755      4.121      3.715      7.781     11.130 
+               4.208      3.524          - 
+
+#*weight had 333 tokens
+*lnweight  1.5991855  1.2753628          -  1.8264829  1.8148247  1.6733512 
+           1.7511111  1.6992786  2.0664829  1.9154509  2.0227389          - 
+           1.6074359  1.6707211  1.1600209  1.8180768  2.0980179  1.6808279 
+           2.7930039  2.1961128  1.1693814  2.2554935          -  1.8500284 
+           1.7984040  1.7011051  1.5496879  1.8421357  1.4793292  0.6037694 
+           1.4634869  1.3686394  1.7369512  1.8625285  2.2874715  2.0360120 
+           2.2257040  0.5766134  0.5766134  1.2864740  1.6733512  1.7351891 
+           1.7351891          -  1.4951488  1.7817091  1.3558352  1.7474592 
+           1.3270750  1.5706971  1.9851309  2.8003255  1.0473190  1.4516138 
+                   -  1.4883996  0.8415672  2.2782924  1.2669476  2.3551775 
+           2.6817062  1.4770487  1.4834211          -  2.3475585  1.5505368 
+           1.8206708  1.6217617  0.8359480  1.6697801  1.8903974  2.3389170 
+           1.8237425          -  1.3932700  2.5960007  2.1500165          - 
+           2.1387712  1.4324620  1.1006103          -  2.6741486  0.9258449 
+           1.9264360  1.0522192  1.5896433  1.7179335  1.1659594  2.3978953 
+           2.6504211  1.8346593  2.4544474  1.5939181  1.8304993  1.2401119 
+           1.5398734  1.3420812  2.2277538  3.0502205  0.9317703  1.4405458 
+           2.1682534  2.0696437  1.7580303  1.3182832  1.0834987  1.0097811 
+           1.6376366  0.9446838  1.7300614  2.5478814  2.5087859  2.0247213 
+                   -  2.2013273  1.1687600  2.0958069  2.0573237  1.8388021 
+           1.4733891  2.1532727  2.0324810  2.0274901  0.9446838  2.1700817 
+           2.0024255          -  0.6780335  1.6078366  1.2455945  1.6544113 
+           1.8296973          -  0.7144193  0.5122246  0.3576744  1.5539252 
+           1.6540288  1.8825138  1.8196988  2.0579625  1.5539252  0.8712934 
+           2.0756845  2.3523272  0.9477894          -  2.1894164  1.3378916 
+                   -  2.0844291  1.6486586  2.1353492          -  1.1184149 
+           1.8885837  1.5390154  1.2354715  1.7833912          -  1.5496879 
+           1.4036430  2.8015405  2.0252493  1.3607201  2.8207835  1.9309415 
+           1.5602477  2.9912221  0.5086232  1.8311404  1.4388868  1.8645451 
+           3.1616704  1.7920927  1.7659287  1.8319413  2.3599102  2.2737740 
+           1.9470524  1.8422941  1.6319819  1.2759213  1.3609766  0.9094675 
+           1.4991765  2.5201129          -  2.2860491  1.6858432  2.0375773 
+           1.9024060  1.9120579  1.5277939  1.4534856  2.5384474          - 
+           1.5723589  1.2202398          -          -  0.3407488  1.3483329 
+           1.4070769  0.9309823          -  0.0554347  1.1397542  1.2406904 
+           0.8531379  1.0053999  0.6296748  1.7313015  1.7313015  1.2635616 
+           1.6633578          -          -  1.1029363  2.0798165  0.5376623 
+           1.4070769  1.0017342  1.4971647  2.0169010  1.0612565  1.5031881 
+           1.7182923  2.7750856  1.3709269  0.2530906  2.2265676          - 
+           0.9158907  0.8419981  1.0715836          -  0.7834448  2.6224923 
+           1.4836479  1.3842924  1.7339538  1.5600376  1.0057657  1.7305930 
+           2.2897025          -  1.7649020  1.8586390  1.7380070  2.3494687 
+           2.1690537  2.2343063  1.6884339  2.3085672  1.2856450  1.0119645 
+           2.1234584  1.2823218  1.1012754          -  1.8779372  1.4060970 
+           1.5195132  1.3937664  0.7884574  1.0116009  2.3580198  0.5538851 
+           2.5416020  1.8229351  1.5686159  1.5727739  2.3749058  0.9555114 
+           1.3029128  1.4861397  2.6553524  2.4024304  1.6536462  1.0633305 
+           0.9520439  1.9144195  1.1171069  1.6542201  2.5733753  0.8073683 
+           1.6193882  1.8847943  1.3581521  2.0642010  2.5038919  1.3126478 
+           1.6036210  1.1600209  2.0373166  1.3104926  1.7327169  1.4126928 
+           1.6086376          -  2.4336134  0.9820785  1.9040459  2.1986680 
+           1.5760879  1.7796869  0.9013801  2.4832386  1.3686394  1.9767164 
+           2.1638976  1.8991180  0.5092243  1.8242267  2.1162555  2.4440847 
+           1.6635472  1.6618406  0.9902844  2.0174332  1.5579341  2.0241931 
+           1.3313101  2.2777800  1.4160959  1.3123787  2.0516849  2.4096442 
+           1.4369875  1.2595967 

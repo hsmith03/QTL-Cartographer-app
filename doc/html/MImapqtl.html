@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MImapqtl</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#files">FILES</a></li>
+	<li><a href="#notes">NOTES</a></li>
+	<ul>
+
+		<li><a href="#analysis">ANALYSIS</a></li>
+		<li><a href="#work_code">WORK CODE</a></li>
+		<li><a href="#information_criteria">INFORMATION CRITERIA</a></li>
+		<li><a href="#analysis_phase">ANALYSIS PHASE</a></li>
+	</ul>
+
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MImapqtl - Multiple Interval mapping module</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>MImapqtl</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-i</strong> <em>input</em> ] [ <strong>-m</strong> <em>mapfile</em> ]
+[ <strong>-E</strong> <em>inputmodel</em> ]  [ <strong>-O</strong> <em>outputmodel</em> ]   [ <strong>-t</strong> <em>trait</em> ] [ <strong>-q</strong> <em>QTL</em> ]
+[ <strong>-k</strong> <em>Epi</em> ] [ <strong>-d</strong> <em>walk</em> ] [ <strong>-S</strong> <em>stop</em> ]  [ <strong>-L</strong> <em>threshold</em> ]  [ <strong>-I</strong> <em>workcode</em> ]  
+[ <strong>-p</strong> <em>phase</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>MImapqtl</strong> uses multiple interval mapping to map quantitative trait loci to
+a map of molecular markers.  It requires a molecular map that could be a 
+random one produced by 
+<strong>Rmap</strong>,  or a real one in the same format as the output of 
+<strong>Rmap</strong>.   The sample could be a randomly generated one from 
+<strong>Rcross</strong> or a real one in the same format as the output of 
+<strong>Rcross</strong>. In addition, the program can use an initial genetic model.
+This model will most likely be produced by running <strong>Eqtl</strong> on the results
+of a <strong>Zmapqtl</strong> run, but could be the results of a prior run of <strong>MImapqtl</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename for output.   <strong>MImapqtl</strong> will append the file
+if it exists, and create a new file if it does not.   If not used, then
+<strong>MImapqtl</strong> will use <em>qtlcart.mim</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist.  It should be in the
+same format as the output of <strong>Rcross</strong>. The default file is <em>qtlcart.cro</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+<strong>MImapqtl</strong> requires a genetic linkage map.  This option requires
+the name of a file containing the map.  It should be in the same format
+that <strong>Rmap</strong> outputs.  The default file is <em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+Use this to specify which trait <strong>MImapqtl</strong> will analyze.  If this
+number is greater than the number of traits, then all traits will be
+analyzed unless the trait name begins with a minus sign. If a negative
+number is given, then only traits beginning with a plus sign will be
+analyzed.   The default is to analyze trait 1 only.
+</dd>
+<p></p>
+<dt><strong><a name="item__2de"><strong>-E</strong></a></strong><br />
+</dt>
+<dd>
+Allows the user to specify the name of the file containing the genetic model for input.
+This file should be in the   format of <em>Rqtl.out</em> and produced by <strong>Rqtl</strong>, <strong>Eqtl</strong> or
+<strong>MImapqtl</strong>.   A new model will be placed in the file specified with the <strong>-O</strong> option.
+For an initial analysis (phase 0), this will default to <em>qtlcarti.mqt</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2do"><strong>-O</strong></a></strong><br />
+</dt>
+<dd>
+Allows the user to specify the name of the file containing the genetic model for output.
+For an initial analysis (phase 0), this will default to <em>qtlcarto.mqt</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dq"><strong>-q</strong></a></strong><br />
+</dt>
+<dd>
+<strong>MImapqtl</strong> has a limit to the number of QTL it can analyze.  For 32 bit machines,
+this is 19 QTL.  For 64 bit machines, this can be 31.  If you set this to a number
+higher than that allowed, it will be reset to the maximum allowed for the machine type.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dk"><strong>-k</strong></a></strong><br />
+</dt>
+<dd>
+The user can specify the maximum number of epistatic terms allowed in the model.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dd"><strong>-d</strong></a></strong><br />
+</dt>
+<dd>
+<strong>MImapqtl</strong> walks along an interval at this rate during the refinement of QTL positions
+and the search for more QTL.
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-S</strong></a></strong><br />
+</dt>
+<dd>
+Requires an integer value to indicate the information criterion for declaring the
+presence or absence of a parameter.   Information criteria
+are explained below.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dl"><strong>-L</strong></a></strong><br />
+</dt>
+<dd>
+Requires a real value to indicate the threshold for adding or deleting parameters to
+a model.   Comparisons are made based on the information criterion function specified with
+the <strong>-S</strong> option above.  The default is 
+3.84.  If this is set too low, the program will continue to find QTL until it
+hits the upper limit.   If set too high, it will not find any QTL.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-I</strong></a></strong><br />
+</dt>
+<dd>
+Requires an eight character string that codes for what the program should do.  See below
+for more explanation.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dp"><strong>-p</strong></a></strong><br />
+</dt>
+<dd>
+is used with an integer to specify the <em>phase</em> of the analysis.  See below for more explanation.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="files">FILES</a></h1>
+<p>You will need a map of molecular markers, <em>qtlcart.map</em> and a data set, <em>qtlcart.cro</em>.
+You can also specify an initial genetic model, <em>qtlcart.qtl</em>.</p>
+<p>The input format of the molecular map should be the same as that of the output 
+format from the program 
+<strong>Rmap</strong>.   The input format of the individual data should be the same as the output format
+of the program  <strong>Rcross</strong>.  If you use an initial genetic model, it should be of the
+same format as an <strong>Rqtl</strong> output file.   The output of <strong>Eqtl</strong> will also have such a model,
+as will the output of <strong>MImapqtl</strong> itself.</p>
+<p><strong>MImapqtl</strong> can produce three types of output files.  Most results will be put in the
+<em>qtlcart.mim</em> file, while the <strong>Rqtl</strong> formatted output file will be <em>qtlcart.mqt</em>.  
+If you choose to calculate residuals, they will be placed in <em>qtlcart.res</em>, which will
+have the same format as an <strong>Rcross</strong> output file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="notes">NOTES</a></h1>
+<p>
+</p>
+<h2><a name="analysis">ANALYSIS</a></h2>
+<p>If <strong>MImapqtl</strong> is invoked and an initial model is provided, it will do the following 
+seven steps:</p>
+<dl>
+<dt><strong><a name="item_step_1_2e"><strong>Step 1.</strong></a></strong><br />
+</dt>
+<dd>
+Initial Model
+</dd>
+<dd>
+<p>Read in the initial model and convert it to a usable format.  The model is read from
+the file specified by the <strong>-E</strong> option and must exist.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_step_2_2e"><strong>Step 2.</strong></a></strong><br />
+</dt>
+<dd>
+Parameter Estimation
+</dd>
+<dd>
+<p>Estimate all parameters in the initial model.   If used, then the initial model simply 
+specifies the positions of the QTL.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_step_3_2e"><strong>Step 3.</strong></a></strong><br />
+</dt>
+<dd>
+Refine Positions
+</dd>
+<dd>
+<p>Refine the estimates of the positions of all QTL in the initial model.  This refinement occurs
+in the interval where the QTL resides.  This is not an option to search other intervals for
+QTL.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_step_4_2e"><strong>Step 4.</strong></a></strong><br />
+</dt>
+<dd>
+Test parameters
+</dd>
+<dd>
+<p>Test each parameter in the initial model for significance.  This follows
+a backward elimination procedure, and those parameters that do not lead to a significant
+improvement in fit are dropped.   The threshold for dropping parameters 
+is specified by the <strong>-L</strong> option.  The information criterion is calculated for the model
+with and without the tested parameter, and the difference must be greater than the threshold
+for the effect to be retained.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_step_5_2e"><strong>Step 5.</strong></a></strong><br />
+</dt>
+<dd>
+Search for QTL
+</dd>
+<dd>
+<p>Search for more QTL.  This follows a forward stepwise procedure, whereby the
+genome is scanned, the most likely place for a new QTL is determined, and if it results
+in a significant improvement, is retained.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_step_6_2e"><strong>Step 6.</strong></a></strong><br />
+</dt>
+<dd>
+Epistasis   search
+</dd>
+<dd>
+<p>Search for epistatic interactions between the QTL in the model.  This will
+do all pairwise combinations of the QTL that survive steps 4 and 5.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_step_7_2e"><strong>Step 7.</strong></a></strong><br />
+</dt>
+<dd>
+Calculate predictions
+</dd>
+<dd>
+<p>Calculate breeding values, the Variance-Covariance matrix and R2 values for the parameters.</p>
+</dd>
+<p></p></dl>
+<p>If the user specifies that no initial model is to be used, then the analysis starts
+with step 5 above.</p>
+<p>
+</p>
+<h2><a name="work_code">WORK CODE</a></h2>
+<p>The <strong>Work Code</strong> must be specified with an 8 letter string.  Each letter in the string
+is a flag to tell the program whether to do a certain step.  Some of the flags have options
+to modify the behavior of that step.  The 8 letter string starts from position 0.  The remaining
+positions (1-7) correspond to the steps given in the previous section.</p>
+<dl>
+<dt><strong><a name="item_position_0_2e"><strong>Position 0.</strong></a></strong><br />
+</dt>
+<dd>
+Scan flag
+</dd>
+<dd>
+<p>This can take on values <strong>S</strong> or <strong>s</strong>.   If <strong>S</strong>, then <strong>MImapqtl</strong> will go into scan mode.
+It will do one pass in the search for QTL phase, and print out positions and a likelihood 
+profile to the output file.   The user can then plot the values and decide where to place a
+new QTL.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_position_1_2e"><strong>Position 1.</strong></a></strong><br />
+</dt>
+<dd>
+Model flag
+</dd>
+<dd>
+<p>Tells <strong>MImapqtl</strong> whether to use the initial model specified  with the <strong>-E</strong> option. If
+<strong>M</strong>, then use the model, and if <strong>m</strong>, don't use it.   If you use <strong>m</strong>, then you should
+also specify <strong>prt</strong> in positions 2, 3 and 4.  For example, <strong>smprtSEC</strong> would make sense:
+It would search for QTL <em>de novo</em>.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_position_2_2e"><strong>Position 2.</strong></a></strong><br />
+</dt>
+<dd>
+Parameter flag
+</dd>
+<dd>
+<p>Use a <strong>P</strong> here if you want <strong>MImapqtl</strong> to re-estimate the paramters in the initial model.
+Use a <strong>p</strong> if you want to skip this step.  The case of this position should almost always 
+match that of position  1.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_position_3_2e"><strong>Position 3.</strong></a></strong><br />
+</dt>
+<dd>
+Refine postion flag
+</dd>
+<dd>
+<p>Use an <strong>R</strong> here if you want <strong>MImapqtl</strong> to refine the position estimates in the initial model.
+Use an <strong>r</strong> if you want to skip this step. If you don't have an initial model, then this should
+be <strong>r</strong>.  You can also extend the refinement of position to the immediate adjacent intervals
+by using <strong>A</strong> in this position.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_position_4_2e"><strong>Position 4.</strong></a></strong><br />
+</dt>
+<dd>
+Test flag
+</dd>
+<dd>
+<p>Use a <strong>T</strong> here if you want <strong>MImapqtl</strong> to test the significance of the parameters in the initial model.
+Use a <strong>t</strong> if you want to skip this step.  If you don't have an initial model, then this should
+be <strong>t</strong>.   You can use <strong>D</strong> in place of <strong>T</strong> in order to test dominance effects only, but t
+his is only relevant
+with three marker classes.   Finally, if you want to test any existing epistatic interactions,
+then use <strong>E</strong>.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_position_5_2e"><strong>Position 5.</strong></a></strong><br />
+</dt>
+<dd>
+Search flag
+</dd>
+<dd>
+<p>Use an <strong>S</strong> here if you want <strong>MImapqtl</strong> to search for more QTL.
+Use an <strong>s</strong> if you want to skip this step.  You can also specify a <strong>A</strong> if you only want to
+search for the additive effects of putative QTL (that is, don't search for dominance effects
+in Fx lines).  Finally, if you use a <strong>D</strong> here, <strong>MImapqtl</strong> will only search for dominance effects
+at QTL locations that don't already have them.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_position_6_2e"><strong>Position 6.</strong></a></strong><br />
+</dt>
+<dd>
+Epistasis flag
+</dd>
+<dd>
+<p>Use an <strong>E</strong> here if you want <strong>MImapqtl</strong> to search for epistatic effects.
+Use an <strong>e</strong> if you want to skip this step.   By default, the <strong>MImapqtl</strong> does a forward
+stepwise search for epistatic terms.   If you want to try a backward elimination approach,
+use a <strong>B</strong> in this position, but be aware that if there are too many epistatic terms,
+the request will be ignored in favor of a forward search.   Finally, a <strong>U</strong> in this postion
+will do a backward elimination approach but the limit to the number of parameters will
+be the sample size minus one.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_position_7_2e"><strong>Position 7.</strong></a></strong><br />
+</dt>
+<dd>
+Covariance flag
+</dd>
+<dd>
+<p>Use a <strong>C</strong> here if you want <strong>MImapqtl</strong> to calculate the variance-covariance matrix, R2 values and
+breeding values for the final model.  
+Use a <strong>c</strong> if you want to skip this step.   If you specify an <strong>R</strong> in this spot, then 
+for the current model, the residuals for the trait being analyzed are calculated and 
+used as the new trait values.  These residuals are written to a file <em>stem.res</em> where
+<em>stem</em> is the filename stem.</p>
+</dd>
+<p></p></dl>
+<p>The default string is <strong>smprtSeC</strong>, which tells <strong>MImapqtl</strong> to scan for QTL without an
+initial model, where the   the additive and dominance effects are
+treated as a unit.</p>
+<p>
+</p>
+<h2><a name="information_criteria">INFORMATION CRITERIA</a></h2>
+<p>See Kao, Zeng and Basten (1999) for more detailed information on the information 
+criteria.   We use</p>
+<pre>
+        IC(k) = -2(log(L) - k c(n) / 2)</pre>
+<p>where L is the likelihood for a k-parameter model and <em>log</em> is the natural log
+function.   The penalty function <em>c(n)</em>
+takes one of six forms:</p>
+<ol>
+<li><strong><a name="item_c"><strong>1.</strong>   <code>c(n)</code> = <code>log(n)</code></a></strong><br />
+</li>
+<li><strong><strong>2.</strong>   <code>c(n)</code> = 2</strong><br />
+</li>
+<li><strong><strong>3.</strong>   <code>c(n)</code> = 2 <code>log(log(n))</code></strong><br />
+</li>
+<li><strong><strong>4.</strong>   <code>c(n)</code> = 2 <code>log(n)</code></strong><br />
+</li>
+<li><strong><strong>5.</strong>   <code>c(n)</code> = 3 <code>log(n)</code></strong><br />
+</li>
+<li><strong><strong>6.</strong>   <code>c(n)</code> = 0</strong><br />
+</li>
+</ol>
+<p>Use the numbers above with the <em>-S</em> option to indicate which information criterion
+you want to use.  If you use penalty functions 1 through 5 above, then you should also
+specify a threshold of 0.0 with the <em>-L</em> function.   Penalty function 6 is equivalent to
+no penalty function and requires an experimentwise threshold value that might be obtained 
+via a permutation test.</p>
+<p>
+</p>
+<h2><a name="analysis_phase">ANALYSIS PHASE</a></h2>
+<p><strong>MImapqtl</strong> can read a genetic model and proced with various tasks as explained above.  This
+leads to the idea of repeating the analysis with the results of a previous run of the program.
+One can think of doing the analysis in steps or <em>phases</em>.   The default is to set the phase
+to zero.  If the phase is set to zero, then the default input file for a genetic model is
+<em>qtlcart.eqt</em>, the output is <em>qtlcart.mqt</em> and the general output file is <em>qtlcart.mim</em>.
+At the end of the analysis, the phase remains 0.</p>
+<p>If one sets the phase to a positive integer (generally starting with 1), then the default
+input is to assume that input and output files follow a rule.   Assume the filename stem is
+<em>qtlcart</em> and the phase is <em>i</em>.   The input genetic model will be set to <em>qtlcartPhase</em>i-1<em>.mqt</em>,
+the output genetic model will be written to <em>qtlcartPhase</em>i<em>.mqt</em>, and the general output file
+will be <em>qtlcartPhase</em>i<em>.mim</em>.  At the end of the analysis, the phase variable <em>i</em> will be 
+incremented by one and recorded in the <em>qtlcart.rc</em> file.  This makes it easier for the
+program (and the user) to keep track of previous and current results.  Also note that if 
+you used an <strong>R</strong> in position 7 of the workcode, then the output file containing a new
+dataset with the residuals replacing the trait values will be put in <em>qtlcartPhase</em>i<em>.res</em>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % MImapqtl -I smprtSeC</pre>
+<p>Calculates the best model for  the dataset in <em>qtlcart.cro</em>
+using the map in <em>qtlcart.map</em> and the model in <em>qtlcart.eqt</em>, but only searches for 
+main effects (additive and dominance).</p>
+<p>Here is a sequence using the example dataset <em>mletest.cro</em> along with its map file <em>mletest.map</em>,
+both of which come with the programs.  Assume that these two files have been placed in an
+empty subdirectory which is now the current working directory.</p>
+<pre>
+        % MImapqtl -A -V -I smprtSeC  -L 0.0 -S 1 -p 1 -X mletest &amp;
+        % MImapqtl -A -V -I sMPrTseC    &amp;
+        % MImapqtl -A -V -I sMPRtseC    &amp;
+        % MImapqtl -A -V -I sMPrtSeC    &amp;
+        % MImapqtl -A -V -I sMPrtsBC    &amp;</pre>
+<p>The first invocation sets the filename stem, the information criterion and threshold for adding
+parameters and indicates that it is phase 1.   The <strong>-I</strong> option tells <strong>MImapqtl</strong> to search for
+additive QTL.   The second invocation tests each QTL found in the first phase.  The third step
+refines the positions of all remaining QTL.  The fourth step searches for more QTL (and probably 
+won't find any).  The fifth step searches for interactions between the identified putative QTL.  
+The phase variable is updated after each step, so <strong>MImapqtl</strong> knows where to find the
+results from the previous step.</p>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<ol>
+<li></li>
+Kao, Chen-Hung  and Zhao-Bang Zeng,  (1997) General formulae for obtaining 
+the MLEs and the asymptotic variance-covariance matrix in mapping
+quantitative trait loci when using the EM algorithm. <em>Biometrics</em> <strong>53</strong>, 653-665.
+<p></p>
+<li></li>
+Kao, Chen-Hung  and Zhao-Bang Zeng,  (2000) Modeling epistasis of
+quantitative trait loci   using Cockerham's model. <em>Theoret. Pop. Biol.</em>
+in press.
+<p></p>
+<li></li>
+Kao, Chen-Hung, Zhao-Bang Zeng and R. Teasdale (1999) Multiple interval mapping 
+for quantitative trait loci.
+<em>Genetics</em> <strong>152</strong>, 1203-1216.
+<p></p>
+<li></li>
+Zeng, Zhao-Bang, Chen-Hung Kao and Christopher J. Basten (1999) Estimating
+the genetic architecture of quantitative traits. <em>Genetical Research, Camb.</em> <strong>74</strong>, 279-289.
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>We are still doing some simulations to determine the best information criterion to use.
+At present, the defaut of 1 with a threshold of 0.0 seems to work well for a variety of
+data sets.  If the defaut detects no QTL, then you might try information criteria 2, 3 or 6.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Still under development:  We hope to add the joint analysis of multiple traits in multiple 
+environments.  We are also working on the output formats.</p>
+<p>The <strong>A</strong> option for refining positions in the work code does not yet behave correctly.
+It tends to place all putative QTL at the left flanking marker of an interval.  If you
+use this option, then re-run <strong>MImapqtl</strong> with an <strong>R</strong> in position four to better refine the
+position estimate of the QTL.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

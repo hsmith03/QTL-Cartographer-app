@@ -1,0 +1,39 @@
+NAME
+    EWThreshold.pl - Calculate the Experimentwise Threshold from a
+    permutation test
+
+SYNOPSIS
+      EWThreshold [-s size] [-h]   < input  > output
+
+DESCRIPTION
+    EWThreshold.pl reads from the standard input and writes to the standard
+    output. It reads the results of permutation test that are in the format
+    of ZipermE.out. It sorts the likelihood maxima from that file and prints
+    out the 100(1 - size)th percentile.
+
+OPTIONS
+    -s  This option requires an a real value. It should be the size of the
+        test, that is the Type I error probability. The default is 0.05.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+EXAMPLE
+    After running the example outlined in the GetMaxLR manpage, you can run
+
+            % EWThreshold.pl -s 0.01 < corn.z3.e
+
+    to get the experimentwise threshold for a 1% test. The threshold will be
+    printed to the standard output.
+
+SEE ALSO
+    Zmapqtl(1), Prune(1), GetMaxLR.pl(1), Permute.pl(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

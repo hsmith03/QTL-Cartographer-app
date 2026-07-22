@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Prune</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#automatic_actions">AUTOMATIC ACTIONS</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Prune - Prune or resample the data set.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>Prune</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-i</strong> <em>input</em> ] [ <strong>-m</strong> <em>mapfile</em> ]
+[ <strong>-I</strong> <em>interactive</em> ] [ <strong>-M</strong> <em>Model</em> ] [ <strong>-b</strong> <em>simflag</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Prune</strong> allows one to eliminate markers or traits.  It removes the data from
+the file containing the cross and reconstructs the molecular map.
+It requires a molecular map that could be a random one produced by 
+<strong>Rmap</strong>,  or a real one in the same format as the output of 
+<strong>Rmap</strong>.   The sample could be a randomly generated one from 
+<strong>Rcross</strong> or a real one in the same format as the output of 
+<strong>Rcross</strong>.</p>
+<p><strong>Prune</strong> also does bootstraps, permutations and simulations of missing or dominant markers.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename stem for output.   <strong>Prune</strong> will overwrite the file ending in
+<em>.crb</em>   if it exists, and create a new file if it does not.   If not used, then <strong>Prune</strong> will use
+<em>qtlcart.crb</em>.  If the map is recreated, then a new map file will be written to
+<em>qtlcart.mpb</em> by default or a file ending in mpb with the specified stem.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist.  It should be in the
+same format as the output of <strong>Rcross</strong>. The default file is <em>qtlcart.cro</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+<strong>Prune</strong> requires a genetic linkage map.  This option requires
+the name of a file containing the map.  It should be in the same format
+that <strong>Rmap</strong> outputs.  The default file is <em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-I</strong></a></strong><br />
+</dt>
+<dd>
+Sets the interactive level.  A zero means  that Prune will do what it needs to
+without asking (the default for bootstraps, permutations or missing data simulations).
+A one means that the user will be put into a repeating loop to manipulate the 
+data set.    It has a value 1 by default, but using the <strong>-b</strong> option disables it.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-M</strong></a></strong><br />
+</dt>
+<dd>
+This
+sets a level for the elimination of individuals with this much missing marker
+data, or for the simulation of missing or dominant markers when used with the <strong>-b</strong> option.
+</dd>
+<p></p>
+<dt><strong><a name="item__2db"><strong>-b</strong></a></strong><br />
+</dt>
+<dd>
+<strong>Prune</strong> will read in the map and data file and do one of <strong>AUTOMATIC ACTIONS</strong> 
+described in the section of the same name below.  A value of zero means that 
+this option is ignored.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+Set the trait to process if using <strong>-b 7</strong>.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p>The input format of the molecular map should be the same as that of the
+output format from the program <strong>Rmap</strong>.   The input format of the
+individual data should be the same as the output format of the program
+<strong>Rcross</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="automatic_actions">AUTOMATIC ACTIONS</a></h1>
+<p>There are a number of automatic actions that can be performed using
+the <strong>-b</strong> option.   You will use one of the numbers below with the
+option to tell <strong>Prune</strong> to do that action.   A new dataset is then printed
+to a file <em>stem.crb</em>, where <em>stem</em> is the filename stem.  Note that
+if you give a nonzero value to this option, the interactive flag is
+turned off.</p>
+<ol>
+<li></li>
+Perform a bootstrap resampling
+of the data.   Sampling of individuals is done with replacement to
+create a sample of the same size as the original.
+<p></p>
+<li></li>
+Permute the the traits against genotype arrays.  If there are multiple traits
+in the data set, then each trait will be shuffled against the genotype arrays.
+<p></p>
+<li></li>
+Simulate missing markers.
+The percent of missing marker data should be specified with the <strong>-M</strong> option, and it
+should be an number in the range of 0 to 100 percent.
+<p></p>
+<li></li>
+Simulate dominant markers.  
+The percent of dominant  marker data should be specified with the <strong>-M</strong> option, and it
+should be an number in the range of 0 to 100 percent.    The direction of dominance is
+random.
+<p></p>
+<li></li>
+Simulate selective genotyping.    
+The percent of typed individuals should be specified with the <strong>-M</strong> option, and it
+should be an number in the range of 0 to 100 percent.    This will print out individuals with
+trait values in the tails of the overall distribution.   The value specified will be the sum
+of these tails:  Each tail will have half of the total.   This will apply to whichever
+trait was last analyzed, or trait 1 if all the traits had been analyzed.   It is probably
+best to do this with single trait data sets.
+<p></p>
+<li></li>
+Permute the the traits against genotype arrays.  A value of 12 does this as well.
+ If there are multiple traits
+in the data set, then entire trait arrays will be shuffled against the genotype arrays.  
+This contrasts with option 2 above which permutes the traits independently.   If 
+you think the traits are correlated and you want to maintain that correlation, use this
+option.  Otherwise, use option 2.
+<p></p>
+<li></li>
+Prune the data back to one trait.   Use the <strong>-t</strong> option with a trait number to select the trait.
+The output will have one trait:  All individuals with missing values for this
+trait will also be deleted.
+<p></p>
+<li></li>
+Prune the data to specified traits.   Use the <strong>-t</strong> option with a trait number to select the trait.
+If the original data has <em>t</em> traits, then an integer in the range <em>[1,t]</em> will eliminate all 
+but the specified trait, that is it will do exactly the same thing as option 7 above.  If an integer
+less than one is used, then only traits whose names begin with a plus sign will remain in the
+output.  If greater than the number of traits, then any trait  whose name begins with a 
+minus sign will be eliminated.   Once the traits are eliminated, all individuals with missing data
+for any of the surviving traits will also be deleted.
+<p></p>
+<li></li>
+Remove all categorical trait information.   This is for compatibility 
+with R/QTL, which can not read categorical trait information as of
+8 June 2004.
+<p></p>
+<li></li>
+Collapse the genetic linkage map and data.   If you have a large number of markers
+and infer a genetic linkage map from a small sample, then there will be a lot of
+intermarker distances of 0.0.   For all neighboring markers A and B with zero
+intermarker distance, A will be replaced with B and all data combined.  (The marker
+arrays should be identical except for missing data).
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % Prune -m example.map -i example.cross -o exout</pre>
+<p>Puts the user into an interactive menu for eliminating traits, markers, etc.</p>
+<pre>
+        % Prune -m example.map -i example.cross -o exout -b 1</pre>
+<p>The <strong>-b</strong> option creates a new sample from the old.  The new sample is
+created by resampling the original sample with replacement.  Phenotypes
+and genotypes are kept together.   The new sample will have the same sample
+size as the old one. It will be written to <em>exout.crb</em>.  No new map 
+will be written.</p>
+<pre>
+        % Prune -m example.map -i example.cross -o exout -b 5 -M 20.0</pre>
+<p>Here, the <strong>-b</strong> option tells <strong>Prune</strong> to selectively genotype.   We specify 
+20.0 percent with the <strong>-M</strong> option meaning that those individuals with trait
+values falling in the lower and upper 10 percent tails are retained, and the
+middle 80 percent are removed.</p>
+<p>Suppose you have a large set of markers (say 5,000) and a data set of 100.
+The sample size is too low for you to observe any recombinant events between
+many pairs of markers.  You can reestimate the genetic linkage map with <strong>Emap</strong> and
+then use <strong>Prune</strong> to trim out markers that appear to be redundant.   Suppose the
+data are in <em>cross.inp</em> and the genetic linkage map is in <em>map.inp</em>.  The map file
+must have the correct marker order, but need not have the correct intermarker distances.</p>
+<pre>
+   %  Emap -i cross.inp -m map.inp -S 0.0
+   %  Prune -b 10</pre>
+<p>will produce files <em>qtlcart.mpb</em> and <em>qtlcart.crb</em> that have a reduced number of
+markers but the maximal amount of marker data.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>You can eliminate multiple markers in the interactive loop.  You should
+be aware that the order marker elimination is important.  If all
+the markers to be eliminated are on separate chromosomes, the order is
+unimportant.  If two markers from the same chromosome are to be eliminated,
+order should be to eliminate the highest numbered marker.
+The same concept holds for
+traits:  eliminate them in the order of highest to lowest.</p>
+<p>Do not try to eliminate any markers or traits AND
+do a bootstrap, permutation or simulation of missing markers in the same run.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

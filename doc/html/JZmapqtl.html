@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>JZmapqtl</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#models">MODELS</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#hints">HINTS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>JZmapqtl - Multitrait mapping module</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>JZmapqtl</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-i</strong> <em>input</em> ] [ <strong>-m</strong> <em>mapfile</em> ]
+[ <strong>-E</strong> <em>eqtfile</em> ] [ <strong>-S</strong> <em>srfile</em> ] [ <strong>-t</strong> <em>trait</em> ] [ <strong>-M</strong> <em>Model</em> ]
+[ <strong>-c</strong> <em>chrom</em> ] [ <strong>-d</strong> <em>walk</em> ] [ <strong>-n</strong> <em>nbp</em> ] [ <strong>-w</strong> <em>window</em> ] [ <strong>-I</strong> <em>hypo</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>JZmapqtl</strong> uses (composite) interval mapping to map quantitative trait loci to
+a map of molecular markers and can analyze multiple traits
+simultaneously.  It requires a molecular map that could be a random one produced by 
+<strong>Rmap</strong>,  or a real one in the same format as the output of 
+<strong>Rmap</strong>.   The sample could be a randomly generated one from 
+<strong>Rcross</strong> or a real one in the same format as the output of 
+<strong>Rcross</strong>. In addition, the program requires the results of the stepwise linear regression 
+analysis of  <strong>SRmapqtl</strong> for composite interval mapping.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename for output.   <strong>JZmapqtl</strong> will append the file
+if it exists, and create a new file if it does not.   If not used, then
+<strong>JZmapqtl</strong> will use <em>qtlcart.zj</em>, where the <em>j</em> indicates the trait
+analyzed and the zero'th file contains joint mapping.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist.  It should be in the
+same format as the output of <strong>Rcross</strong>. The default file is <em>qtlcart.cro</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+<strong>JZmapqtl</strong> requires a genetic linkage map.  This option requires
+the name of a file containing the map.  It should be in the same format
+that <strong>Rmap</strong> outputs.  The default file is <em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+Use this to specify which trait <strong>JZmapqtl</strong> will analyze.  If this
+number is greater than the number of traits, then all traits will be
+analyzed unless the trait name begins with a minus sign. If a negative
+number is given, then only traits beginning with a plus sign will be
+analyzed.   The default is to analyze trait 1 only.
+</dd>
+<p></p>
+<dt><strong><a name="item__2de"><strong>-E</strong></a></strong><br />
+</dt>
+<dd>
+Allows the user to specify the name of the file containing results from
+<strong>Eqtl</strong>.   <strong>JZmapqtl</strong> reads those results and uses the information to
+choose cofactors for some of the analysis methods.
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-S</strong></a></strong><br />
+</dt>
+<dd>
+Allows the user to specify the name of the file containing results from
+<strong>SRmapqtl</strong>. <strong>JZmapqtl</strong> reads the results and uses the information to choose
+cofactors for composite interval mapping model 6.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-M</strong></a></strong><br />
+</dt>
+<dd>
+<strong>JZmapqtl</strong> assumes the specified model (see below) in the analysis. Model 3 is default.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dc"><strong>-c</strong></a></strong><br />
+</dt>
+<dd>
+The user can specify a specific chromosome for <strong>Zmapqtl</strong> to analyze.   
+If zero, then all will be analyzed.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dd"><strong>-d</strong></a></strong><br />
+</dt>
+<dd>
+<strong>Zmapqtl</strong> walks along the chromosome at this rate.  The default is to do an analysis
+every  2 centiMorgans along the chromosome.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dn"><strong>-n</strong></a></strong><br />
+</dt>
+<dd>
+Use this to limit the number of background parameters that <strong>JZmapqtl</strong> uses  in
+composite interval  mapping. This is used only with model 6.  It tells <strong>JZmapqtl</strong>
+to use markers with rank no higher than specified with this option.  Markers are
+ranked by   <em>SRmapqtl.out</em> and only those markers for traits in the analysis with
+sufficient rank are used.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dw"><strong>-w</strong></a></strong><br />
+</dt>
+<dd>
+<strong>JZmapqtl</strong> blocks out a region of this many centiMorgans on either side
+of the markers flanking the test position when picking background
+markers.  It is 10 by default and is only used in models 5 and 6.  We
+refer to it as the <em>window size</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-I</strong></a></strong><br />
+</dt>
+<dd>
+<strong>JZmapqtl</strong> requires the user to specify which hypotheses to test.   For
+backcrosses, there are two hypotheses numbered 1 and 0.   Use 10 for
+backcrosses or a 14 to do GxE tests as well.   For crosses in which
+there are three genotypic classes, there are hypotheses 0, 1, 2, and 3. 
+Use 30, 31, 32 in that case or 34 to do GxE.   These are explained in
+greater detail in the manual.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p>The input format of the molecular map should be the same as that of the output 
+format from the program 
+<strong>Rmap</strong>.   The input format of the individual data should be the same as the output format
+of the program 
+<strong>Rcross</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % JZmapqtl</pre>
+<p>Calculates the likelihood ratio test statistics of the dataset in <em>qtlcart.cro</em>
+using the map in <em>qtlcart.map</em>.</p>
+<pre>
+        % nice JZmapqtl -A -V -i corn.cro -m corn.map -M 6 -t 3 -I 34 &amp;</pre>
+<p>Calculates the likelihood ratio test statistics of the dataset in <em>corn.cro</em>
+using the map in <em>corn.map</em>.  Model 6 is used for analysis.  This file has two traits, so
+specifying trait 3 means that both traits are analyzed.  Hypothesis 34 means that GxE interactions are
+also analyzed.  The program is nice'd as a courtesy to other
+users, and run in the background so that the user can logout and relax.</p>
+<p>
+</p>
+<hr />
+<h1><a name="models">MODELS</a></h1>
+<p>Different parameters for the <strong>-M</strong> option allow for the analysis of the data
+assuming different models.  See the <strong>Zmapqtl</strong>
+man page for  explanations of models 3 and 6.  These are the main analysis models available in
+<strong>JZmapqtl</strong>.   You can also use model 9, which prepares an input file for
+use in <strong>MultiRegress</strong>.   Mainly, it calculates the expected genotypes at the sites where it
+would have done analyses.    The expected genotypes are calculated according to 
+table 3.7 from the <strong>QTL Cartographer</strong> manual.</p>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<ol>
+<li></li>
+Lander, E. S. and D. Botstein (1989) Mapping Mendelian factors underlying 
+quantitative traits using RFLP linkage maps. <em>Genetics</em> <strong>121</strong>, 185-199.
+<p></p>
+<li></li>
+Zeng, Zhao-Bang (1993) Theoretical basis for separation of multiple linked gene 
+effects in mapping quantitative trait loci. <em>Proc. Natl. Acad. Sci., USA</em>
+<strong>90</strong>, 10972-10976.
+<p></p>
+<li></li>
+Zeng, Zhao-Bang (1994) Precision mapping of quantitative trait loci.
+<em>Genetics</em> <strong>136</strong>, 1457-1468.
+<p></p>
+<li></li>
+Jiang, Changjian and Zhao-Bang Zeng  (1995) Multiple trait analysis of genetic
+mapping for quantitative trait loci. <em>Genetics</em> <strong>140</strong>,  1111-1127.
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p><strong>Preplot</strong>  ignores the output at present.   
+So far, the program only does joint mapping and one form of GxE.   Tests for close linkage,  pleiotopic effects and other environmental
+effects will be added in the future.</p>
+<p>
+</p>
+<hr />
+<h1><a name="hints">HINTS</a></h1>
+<p>You can select traits to include in the analysis in three ways:</p>
+<dl>
+<dt><strong><a name="item_a_2e">a.</a></strong><br />
+</dt>
+<dd>
+Set the trait to analyze at 0, so that no traits except those
+beginning with a <strong>[+]</strong> (plus sign) are analyzed.  You would need to edit the
+.cro file first to prepend a <strong>+</strong> to all traits you wanted in the      
+analysis.
+</dd>
+<p></p>
+<dt><strong><a name="item_b_2e">b.</a></strong><br />
+</dt>
+<dd>
+Set the trait to a value in the range <strong>[1-t]</strong> inclusive, where t is the number of traits in
+the  .cro file.    You will then get single trait results.
+</dd>
+<p></p>
+<dt><strong><a name="item_c_2e">c.</a></strong><br />
+</dt>
+<dd>
+Set the trait to a value greater than t.  Then all traits will be put in
+the analysis, unless they begin with a minus sign <strong>[-]</strong>.  As in a. above, you
+would need to edit the  .cro file to minus out some traits.
+</dd>
+<p></p></dl>
+<p>You need to set the hypothesis test for SFx and RFx crosses.
+The default of 10 is ok for crosses in which there are only
+two marker genotypic classes (BCx, RIx).  To test GxE, use 14.    For SFx and RFx, 
+values of 30, 31 or 32 are valid, and a 34 invokes the GxE test.   Recall that we have the
+following hypotheses:</p>
+<ol>
+<li></li>
+H0: a = d = 0
+<p></p>
+<li></li>
+H1: a !=0 , d = 0
+<p></p>
+<li></li>
+H2: a = 0 , d != 0
+<p></p>
+<li></li>
+H3: a != 0, d != 0
+<p></p></ol>
+<p>For 30, we test H3:H0.   For 31, we test H3:H0, H3:H1 and H1:H0.
+For 32, we test H3:H0, H3:H2 and H2:H0.  30 is probably fine for
+initial scans.    Hypothesis 34 does a test for H3:H0 as well as the GxE.</p>
+<p>For Model 6, be sure to run <strong>SRmapqtl</strong> first.   Once done, <strong>JZmapqtl</strong>
+will use all markers that are significant for any of the traits in the
+analysis.  We need to work out a better way to select the cofactors.
+Presently we use any markers that are significant for any trait.  Also,
+be sure to use FB regression (Model 2 in <strong>SRmapqtl</strong>), or else you will end up using all
+markers as cofactors.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

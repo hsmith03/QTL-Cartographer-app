@@ -1,0 +1,47 @@
+    Install instructions for the perl and csh scripts.
+
+    To install the c-shell scripts and perl scripts, first edit the
+    Makefile and change to suit your needs.   The line 
+
+BINDIR =  /Users/basten/bin
+
+should be changed so that the scripts go into the same directory as your
+QTL Cart binaries.   The lines
+
+REMOVE = /bin/rm -f
+INSTALL = /bin/cp
+MOVE = /bin/mv -f
+PERL = /usr/bin/perl
+CSH = /bin/csh
+ 
+should be changed to reflect the true locations of rm, cp, mv, perl and
+csh.   You could try using tcsh in place of csh if you like.
+
+Next, look at the file scripts.cfg and modify the lines with
+TheBinDir and EmailAddress to set them to appropriate values.   
+
+
+Once the Makefile has been edited, type
+
+make  
+
+to install the scripts.   This step will change the first line of the
+scripts to use the perl and csh commands defined in the Makefile.
+
+
+Sometimes, you will get a message back from the make command like this:
+
+make: Nothing to be done for `all'.
+
+
+If so, then you will need to 'touch' the files and remake.  
+
+make touch
+make
+
+should do the trick.   
+
+Chris Basten, 10/10/04
+
+
+

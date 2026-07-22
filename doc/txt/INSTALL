@@ -1,0 +1,114 @@
+
+
+23 March 2004
+
+
+                        INSTALL file for QTL Cartographer.
+
+
+0.  I assume that you downloaded the distribution from
+http://statgen.ncsu.edu/qtlcart and have unpacked
+and untarred it.   
+
+1.  CD into the QTLCartUnix/src directory, and edit the Makefile.  You will need to
+pick a compiler.  The default is cc, but you may have gcc available.  
+You will need a compiler that understands function prototypes.   
+If you don't have one, then get gcc.  
+
+You will want to set the install directory.  It is a line that looks like
+
+BINDIR = ../bin
+
+You can change it to whatever you wish.  If you want it
+globally available, you might try using 
+
+BINDIR = /usr/local/bin
+
+But you will need write permission on that directory for it to work.
+
+Check the install command and change it to whatever works on your system.
+Presently it is 
+
+INSTALL = /bin/cp
+
+You may need to make it
+
+INSTALL = /usr/bin/cp
+
+
+2.  Compile flags
+
+You may need to look at the LocalD.h file if the compilation does not work.
+There are a few compile flags that can be changed.  One is FPN, which allows
+you to compile floating point numbers as "double" or "float".  The default
+is double.  
+
+I develop on a Macintosh running MacOSX, and use the following:
+
+CPPFLAGS=-DUNIX -DITOA -DAQUA
+
+If you are not on a Macintosh, then remove the -DAQUA from the above line.   
+
+If you have a machine running Solaris and the SUNW compilers, then you can compile
+64 bit binaries.   These will be slower, but potentially allow for larger data sets.
+This has not been extensively tested.  Look at the Makefile for details.
+
+2.  Now, make the programs 
+
+% make  
+
+If you get an error, edit the LocalD.h file or contact Chris Basten.
+You can try commenting and uncommenting some of the lines in it and
+remaking.  
+
+If make succeds, then install the programs
+
+% make install
+
+
+3.  The binaries will be in the BINDIR subdirectory.  Make sure that this
+subdirectory is in your path variable, and then rehash.
+
+
+4. There are  example data sets in the example subdirectory. 
+
+
+5.  See the README.doc file in the doc subdirectory for more documentation.
+
+6.  As a test, create a new subdirectory.  Change into it and run the
+programs in the following order:
+
+   1. Rmap
+   2. Rqtl
+   3. Rcross
+   4. Qstats
+   5. LRmapqtl
+   6. SRmapqtl
+   7. Zmapqtl
+   8. Eqtl
+   9. Preplot
+
+You can use the default parameters for each.  This sequence should give
+you an idea of whether the programs were compiled correctly.  
+
+7.  There are some perl and csh scripts in the doc/src subdirectory.
+Read the INSTALL file in that directory for instructions.  
+
+
+*****************************************************************************
+
+              Chris Basten        B. S. Weir      Zhao-Bang Zeng
+
+Email:  basten@statgen.ncsu.edu             zeng@statgen.ncsu.edu
+Phone:       (919)515-1934                         (919)515-1942
+Fax:         (919)515-7315                         (919)515-7315
+                               
+Address:
+                        Department of Statistics
+                     Bioinformatics Research Center
+                     North Carolina State University
+                         Raleigh, NC 27695-7566
+                                  USA
+
+*****************************************************************************
+

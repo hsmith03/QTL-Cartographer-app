@@ -1,0 +1,68 @@
+NAME
+    TestExamples.pl - Run a basic analysis on the example files
+
+SYNOPSIS
+      TestExamples.pl [-D debug] [-t test dir ] [-e example dir ][-b bin dir ] [-h]   
+
+DESCRIPTION
+    TestExamples.pl is a script that will use the QTL Cartographer commands
+    to run basic analyses on all of the example data sets.
+
+OPTIONS
+    -b  This option requires the path to the QTL Cartographer binaries and
+        perl scripts.
+
+    -t  This option requires the path to the base directory for doing the
+        analyses. This directory will be created if it doesn't exist. Each
+        data set will have a subdirectory in the base directory for
+        analysis.
+
+    -e  Use this to specify the location of the example subdirectory.
+
+    -D  Allows you to set the debug level. The default is zero. You can set
+        it to any of 0, 1, 2, or 3.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+EXAMPLE
+    Suppose that the example files are in /home/user/QTLCartUnix/example and
+    you want to run all the tests in a base directory /home/user/test.
+    Suppose further that you have installed the QTL Cartographer binaries in
+    /usr/local/bin. Use
+
+        % TestExamples.pl -b /usr/local/bin -t /home/user/test \
+            -e /home/user/QTLCartUnix/example
+
+    This will create the directory /home/user/test if it doesn't exist, and
+    then create subdirectories for each data set. It will copy the data file
+    and genetic linkage map from the example subdirectory into the data set
+    subdirectory of /home/user/test. Then, it will convert the map and data
+    files into the proper formats and run Qstats, LRmapqtl, SRmapqtl,
+    Zmapqtl on all traits. If there are multiple traits, JZmapqtl will be
+    run followed by Eqtl and Preplot. Then, JZmapqtl will convert the data
+    so that MultiRegress can generate an initial model that Rqtl translates
+    and MImapqtl refines. This will be done for all the data sets in the
+    example directory that have filename extension .inp.
+
+    The script also runs analyses for the mletest and sample data sets, and
+    does two simulations: One with a single trait and one with two traits.
+
+    At the end of the script, you will find a file
+    /home/user/test/Verbiage.txt that contains all of the verbal output from
+    the programs. This file is deleted by the script if you run it again.
+
+NOTE
+    You will need at least 36 megabytes of disk space to run this program.
+
+SEE ALSO
+    QTLcart(1) and all programs referenced therein.
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

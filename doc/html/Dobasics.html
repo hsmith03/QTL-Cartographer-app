@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Dobasics</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#analyses">ANALYSES</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Dobasics.pl - Do a basic set of analyses for a QTL mapping data set</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  Dobasics.pl  [-b bindir] [-X stem] [-S sig. threshold] [-m mapinput] 
+    [-d datainput]  [-t trait] [-H hypothesis] [-V] [-h]</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Dobasics.pl</strong> does a basic analysis of a QTL mapping data set.   
+Map and data files are translated first.  Then, basic single marker
+analyses are followed by interval mapping and composite interval mapping.
+<strong>Eqtl</strong> produces a summary of results and <strong>Preplot</strong> prepares the results for
+plotting with <strong>Gnuplot</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2db"><strong>-b</strong></a></strong><br />
+</dt>
+<dd>
+This option requires the path to the <strong>QTL Cartographer</strong> binaries and perl scripts.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+requires an integer telling which trait to analyze.  If you want to do them all, set this to
+one more than the number of traits.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dx"><strong>-X</strong></a></strong><br />
+</dt>
+<dd>
+This option allows you to specify the filename stem.
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-S</strong></a></strong><br />
+</dt>
+<dd>
+This option requires a real number to indicate the significance threshold for the likelihood ratio.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify an input file for the map data.  It should be in the format of <em>map.inp</em>
+or <strong>MAPMAKER/EXP</strong> output.  If not used, the script assumes that the map file already exists in the
+correct format.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dd"><strong>-d</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify an input file for the mapping data.  It should be in the format of <em>cross.inp</em>
+or <strong>MAPMAKER/EXP</strong> raw format.  If not used, the script assumes that the date file already exists in the
+correct format.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-H</strong></a></strong><br />
+</dt>
+<dd>
+Use this option to specify which hypothesis test you want to use.  The usual values are 10 or 30.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dv"><strong>-V</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it turns off messages indicating the progress of the script.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="analyses">ANALYSES</a></h1>
+<p>Assume that we will use the filename stem <em>qtlcart</em> for the following.   The script does the tasks in
+this order:</p>
+<dl>
+<dt><strong><a name="item_rmap"><strong>Rmap</strong></a></strong><br />
+</dt>
+<dd>
+Convert the map found in the file specified by the <strong>-m</strong> option into <strong>QTL Cartographer</strong> format with <strong>Rmap</strong>.  
+If the option is not used, then the script assumes that the map is already in the correct format and resides in
+the file <em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item_rcross"><strong>Rcross</strong></a></strong><br />
+</dt>
+<dd>
+Convert the data found in the file specified by the <strong>-d</strong> option into <strong>QTL Cartographer</strong> format with <strong>Rcross</strong>.  
+If the option is not used, then the script assumes that the data is already in the correct format and resides in the
+file <em>qtlcart.cro</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item_qstats"><strong>Qstats</strong></a></strong><br />
+</dt>
+<dd>
+Run <strong>Qstats</strong> to generate basic statistics.
+</dd>
+<p></p>
+<dt><strong><a name="item_lrmapqtl"><strong>LRmapqtl</strong></a></strong><br />
+</dt>
+<dd>
+Do simple linear regression with <strong>LRmapqtl</strong>.
+</dd>
+<p></p>
+<dt><strong><a name="item_srmapqtl"><strong>SRmapqtl</strong></a></strong><br />
+</dt>
+<dd>
+Do stepwise linear regression with <strong>SRmapqtl</strong>.
+</dd>
+<p></p>
+<dt><strong><a name="item_zmapqtl"><strong>Zmapqtl</strong></a></strong><br />
+</dt>
+<dd>
+Do composite interval mapping with <strong>Zmapqtl</strong> and the model specified on the command line.   The default is
+to use model 6.
+</dd>
+<p></p>
+<dt><strong><a name="item_jzmapqtl"><strong>JZmapqtl</strong></a></strong><br />
+</dt>
+<dd>
+Do multiple trait composite interval mapping   with <strong>JZmapqtl</strong>.  This will only be done if you speciefied more than
+one trait with the <strong>-t</strong> option.
+</dd>
+<p></p>
+<dt><strong><a name="item_eqtl"><strong>Eqtl</strong></a></strong><br />
+</dt>
+<dd>
+Estimate QTL positions from the analyses above.
+</dd>
+<p></p>
+<dt><strong><a name="item_preplot"><strong>Preplot</strong></a></strong><br />
+</dt>
+<dd>
+Prepare the results for display with <strong>GNUPLOT</strong>.   You will need to run <strong>GNUPLOT</strong> on your own.
+</dd>
+<p></p>
+<dt><strong><strong>JZmapqtl</strong></strong><br />
+</dt>
+<dd>
+This step converts the data into a format that can be analyzed by <strong>MultiRegress</strong>.
+</dd>
+<p></p>
+<dt><strong><a name="item_multiregress"><strong>MultiRegress</strong></a></strong><br />
+</dt>
+<dd>
+Use least-squares analysis to estimate QTL postions.
+</dd>
+<p></p>
+<dt><strong><a name="item_rqtl"><strong>Rqtl</strong></a></strong><br />
+</dt>
+<dd>
+Convert the output of <strong>MultiRegress</strong> into a format that can be read as an initial model for
+multiple interval mapping.
+</dd>
+<p></p>
+<dt><strong><a name="item_mimapqtl"><strong>MImapqtl</strong></a></strong><br />
+</dt>
+<dd>
+Use the reformatted results from <strong>MultiRegress</strong> to estimate new QTL and epistatic effects.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>Suppose the files <em>mletest.map</em> and <em>mletest.cro</em> are in the current working
+directory.</p>
+<pre>
+    % Dobasics.pl  -b /home/basten/bin  -X mletest -S 13.0  -H 10</pre>
+<p>Will assume that the <strong>QTL Cartographer</strong> programs are in <em>/home/basten/bin</em>. 
+It will use a significance threshold of 13.0.   It will do basic statistics, 
+single marker analyses, interval and composite interval mapping, and prepare
+the data for <strong>Gnuplot</strong>.</p>
+<p>Suppose the files <em>realdatm.inp</em> and <em>realdatc.inp</em> are in the current working
+directory.  These files are formatted like <em>map.inp</em> and <em>cross.inp</em> and need to 
+be translated.  Use</p>
+<pre>
+        % Dobasics.pl -b /home/basten/bin  -X realdat -m realdatm.inp -d realdatc.inp  -S 13.0  -H 30</pre>
+<p>for this analysis.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Zmapqtl(1)</strong>, <strong>Qstats(1)</strong>, <strong>Eqtl(1)</strong>, <strong>LRmapqtl(1)</strong>, <strong>SRmapqtl(1)</strong>, <strong>Rmap(1)</strong>, 
+<strong>Rcross(1)</strong>, <strong>Rqtl(1)</strong>, <strong>MultiRegress(1)</strong>, <strong>MImapqtl(1)</strong>, <strong>Preplot(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+#      997197410   -filetype Rmap.out 
+#
+#    Here is the Map of Markers...
+-s
+-f   1  Map function [1,8]:  Haldane is 1
+-p    0.0000  Extra parameter for map functions [4-8]
+-u  c    The units of measurement is centiMorgans.
+#
+# Markermap parameters
+#
+-c         4  Number of chromosomes.
+-i        64  Total number of markers.
+-m        16  Mean, and...
+-vm   0.0000  ...standard deviation for Markers/Chromosome.
+-d   10.0000  Mean, and...
+-vd  -0.0000  ...standard deviation for the intermarker distance.
+-t    0.0000  Mean length of material outside the flanking markers.
+#
+          |   Chromosome---->
+--------------------------------------------
+Marker    |       1       2       3       4
+--------------------------------------------
+-l      0 |   0.0000  0.0000  0.0000  0.0000
+-l      1 |  10.0000 10.0000 10.0000 10.0000
+-l      2 |  10.0000 10.0000 10.0000 10.0000
+-l      3 |  10.0000 10.0000 10.0000 10.0000
+-l      4 |  10.0000 10.0000 10.0000 10.0000
+-l      5 |  10.0000 10.0000 10.0000 10.0000
+-l      6 |  10.0000 10.0000 10.0000 10.0000
+-l      7 |  10.0000 10.0000 10.0000 10.0000
+-l      8 |  10.0000 10.0000 10.0000 10.0000
+-l      9 |  10.0000 10.0000 10.0000 10.0000
+-l     10 |  10.0000 10.0000 10.0000 10.0000
+-l     11 |  10.0000 10.0000 10.0000 10.0000
+-l     12 |  10.0000 10.0000 10.0000 10.0000
+-l     13 |  10.0000 10.0000 10.0000 10.0000
+-l     14 |  10.0000 10.0000 10.0000 10.0000
+-l     15 |  10.0000 10.0000 10.0000 10.0000
+-l     16 |   0.0000  0.0000  0.0000  0.0000
+--------------------------------------------
+-Number   |      16      16      16      16
+
+
+
+Names and positions of the markers 
+
+ Chrom  Mark  Name 
+-b MarkerNames    
+     1     1 c1m1
+     1     2 c1m2
+     1     3 c1m3
+     1     4 c1m4
+     1     5 c1m5
+     1     6 c1m6
+     1     7 c1m7
+     1     8 c1m8
+     1     9 c1m9
+     1    10 c1m10
+     1    11 c1m11
+     1    12 c1m12
+     1    13 c1m13
+     1    14 c1m14
+     1    15 c1m15
+     1    16 c1m16
+     2     1 c2m1
+     2     2 c2m2
+     2     3 c2m3
+     2     4 c2m4
+     2     5 c2m5
+     2     6 c2m6
+     2     7 c2m7
+     2     8 c2m8
+     2     9 c2m9
+     2    10 c2m10
+     2    11 c2m11
+     2    12 c2m12
+     2    13 c2m13
+     2    14 c2m14
+     2    15 c2m15
+     2    16 c2m16
+     3     1 c3m1
+     3     2 c3m2
+     3     3 c3m3
+     3     4 c3m4
+     3     5 c3m5
+     3     6 c3m6
+     3     7 c3m7
+     3     8 c3m8
+     3     9 c3m9
+     3    10 c3m10
+     3    11 c3m11
+     3    12 c3m12
+     3    13 c3m13
+     3    14 c3m14
+     3    15 c3m15
+     3    16 c3m16
+     4     1 c4m1
+     4     2 c4m2
+     4     3 c4m3
+     4     4 c4m4
+     4     5 c4m5
+     4     6 c4m6
+     4     7 c4m7
+     4     8 c4m8
+     4     9 c4m9
+     4    10 c4m10
+     4    11 c4m11
+     4    12 c4m12
+     4    13 c4m13
+     4    14 c4m14
+     4    15 c4m15
+     4    16 c4m16
+-e MarkerNames
+

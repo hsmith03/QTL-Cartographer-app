@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SRcompare</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_files">INPUT FILES</a></li>
+	<li><a href="#output">OUTPUT</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>SRcompare.pl - Compare a pair of SRmapqtl outut files to see how many cofactors were gained or lost</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  SRcompare.pl [-f SRmapqtl.old] [-h] &lt; SRmapqtl.new &gt; output</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>SRcompare.pl</strong> reads from the standard input and writes to the standard
+output. It is meant to compare the set of cofactors in two <strong>SRmapqtl</strong>
+output files.   It will print out the number of cofactors that are
+the same, lost or gained in the two files.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2df"><strong>-f</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an input filename that must exist.  It allows the user to specify 
+the old <em>SRmapqtl.out</em> file for processing.   If it is not given, then the script dies.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_files">INPUT FILES</a></h1>
+<p>The input files should be of the same format as the output of <strong>SRmapqtl</strong>.   
+You should have only one set of such results in a file to be processed by
+<strong>SRcompare.pl</strong>.   These results are created by <strong>Eqtl</strong> as well as <strong>SRmapqtl</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="output">OUTPUT</a></h1>
+<p>At this time the output will be a single line telling how many cofactors 
+were lost, gained or remained, between the two files.  For example:</p>
+<pre>
+  10 are the same, 2 were lost and 0 were gained.</pre>
+<p>Ideally, you would like to see 0 lost and 0 gained.</p>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>Suppose we have a map in <em>qtlcart.map</em> and a data file in <em>qtlcart.cro</em>, and
+that there is no resource file in the current directory.   For this example, 
+assume that there are only two marker genotypes (that is a backcross or recombinant
+inbred line) and one trait.   The following series of commands can be used to 
+compare the cofactors chosen from interval mapping with those from composite interval
+mapping:</p>
+<pre>
+    % Qstats -X qtlcart
+        % Zmapqtl -M 3 -A
+        % Eqtl -S 12.0 -H 10 -I Z -A
+        % mv qtlcart.z qtlcart.z.1
+        % Zmapqtl -M 8 -A
+        % mv qtlcart.eqt qtlcart.eqt.1
+        % mv qtlcart.sr qtlcart.sr.1
+        % Eqtl -S 12.0 -H 10 -I Z -A 
+        % SRcompare.pl -f qtlcart.sr.1 &lt; qtlcart.sr</pre>
+<p>In the above,   <strong>Qstats</strong> is run to set the filename stem.  Next, <strong>Zmapqtl</strong> does an
+interval mapping analysis and <strong>Eqtl</strong> picks a set of markers closest to the peaks
+from  interval mapping:  These peaks are only used if they have likelihood ratios greater
+than 12.0.  Next, the interval mapping results are moved to an new file and 
+composite interval mapping is run using the cofactors identified via interval mapping.
+The previous output files of <strong>Eqtl</strong> (<em>qtlcart.eqt</em> and <em>qtlcart.sr</em>) are renamed and 
+new files are generated from the composite interval mapping results.   Then, <strong>SRcompare.pl</strong> 
+is used to compare the two sets of results, those from interval mapping (<em>qtlcart.sr.1</em>)
+and those from composite interval mapping (<em>qtlcart.sr</em>).</p>
+<p>This type of analysis can be iterated until a stable set of cofactors are identified.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Eqtl(1)</strong>, <strong>Qstats(1)</strong>, <strong>SRmapqtl(1)</strong>, <strong>Zmapqtl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

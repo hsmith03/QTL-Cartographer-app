@@ -1,0 +1,71 @@
+28 January 2005
+
+
+
+To all,
+
+I have added a few things and fixed some bugs in QTL Cartographer. 
+
+First, the bugs:
+
+1.  Eqtl was missing QTL at the ends of chromosomes.  
+
+2.  Emap was printing the wrong values for markers in its final
+    translation of the data file.   
+
+3.  MImapqtl was outputting residuals to an incorrect location if
+    you were setting a working directory.
+
+4.  JZmapqtl output dominance values for MultiRegress (Model 9) 
+    incorrectly.
+    
+5.  Prune, when doing selective genotyping, was not using the 
+    requested level of selection.
+    
+6.  Zmapqtl estimated r2 and tr2 with a sampling variance rather
+    than the biased estimate  used in maximum likelihood.
+    The r2 values were off by a factor of (n-1)/n.  
+
+All of the above were fixed.
+
+
+Now, some new features:
+
+1.  JZmapqtl can now do a pleiotropy test.  I am currently working on
+    a pleiotropy x close linkage test.
+
+2.  Prune can collapse a map and data set to eliminate marker intervals
+    of 0.0.  This is useful if you have a lot of markers.  Closely linked 
+    markers may then have identical information over individuals.  These can
+    be combined.  
+
+3.  Modified Permute.pl to calculate  experimentwise thresholds for
+    GxE LR scores when using hypothesis test 14 or 34.
+
+4.  Modified Emap so that you can reestimate the intermarker distances without
+    rearranging markers.    
+
+5.  Changed Prune so that the last random number will be printed as the
+    seed in the qtlcart.rc file when doing bootstraps, permutations and
+    simulations.   This will cause the programs to switch to reading and
+    writing the random number.   This was done so that scripts that did 
+    bootstraps would not reuse the same random number seed in consecutive
+    iterations, which begins to occur with very fast computers.
+ 
+6.  Introduced FPN variable so that programs can use
+    double or float universally (-DFPN=double, -DFPN=float) when compiling 
+    UNIX versions.
+
+7.  Was able to compile 64 bit binaries under Solaris and
+    someone did same for Unix Tru64 v5.1.   See the Makefile
+    for the different compiler flags needed.  
+
+8.  Qstats can now produce a table of the marker probability distribution.  For 
+    missing or dominant markers, the probabilities of AA, Aa and aa marker
+    states are calculated via Jiang and Zeng's 1997 paper.  
+
+9.  The Unix version will compile a Bmapqtl (Bayesian interval mapping) module,
+    but this is not ready for use.   
+
+
+Chris

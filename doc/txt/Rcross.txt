@@ -1,0 +1,239 @@
+NAME
+    Rcross - Simulate or reformat a data set.
+
+SYNOPSIS
+    Rcross [ -o *output* ] [ -i *input* ] [ -m *mapfile* ] [ -q *modelfile*
+    ] [ -g *Output* ] [ -r *repetitions* ] [ -c *Cross* ] [ -n *SampleSize*
+    ] [ -H *heredity* ] [ -E *Ve* ] [ -I *Interactive* ]
+
+DESCRIPTION
+    Rcross performs a random cross or reformats a data set. Cross types
+    include F1 backcrosses to the P1 or P2, F2 crosses produced by selfing
+    or random mating, recombinant inbred lines as well as a few others. It
+    simulates marker and trait data. The markers simulated come from a
+    molecular map that could be a random one produced by Rmap, or a real one
+    in the same format as the output of Rmap. The QTL model could be a
+    random set produced by Rqtl or an estimated set in the same format as
+    the output of Rqtl.
+
+    Rcross can also translate files from three different formats. If the
+    user chooses to translate a file, then the simulation options are
+    ignored.
+
+OPTIONS
+    See QTLcart(1) for more information on the global options -h for help,
+    -A for automatic, -V for non-Verbose -W path for a working directory, -R
+    file to specify a resource file, -e to specify the log file, -s to
+    specify a seed for the random number generator and -X stem to specify a
+    filename stem. The options below are specific to this program.
+
+    If you use this program without specifying any options, then you will
+    get into a menu that allows you to set them interactively.
+
+    -o  This requires a filename for output. Rcross will overwrite the file
+        if it exists, and create a new file if it does not. If not used,
+        then Rcross will use qtlcart.cro. This output is in a format
+        suitable for any of the mapping programs.
+
+    -i  This requires an input filename. This file must exist. Rcross will
+        attempt to identify the format of the file and translate it to
+        another format. Specifying a file with this option turns off the
+        simulation parameters below.
+
+    -m  Rcross requires a genetic linkage map. This option require the name
+        of a file containing the map. It should be in the same format that
+        Rmap outputs. The default file is qtlcart.map.
+
+    -q  Rcross needs a genetic model to simulate a data set. It will read
+        from the file specified by this option. The file specified should
+        contain a genetic model in the same format as the output of Rqtl.
+        The default file is qtlcart.qtl.
+
+    -H  Allows the user to specify the heritability for the trait. If used,
+        it requires a value in the range 0.0 to 1.0. It is 0.5 by default.
+
+    -E  Allows the user to specify an environmental variance for the trait.
+        If used, it requires a positive value and will disable the
+        heritability. This is ignored by default.
+
+    -I  is the flag to turn on interactive crosses. By default, it has a
+        value of 0. To do interactive crosses, use this option with the
+        value 1.
+
+    -c  Allows the user to specify the type of cross. It requires a string
+        such as B1, SF2 or RI1. See below for more on the values of the
+        cross.
+
+    -g  This should be used with an integer in the range 0 to 6. It
+        specifies the format of the output. The default is 0 and the other
+        options are defined below.
+
+    -n  This is the sample size of the offspring. It is 200 by default and
+        requires some integer value greater than 0 if used.
+
+INPUT FORMAT
+    The input format of the molecular map should be the same as that of the
+    output format from the program Rmap. The input form of the QTL data
+    should be that of the output format from Rqtl. If an input file for the
+    data is used, then it can have one of two formats. The first is
+    identical to the raw files required by MAPMAKER. You must first use
+    MAPMAKER to create a genetic map, then run the map through Rmap to
+    reformat it, then use the map and the original raw file to reformat the
+    data for subsequent use.
+
+    An alternative format is defined in a file cross.inp that is included
+    with the distribution. The file can be annotated freely. Look at the
+    cross.inp file and use it as a template for your data. In addition, you
+    can use the qtlcart.mcd files that were formatted for the Windows
+    version of QTL Cartographer.
+
+    Rcross can read the input files formatted for use with PLABQTL. You will
+    need to add the phrase *-filetype plabqtl0.inp* (matrix format) or
+    *-filetype plabqtl1.inp* (vector format) to the first line of the
+    PLABQTL formatted input file. Also, be sure that there are no map files
+    in the current working directory: You want Rcross to read the map that
+    is in the PLABQTL input file. If your PLABQTL input file has
+    measurements for your traits in different environments, you need to add
+    the phrase *-environments x* at the end of the first line, where *x* is
+    the number of environments. If you have *t* traits, then Rcross will
+    output *(x+1)t* traits. Generally, the main block of data will have the
+    means of each trait over environments while the raw data are appended to
+    the end of the PLABQTL file. The raw measurements will be named
+    *TrYEnvX* in the output, where *Y* and *X* are the trait and environment
+    numbers. For example, if weight (trait 1) and height (trait 2) are the
+    two traits and they are measured in three environments, then there will
+    be eight traits in the output file. The raw data for weight will be
+    named *Tr1Env1*, *Tr1Env2* and *Tr1Env3*, while for height they will be
+    *Tr2Env1*, *Tr2Env2* and *Tr2Env3*.
+
+OUTPUT
+    Rcross can produce eight different types of output files. The output
+    formats are specified by an integer from 0 to 7 used with the *-g*
+    command line option or set in the text menu. The numbers correspond to
+    the following output formats:
+
+    Value 0.
+        *qtlcart.cro*: This is the default and standard format for the
+        analysis programs in the QTL Cartographer package.
+
+    Value 1.
+        *cross.inp*: This is a standard input format designed for Rcross.
+        The manual has more details.
+
+    Value 2.
+        *mapmaker.raw*: This is the MAPMAKER raw file format.
+
+    Value 3.
+        *qtlcart.r*: This format is suitable for import into the programs R
+        or Splus. All the data will be written into the file and embedded in
+        commands that allow R/Splus to read it. In addition, Rcross writes a
+        set of commands to do ANOVA analyses of each trait on each marker
+        and categorical trait. For a file named *qtlcart.r*, use the command
+        source("qtlcart.r") in R/Splus to import the data. Note that names
+        of traits, markers and categorical traits must conform to R/Splus
+        usage.
+
+    Value 4.
+        *qtlcart.sas*: This format is a SAS program that has all the data
+        and a set of PROC GLM commands to do ANOVA and Means analyses
+        similiar to the R/Splus option above. Note that names of traits,
+        markers and categorical traits must conform to SAS usage. Thanks to
+        Emilio Carbonell for the suggestion.
+
+    Value 5.
+        *plabqtl0.qdt*: This will produce a file suitable for input into
+        PLABQTL. The data will be in the matrix format. See the PLABQTL
+        manual for more details.
+
+    Value 6.
+        *plabqtl1.qdt*: This will produce a file suitable for input into
+        PLABQTL. The data will be in the vector format. See the PLABQTL
+        manual for more details.
+
+    Value 7.
+        *qtlcart.mcd*: This will produce a file suitable for input into the
+        Windows GUI version of QTL Cartographer (Wang, *et al.,* 2002). This
+        is a single file with the genetic linkage map and the data set. The
+        format is similar to the map.inp and cross.inp formats.
+
+CROSSES
+    A pair of inbred parental lines (P1 and P2) that differ in the trait of
+    interest and marker genotypes are crossed to produce an F1 generation.
+    All crosses are then derived from these lines. Backcrossing to P1 is
+    encoded by B1, and to P2 by B2. Selfed intercrosses of generation i are
+    encoded by SFi. Randomly mated intercrosses of generation i are encoded
+    by RFi. Recombinant inbreds created by selfing have the code RI1, while
+    those by sib-mating are RI2. Doubled haploids have the code RI0. A test
+    cross of an SFi line to a Pj line is encoded by T(Bj)SFi. The QTL
+    Cartographer manual explains some other crosses that are possible. Note
+    that the UNIX shell may interpret ( and ) so they should either be
+    quoted, or the cross entered into the interactive menu.
+
+    Rcross uses the general genetic model developed by Cockerham (1954).
+
+EXAMPLES
+            % Rcross  -A -V -c SF2 -n 1000
+
+    Does a selfed F2 cross with 1000 offspring using the linkage map in
+    qtlcart.map and the model in qtlcart.qtl. The command line options -A
+    and -V turn off the interactive menu and the verbosity mode,
+    respectively.
+
+            % Rcross  -i cross.raw 
+
+    Reads from the file cross.raw, tries to determine its format, and
+    translates it if possible. The file cross.raw could be a MAPMAKER/QTL
+    formatted file, a cross.inp formatted file or one that is already in the
+    Rcross.out format.
+
+REFERENCES
+    1.  Cockerham, C. C. (1954) An extension of the concept of partitioning
+        hereditary variance for analysis of covariances among relatives when
+        epistasis is present. *Genetics* 39, 859-882.
+
+    2.  Lander, E. S., P. Green, J. Abrahamson, A. Barlow, M. Daley, S.
+        Lincoln and L. Newburg (1987) MAPMAKER: An interactive computer
+        package for constructing primary genetic linkage maps of
+        experimental and natural populations. *Genomics* 1, 174-181.
+
+    3.  Utz, H.F. and A.E. Melchinger (1996) PLABQTL: Aprogram for composite
+        interval mapping of QTL. *J. Agric. Genomics* 2(1).
+
+    4.  Wang, S., C. J. Basten and Z.-B. Zeng (2002) Windows QTL
+        Cartographer: WinQtlCart V2.0.
+
+BUGS
+    If you use the interactive mode, you can print out the results of
+    crosses. The analysis of these arbitrary crosses has not been fully
+    integrated into the other programs.
+
+    The input subroutines for importing PLABQTL files has not been
+    extensively tested. Check your output for correctness.
+
+    The Windows version of QTL Cartographer (Wang, *et al.,* 2002) requires
+    files with DOS line endings. Either do the conversions on a Windows
+    machine, or ftp the files to the Windows machine as text.
+
+SEE ALSO
+    Emap(1), Rmap(1), Rqtl(1), Rcross(1), Qstats(1), LRmapqtl(1),
+    BTmapqtl(1), SRmapqtl(1), JZmapqtl(1), Eqtl(1), Prune(1), Preplot(1),
+    MImapqtl(1), MultiRegress(1), Examples(1) SSupdate.pl(1), Prepraw.pl(1),
+    EWThreshold.pl(1), GetMaxLR.pl(1), Permute.pl(1), Vert.pl(1),
+    CWTupdate.pl(1), Ztrim.pl(1), SRcompare.pl(1), Ttransform.pl(1),
+    TestExamples.pl(1), Model8.pl(1), Dobasics.pl(1), Bootstrap.pl(1)
+
+CONTACT INFO
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Bioinformatics Research Center, North Carolina State University
+            1523 Partners II Building/840 Main Campus Drive
+            Raleigh, NC 27695-7566     USA
+            Phone: (919)515-1934
+
+    Please report all bugs via email to qtlcart-bug@statgen.ncsu.edu.
+
+    The QTL Cartographer web site ( http://statgen.ncsu.edu/qtlcart ) has
+    links to the manual, man pages, ftp server and supplemental materials.
+

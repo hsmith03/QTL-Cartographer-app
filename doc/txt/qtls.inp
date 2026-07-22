@@ -1,0 +1,277 @@
+#   12345789    -filetype qtls.inp             # Documentation at end
+-Units       cM   
+-named      yes   
+
+-start qtls 3
+Trait_1 4
+    1   9.1  0.75  0.0
+    1  89.1  0.5   0.0
+    3  68.4  0.22  0.0
+    4  43.2  0.95  0.0
+Trait_2 2
+    2  93.4  0.42  0.0
+    4  33.2  0.90  0.0
+Trait_3 1
+    1  33.4  0.84  0.2
+-stop qtls
+
+-interactions
+-trait Trait_1  
+1 2  AA   0.01
+1 2  AD   0.02
+1 2  DA   0.031
+1 2  DD   0.04
+1 3  AA   0.01
+1 3  AD   0.02
+1 3  DA   0.032
+1 3  DD   0.0
+1 4  AA   0.01
+1 4  AD   0.02
+1 4  DA   0.03
+1 4  DD   0.04
+2 3  AA   0.01
+2 3  AD   0.02
+2 3  DA   0.03
+2 3  DD   0.0
+2 4  AA   0.01
+2 4  AD   0.02
+2 4  DA   0.0
+2 4  DD   0.04
+3 4  AA   0.011
+3 4  AD   0.022
+3 4  DA   0.03
+3 4  DD   0.04
+-trait Trait_2  
+1 2  AA   0.01
+1 2  AD   0.02
+1 2  DA   0.03
+1 2  DD   0.04
+-trait Trait_3  
+-stop interactions
+-end   
+
+#------------------  Documentation for above input file
+
+1.  First line:  it is critical that the first line 
+start with a pound symbol, a space, a number, a -filetype token
+and the qtls.inp filetype:
+
+# 12345789    -filetype qtls.inp
+ ^          ^          ^
+space      space     space
+
+The spaces are necessary, because the input is token based. 
+The program will read the second token in the file as a long integer
+and use it as an identifier for the file.   Thus, each file should
+have a unique identifier  following the pound symbol.
+
+The '-filetype qtls.inp' tells the QTL Cartographer programs that this
+is a 'qtls.inp' formatted file.   
+
+
+2. Tokens:   A token is any string of non-whitespace
+surrounded by whitespace.  Each time a token begins with a -, it is
+read to determine what follows it.  The next token is then read and
+processed.  The program will ignore any token that it doesn't
+recognize.  The tokens that are recognized in a 'qtls.inp' file are 
+
+
+
+-Units
+-end
+-named
+-start
+-stop
+-skip
+-unskip
+-interactions
+-filetype
+
+Usually,  only the first letter of these tokens is actually necessary (except for
+-start, -stop and -skip, which require more letters to distinguish between them).  
+
+
+Case is important.  -Units is different from -units.  -start and -Start are also different.
+
+
+3.  Meanings of tokens:
+
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Token       Followed by         Means
+------------------------------------------------------------------------
+-filetype   qtls.inp        Tells Rqtl what to expect in the format.
+-Units       cM  or M       cM for centiMorgans and M for Morgans.
+-named      yes or no       Answers whether the traits will have names. 
+-start      qtls            Begin data defining QTLs
+-interactions               Begin data on defining interactions
+-skip                       Tells Rqtl to skip everything until  an
+-unskip                     which is the end of the -skip.  These 
+                            cannot be within a -start to -stop block
+                            or a -interactions to -stop block
+-start                      Start of a qtls    block
+-stop                       End of a qtls  or interactions block
+-end                        End of the file
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+
+
+4.  QTLs block:
+
+  After the -start token, there should be the token 'qtls' and a number
+to indicate the number of traits to be modelled. For example,
+
+-start qtls 3
+
+
+Means that there will be QTLs for 3 traits.     After this there
+should be a repeating sequence of a trait name, number of loci for that
+trait, then the chromosome, position, additive and dominance effects
+for each locus.  This example has the loci followed by their positions
+in centiMorgans (from the telomere).  Please give all traits unique names.
+
+Here is an example of the repeating sequence:
+
+Trait_Name   #loci
+ chrom pos   a     d
+ chrom pos   a     d
+   .    .    .     .
+   .    .    .     .
+   .    .    .     .
+ chrom pos   a     d
+Trait_Name   #loci
+ chrom pos   a     d
+ chrom pos   a     d
+   .    .    .     .
+   .    .    .     .
+   .    .    .     .
+ chrom pos   a     d
+
+
+Which becomes:
+
+-start qtls 3
+Trait_1 4
+    1   9.1  0.75  0.0
+    1  89.1  0.5   0.0
+    3  68.4  0.22  0.0
+    4  43.2  0.95  0.0
+Trait_2 2
+    2  93.4  0.42  0.0
+    4  33.2  0.90  0.0
+Trait_3 1
+    1  33.4  0.84  0.2
+-stop qtls
+
+In our example above.   Now, consider the block
+
+Trait_1 4
+    1   9.1  0.75  0.0
+    1  89.1  0.5   0.0
+    3  68.4  0.22  0.0
+    4  43.2  0.95  0.0
+
+and think of them as being numbered consecutively:
+
+Trait_1 4
+1.    1   9.1  0.75  0.0
+2.    1  89.1  0.5   0.0
+3.    3  68.4  0.22  0.0
+4.    4  43.2  0.95  0.0
+
+and for the second trait, the numbering starts from 1 again:
+
+Trait_2 2
+1.    2  93.4  0.42  0.0
+2.    4  33.2  0.90  0.0
+
+These numberings will be used to define the interactions.
+
+5.  Interactions:  For a QTL with k loci, there are k(k-1)/2  unordered pairs
+of loci.   We can define epistatic interactions for each of these pairs.
+Epistatic interactions come in four types, thus there are 2k(k-1) possible 
+interactions.   The abbreviations for the types are:
+
+--------------------------------------
+--------------------------------------
+       Interaction          Abbrev.
+--------------------------------------
+1.  Additive by additive      AA
+2.  Additive by dominance     AD
+3.  Dominance by additive     DA
+4.  Dominance by dominance    DD
+--------------------------------------
+--------------------------------------
+
+If an interaction is not defined in the -interactions block, then it will
+be set to zero.   To define the interactions, we have a block that looks similar
+to that defining QTL main effects.  The token -interactions is followed by the 
+-trait token with a traitname and then a repeating sequence of 
+
+QTL1 QTL2 Type Value
+
+tokens.   Thus, the line  
+
+1 2  AA   0.01
+
+
+means that QTL 1 (chromosome 1   position 9.1) and QTL 2 (chromosome 1  position 89.1)
+have an Additive by additive effect of 0.01.   Note that the QTL with a smaller number
+ALWAYS comes before that with the larger number.  Here is the full block as in the example, 
+where all of the interactions are defined (although some are 0.0):
+
+-interactions
+-trait Trait_1  
+1 2  AA   0.01
+1 2  AD   0.02
+1 2  DA   0.031
+1 2  DD   0.04
+1 3  AA   0.01
+1 3  AD   0.02
+1 3  DA   0.032
+1 3  DD   0.0
+1 4  AA   0.01
+1 4  AD   0.02
+1 4  DA   0.03
+1 4  DD   0.04
+2 3  AA   0.01
+2 3  AD   0.02
+2 3  DA   0.03
+2 3  DD   0.0
+2 4  AA   0.01
+2 4  AD   0.02
+2 4  DA   0.0
+2 4  DD   0.04
+3 4  AA   0.011
+3 4  AD   0.022
+3 4  DA   0.03
+3 4  DD   0.04
+-trait Trait_2  
+1 2  AA   0.01
+1 2  AD   0.02
+1 2  DA   0.03
+1 2  DD   0.04
+-trait Trait_3  
+-stop interactions
+
+
+
+6.  Termination:   The -end token will tell Rqtl to stop reading the file and
+to the translation.  The token -quit will do the same thing.
+
+
+7.  Annotation:   You can annotate the input file as much as you want. Be careful to 
+not put annotation in the -start to -stop or -interactions to -stop blocks.
+Also, don't use words that begin with a minus sign, or put such words in a 
+-skip to -unskip block.  Finally, anything after an -end or -quit token will be
+ignored. 
+ 
+
+8. Usage:  If this file were called 'qtls.inp', then 
+
+% Rqtl -i qtls.inp
+
+would convert this file to the format required for the other programs
+in the QTLcartographer system.  The above assumes that an appropriate map
+file exists.   
+

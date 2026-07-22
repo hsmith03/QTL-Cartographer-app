@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Rmap</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Rmap - Simulate or reformat a map of molecular markers</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>Rmap</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-i</strong> <em>input</em> ]  [ <strong>-g</strong> <em>gmode</em> ]
+[ <strong>-f</strong> <em>mapfunc</em> ] [ <strong>-p</strong> <em>mapparam</em> ] [ <strong>-c</strong> <em>chroms</em> ]
+[ <strong>-m</strong> <em>MarkersPerChrom</em> ] [ <strong>-vm</strong> <em>sdMPC</em> ]  
+[ <strong>-d</strong> <em>InterMarkerDist</em> ] [ <strong>-vd</strong> <em>sdIMD</em> ]  
+[ <strong>-t</strong> <em>Tails</em> ] [ <strong>-M</strong> <em>Mode</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Rmap</strong> creates a random map of molecular markers.  The user specifies the number of 
+chromosomes, the number of markers per chromosome and the average intermarker
+distance.  If one specifies standard deviations for the number of markers and the 
+average intermarker distances, they will vary subject to the normal 
+distribution.  The output gives a table of markers by chromosomes, with the 
+distances between consecutive markers (in centiMorgans) in the table.</p>
+<p>If you specify an input file, <strong>Rmap</strong>  will open it, determine if it is in
+the same format as <strong>Rmap</strong> outputs, and process it based in the value
+given to <strong>-g</strong>.  If the input file is the output of <strong>MAPMAKER</strong>, then the
+map will be reformatted from <strong>MAPMAKER</strong> into the <strong>Rmap</strong> output format.</p>
+<p>Finally, there is a standard input format that <strong>Rmap</strong> can translate, and
+is defined in the file <em>map.inp</em> that comes with the distribution of the
+programs.  Note that if the user specifies an input file, no simulations
+will be done and the latter half of the command line options are ignored.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This should be used with a filename indicating where the output will be
+written.   <strong>Rmap</strong> will overwrite the file if
+it exists, and create a new file if it does not.   If not used, then <strong>Rmap</strong> will use
+<em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+You can use this option to specify  an input filename.    This file must exist and have
+one of three formats:  <em>Rmap.out</em>, <em>map.inp</em> or <em>mapmaker.mps</em>.  <strong>Rmap</strong> will
+attempt to identify the format of the file and translate it to another format.
+If you specify an input file, then the simulation parameters will be
+ignored.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dg"><strong>-g</strong></a></strong><br />
+</dt>
+<dd>
+Requires an integer to indicate the output format.  You can use
+a 1 for the default ouput format, a 2 for <strong>GNUPLOT</strong> output or
+a 3 for both.  If you use a 2 or a 3, then you can use <strong>GNUPLOT</strong> 
+to see graphical version of the linkage map.
+</dd>
+<p></p>
+<dt><strong><a name="item__2df"><strong>-f</strong></a></strong><br />
+</dt>
+<dd>
+Requires an integer option to specify the  mapping function.
+<strong>Rmap</strong> can use the Haldane, Kosambi, fixed or a number of other functions.
+The default is to use the Haldane function, which is specified with a 1.
+Using a 2 invokes the Kosambi mapping function.  A 3 means that a fixed function is used
+and thus the distance in Morgans is the recombination fraction. The type 
+of mapping function used would then be recorded in the ouput and all following analyses will 
+use this function.  One must edit the map file to change this if not using <strong>Rmap</strong>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dp"><strong>-p</strong></a></strong><br />
+</dt>
+<dd>
+Requires a real number.   Some map functions need an extra parameter, and 
+this allows the user to specify it.  See the manual for details.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dc"><strong>-c</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify the number of chromosomes if you are simulating a
+genetic linkage map.   It is 4 by default.  If you are translating a 
+file, then this will be ignored as will the remaining options.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify the average number of markers per chromosome in a
+simulation.  The default is 16.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dvm"><strong>-vm</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify the standard deviation in the number of markers per chromosome.  
+The number of markers per chromosome will have a normal distribution with 
+mean given in the previous option, and the standard deviation specified here.  If zero,
+then each chromosome will have the same number of markers.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dd"><strong>-d</strong></a></strong><br />
+</dt>
+<dd>
+<strong>Rmap</strong> uses the value given after this option as the average intermarker distance
+(in centiMorgans) for a simulation. It is  10 centiMorgans by default.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dvd"><strong>-vd</strong></a></strong><br />
+</dt>
+<dd>
+The intermarker distance will have a normal distribution with mean
+set by the previous option and standard deviation specified with this
+option.   It is 0.0 by default, which means that the intermarker distances
+between consecutive markers will all be the same.  Set it to a positive value to
+have intermarker distances vary at random.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+You can simulate maps where there are no markers on the telomeres with this option. 
+Give this option a value of <em>tails</em> and  <strong>Rmap</strong> puts an average of <em>tails</em>
+Morgans of genetic material on the ends of the chromosomes.   By default, it
+is 0.0.   If the standard deviation for intermarker distance is greater than 0.0, then
+then the amount of flanking DNA will have a normal distribution with mean given here
+and standard deviation proportional to that of the standard deviation of
+intermarker distances.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-M</strong></a></strong><br />
+</dt>
+<dd>
+Allows you to specify an alternate simulation mode.   If the <strong>-M</strong>
+option is used with a value of 1, then the intermarker distance will be used
+as the chromosome length (so you should make it longer), and the markers are
+placed  on the chromosomes following the uniform distribution.
+The value of this option will be returned to 0 at the completion of the program.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p><strong>Rmap</strong>  recognizes four types of files.  The first is the <em>Rmap.out</em> format
+that  <strong>Rmap</strong> itself creates.  The second is a special format defined in the example
+file <em>map.inp</em> included in the distribution.  The third format is the
+output of  <strong>MAPMAKER</strong>.   If the input file is a  <strong>MAPMAKER</strong> output file, 
+<strong>Rmap</strong>  translates this file into its own format.  If the input file is already in the 
+correct format,  <strong>Rmap</strong> will output it dependant upon the flag given to
+the <strong>-g</strong> option.  The units of intermarker distances will be in
+centiMorgans in the output.</p>
+<p><strong>Rmap</strong> also recognizes the input files for the Windows GUI version of <strong>QTL Cartographer</strong>
+(Wang, <em>et al.,</em> 2002).</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % Rmap -o Map.out -c 23 -vm 3 -vd 1 -t 5</pre>
+<p>Simulates a random map where the number of markers on each of 23 chromosomes has 
+a normal distribution with mean 16 and standard deviation 3.  The intermaker distance is
+normally distributed with mean 10 cM and standard deviation 1.  There will be some
+genetic material outside the flanking markers on each chromosome, with a 
+mean length of 5 cM and standard deviation 0.5.</p>
+<pre>
+        % Rmap -o Map.out -i map.mps</pre>
+<p>Opens the file <em>map.mps</em>, tries to determine its format, and translates it if
+possible.  The output will be written to the file <em>Map.out</em>.   The extension <strong>.mps</strong>
+should be used with <strong>MAPMAKER</strong> output files and the string <em>-filetype mapmaker.mps</em>
+should be put somewhere in the first twenty lines of the file.</p>
+<pre>
+        % Rmap -i map.inp -g 3 -X test</pre>
+<p>This opens the file <em>map.inp</em> and translates it.  Two output files are produced.
+The file <em>test.map</em> contains the genetic linkage map in <em>Rmap.out</em> format, while
+a file <em>testmap.plt</em> contains code for <strong>GNUPLOT</strong>.  The next step would be to 
+start <strong>GNUPLOT</strong> and load <em>testmap.plt</em>.</p>
+<pre>
+        % gnuplot
+        gnuplot&gt; load &quot;testmap.plt&quot;
+        Hit return to continue
+        gnuplot&gt; quit</pre>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<ol>
+<li></li>
+Lander,  E. S., P. Green, J. Abrahamson, A. Barlow, M. Daley, S. Lincoln and 
+L. Newburg (1987) MAPMAKER: An interactive computer package for constructing primary
+genetic linkage maps of experimental and natural populations.
+<em>Genomics</em> <strong>1</strong>, 174-181.
+<p></p>
+<li></li>
+Wang, S., C. J. Basten and Z.-B. Zeng (2002)  Windows QTL Cartographer:  WinQtlCart V2.0.
+<p></p>
+<li></li>
+T. Williams and C. Kelley (1993) GNUPLOT: An Interactive Plotting Program. Version 3.5
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Note that if  <strong>MAPMAKER</strong>  outputs an intermarker distance of 0.00 cM,  then 
+<strong>Rmap</strong> will translate it to 0.0001 cM.   In fact, all intermarker distances of
+0.0 will be reset to 0.0001 cM.</p>
+<p>Prior to version 1.17d, if you tried to simulate more than 50 linkage groups,
+you would crash the other programs in the QTL Cartographer Suite.  This bug
+was fixed with version 1.17d.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+NAME
+    Bootstrap.pl - Do a bootstrap analysis with Zmapqtl
+
+SYNOPSIS
+      Bootstrap.pl [-b bin] [ -X stem] [-m model] [-r iterations] [-e email] 
+           [-H hypothesis] [-a rep] [-s] [-h]   
+
+DESCRIPTION
+    Bootstrap.pl iterates using Prune and Zmapqtl to determine sampling
+    variances based on a bootstrap resampling.
+
+OPTIONS
+    If the qtlcart.rc file if it exists, Bootstrap.pl will first set its
+    parameter values from that file. Any command line options will override
+    the qtlcart.rc values. If a parameter has not been set by either the
+    qtlcart.rc file or command line parameters, default values are set.
+
+    -b  This option requires the path to the QTL Cartographer binaries and
+        perl scripts.
+
+    -r  requires an integer to control how many bootstrap iterations you
+        want to do. The default is 1000.
+
+    -X  This option allows you to specify the filename stem. The default is
+        *qtlcart*.
+
+    -e  This option requires an email address. The temporary log file will
+        be sent to this address to indicate that the bootstrap is complete.
+        If blank, then no email message will be sent. The default is not to
+        use this option.
+
+    -m  This option allows you to specify the Zmapqtl model to use. The
+        default is interval mapping (3).
+
+    -H  Use this option to specify which hypothesis test you want to use.
+        The usual values are 1 or 30. The default is 1: Unless there are
+        three genotypic classes, do not change this option..
+
+    -s  requires no operand. This tells Bootstrap.pl to save the
+        bootstrapped datasets and their analytical results. If used with a
+        large number of bootstraps, a great deal of harddisk space will be
+        used up. It is mainly for debugging purposes.
+
+    -a  requires an integer operand indicating the last completed iteration.
+        Useful if your machine crashed during the bootstrap.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+EXAMPLE
+    Suppose the files mletest.map and mletest.cro are in the current working
+    directory.
+
+        % Zmapqtl -X mletest -M 3 -A -V 
+        % Bootstrap.pl  -b /home/basten/bin  -r 500
+
+    These commands assume that the QTL Cartographer programs are in
+    /home/basten/bin. It will use interval mapping and do 500 bootstrap
+    iterations. Note that you need to do an initial Zmapqtl run before
+    beginning the bootstrap, and that initial run will set the filename stem
+    and the model for analysis.
+
+    If your machine crashed during the bootstrap analysis, then you can
+    restart where you left off (provided that the crash occurred during the
+    Zmapqtl run). Suppose the above completed 356 iterations and crashed
+    during iteration 357. Then
+
+        % Bootstrap.pl  -b /home/basten/bin  -r 500 -a 356
+
+    would pick up the bootstrap at iteration 357 and complete at 500.
+
+CAVEATS
+    The -s option allows you to save the bootstrapped datasets and
+    analytical results. For iteration *i*, model *m*, filename stem
+    *qtlcart* and single trait analysis, there will be files qtlcart.cro.i,
+    qtlcart.zm.i and qtlcart.zm.bi.
+
+    This option is mainly for debugging purposes. Be aware that a large
+    number of iterations will use a great deal of disk space. You could
+    modify the Bootstrap.pl script to compress these files to save disk
+    space.
+
+SEE ALSO
+    Zmapqtl(1), Prune(1), SSupdate.pl(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

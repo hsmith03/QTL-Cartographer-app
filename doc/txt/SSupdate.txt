@@ -1,0 +1,189 @@
+NAME
+    SSupdate.pl - Update the the sum and sum of squares for the bootstrap
+
+SYNOPSIS
+       SSupdate.pl [-l lrcol] [-a additive] [-d dominance] [-I hypothesis] 
+             [-f SSfile] [-h] [-c] < input > output
+
+DESCRIPTION
+    SSupdate.pl reads from the standard input and writes to the standard
+    output. It can do one of two things. The first is to initialize a file
+    of sums and sums of squares in the Ziboot.out format from a Zmapqtl.out
+    file. The second is to read the results of a run of Zmapqtl and the
+    current Ziboot.out file and update the results. It is a Perl script
+    meant to be run in a loop with Prune and Zmapqtl.
+
+OPTIONS
+    -f  This option requires an input filename that must exist. It allows
+        the user to specify the Ziboot.out file for processing. If it is not
+        given, then the script assumes that an initial file will be created.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+    -l  requires an integer operand. This should be the column from the
+        Zmapqtl.out file with the likelihood ratio that you want processed.
+        By default, it is 4.
+
+    -a  requires an integer operand. This should be the column from the
+        Zmapqtl.out file with the additive effect that you want processed.
+        By default, it is 0, which means that the sum and sum of squares for
+        the additive effect will not be updated.
+
+    -d  requires an integer operand. This should be the column from the
+        Zmapqtl.out file with the dominance effect that you want processed.
+        By default, it is 0, which means that the sum and sum of squares for
+        the dominance effect will not be updated.
+
+    -I  requires an integer operand. This should be an hypothesis test code.
+        Possible values are 1, 30, 31, 32, 10 and 20. Using this option sets
+        the proper values for the -l, -a and -d options, hence they are
+        ignored in the presence of the -I option.
+
+    -h  requires no operand. If used, it processes the file specified with
+        the -f option. This processing calculates the means and variances of
+        the likelihood ratio and effects for each position. The program
+        exits before reading from the standard input.
+
+EXAMPLE
+    This Perl program was meant to be run in a shell script. Here is an
+    example of a c shell program that allows calculate the sum and sum of
+    squares for the likelihood ratio and additive effect in a bootstrap
+    experiment.
+
+            #!/bin/csh
+            #   Bootstrap
+            #   Copyright (C) 2000 Christopher J. Basten 
+            # Usage governed by the terms of the 
+            # GNU  General Public License,  version 2 or higher
+            #  See the file COPYING in this directory
+            #
+            #   This file was meant as an example.  You  will need to edit it 
+            #   to work on your particular system with your data files.
+            #
+            #  Start by setting the variables needed.  
+            # 
+            set stem=corn                           #  filename stem
+            set hypo=1                              #  hypothesis for SSupdate
+            set model=3                             #  analysis model
+            set reps=1000                           #  number of bootstraps
+            set email=basten\@statgen.ncsu.edu      #  email address for notice
+            set templog=temp.log                    #  temporary log file
+            set qbin=/usr/local/bin                 #  where are the QTL Cart binaries
+            set bin=/usr/bin                        #  where are the system programs
+            #
+            $bin/rm -f $templog
+            echo "Bootstrap experiment started " > $templog
+            $bin/date >>  $templog
+            $bin/echo "Stem: " $stem >> $templog
+            $bin/echo "Model: " $model >> $templog
+            $bin/echo "Reps: " $reps >> $templog
+            $bin/echo "Email: " $email >> $templog
+            $bin/mv $stem.log $stem.logsave
+            $bin/rm -f $stem.z${model}a
+            $qbin/SSupdate -I $hypo < $stem.z > $stem.z$model.boot
+            $bin/mv $stem.z $stem.zsave
+            set i=1
+            while ( $i <= $reps )
+            $qbin/Prune -A -V -i $stem.cro -b 1  >>&  $templog
+            $bin/nice $qbin/Zmapqtl -A -V -M $model -i $stem.crb >>&  $templog
+            $qbin/SSupdate -I $hypo -f $stem.z$model.boot < $stem.z > $stem.z$model.new
+            $bin/mv $stem.z$model.new $stem.z$model.boot
+            $bin/rm $stem.z
+            @ i++
+            end
+            $qbin/SSupdate -I $hypo -c -f $stem.z$model.boot > $stem.z$model.booted
+            $bin/mv $stem.logsave $stem.log
+            $bin/mv $stem.zsave $stem.z
+            $bin/echo "Bootstrap experiment ended " >> $templog
+            $bin/date >>  $templog
+            /usr/ucb/mail $email <  $templog
+
+    Suppose you had a data set corn.cro and a map file corn.map. To use the
+    above shell script, create a directory called cornboot and copy the two
+    files into it. Run Qstats on the files to initialize the qtlcart.rc
+    file, and SRmapqtl to rank a set of markers for use with composite
+    interval mapping. Make sure that the QTL Cartographer programs are
+    installed in the /usr/local/bin subdirectory (or change the qbin line
+    above). Run the bootstrap with the following command:
+
+            % Bootstrap  &
+
+    The script will email you a message when it is complete. The example
+    above uses interval mapping and does 1,000 bootstraps. The script above
+    has been rewritten in Perl: Please look at the Bootstrap.pl man page for
+    more information.
+
+    Note that the above example uses -I 1 for the SSupdate line in the loop
+    (this is set with the set hypo=1 line in the script). This indicates
+    that the dataset are the result of a backcross or recombinant inbred
+    line. If you want to use a different column of likelihood ratios, you
+    can change that option. You could create multiple files of the format
+    Ziboot.out and collect the appropriate sums and sums of squares from
+    different hypothesis tests by having multiple instances of SSupdate in
+    the loop.
+
+HYPOTHESIS TESTS
+    Using the -I option is an easier way to set the columns from the
+    Zmapqtl.out file that you want to process. The following values are
+    valid:
+
+    1   should be used with backcrosses or recombinant inbreds, that is only
+        those crosses with two distinguishable marker types. It will read
+        the likelihood ratio from column 4 and the additive effect from
+        column 7. The dominance effect will be ignored. The likelihood ratio
+        is for H1:H0.
+
+    10  can be used when more than three marker genotypes are distinguished.
+        Likelihood ratios come from column 11, additive effects from column
+        7 and dominance effects are ignored. The likelihood ratio is for
+        H1:H0.
+
+    20  can be used when more than three marker genotypes are distinguished.
+        Likelihood ratios come from column 12, dominance effects from column
+        9 and additive effects are ignored. The likelihood ratio is for
+        H2:H0.
+
+    30  can be used when more than three marker genotypes are distinguished.
+        Likelihood ratios come from column 4, aditive effects from column 8
+        and dominance effects from column 10. The likelihood ratio is for
+        H3:H0.
+
+    31  can be used when more than three marker genotypes are distinguished.
+        Likelihood ratios come from column 5, aditive effects from column 8
+        and dominance effects from column 10. The likelihood ratio is for
+        H3:H1.
+
+    32  can be used when more than three marker genotypes are distinguished.
+        Likelihood ratios come from column 6, aditive effects from column 8
+        and dominance effects from column 10. The likelihood ratio is for
+        H3:H2.
+
+    Recall that when you have two marker classes, there are two hypotheses:
+
+    H0  No QTL, that is the additive effect is zero
+
+    H1  The additive effect is nonzero.
+
+    In contrast, when you have three marker classes, then you have four
+    hypotheses:
+
+    H0  No QTL, that is the additive and dominance effects are zero
+
+    H1  The additive effect is nonzero, but the dominance effect is zero.
+
+    H2  The dominance effect is nonzero, but the additive effect is zero.
+
+    H3  Both the additive and dominance effects are nonzero.
+
+SEE ALSO
+    Zmapqtl(1), Prune(1), Qstats(1), SRmapqtl(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

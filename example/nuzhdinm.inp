@@ -1,0 +1,96 @@
+# 123456789    bychromosome  -filetype map.inp   
+#
+# Nuzhudin, S. V., E. G. Pasyukova, C. L. Dilda, Z.-B. Zeng and T. F. C. Mackay (1997) 
+# Sex-specific quantitative trait loci affecting longevity in Drosophila melanogaster. 
+# Proceedings of the National Academy of Science USA 94: 9734-9739.
+#
+-type positions 
+-function     1  
+-Units       cM  
+-chromosomes  5  
+-maximum      38  
+-named      yes  
+-start 
+-Chromosome  ChrX
+1B        0
+3E        14.85
+4F        33.16
+5D        39.36
+6E        42.43
+7D        57.28
+7E        58.3
+9A        76.81
+10D       96.29
+11C       99.36
+11D       102.43
+12E       106.52
+14C       126.01
+15A       127.03
+17C       131.16
+19A       134.27
+-Chromosome      Chr2A
+21E       0
+22F       8.59
+27B       61.19
+29F       85.53
+30AB      87.65
+30D       89.77
+33E       126.77
+34EF      135.75
+35B       140.15
+38A       146
+38E       148.49
+43A       152.16
+43E       153.38
+46C       154.52
+48D       163.49
+49D       169.92
+50B       172.04
+50D       175.15
+50F       178.47
+-Chromosome       Chr2B
+57C       0
+57F       7.65
+60E       39.23
+-Chromosome      Chr3
+61A       0
+63A       16.72
+65A       43.8
+65D       67.7
+67D       83.06
+68B       103
+68C       114.92
+69D       124.71
+70C       142.04
+71E       146.59
+72A       148.85
+73D       153.26
+76A       156.76
+76B       160.18
+77A       162.34
+82D       164.65
+85F       169.26
+87B       177.28
+87E       180.67
+87F       181.81
+88E       192.05
+89B       196.56
+91A       207.31
+91D       215.33
+92A       218.65
+93A       230.09
+93B       231.15
+94D       243.34
+96A       260.05
+96F       273.56
+97D       284.86
+97E       287.06
+98A       295.83
+99A       313.98
+99B       326.17
+99E       337.22
+100       338.28
+-Chromosome      Chr4
+SPA       0
+-stop
+-end   

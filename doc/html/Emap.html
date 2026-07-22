@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Emap</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Emap - Infer a genetic linkage map from data</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>Emap</strong> [ <strong>-i</strong> <em>data input</em> ]  [ <strong>-o</strong> <em>data output</em> ] 
+[ <strong>-m</strong> <em>map input</em> ] [ <strong>-l</strong> <em>map output</em> ] 
+[ <strong>-S</strong> <em>s size</em> ] [ <strong>-L</strong> <em>l size</em> ] [ <strong>-M</strong> <em>method</em>  [ <strong>-r</strong> <em>permutations</em> ]
+[ <strong>-f</strong> <em>map function</em> ] [ <strong>-p</strong> <em>parameter</em> ]  [ <strong>-O</strong> <em>obj. function</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Emap</strong> infers a genetic linkage map from a data set.   It uses the 
+rapid chain delineation method of Doerge and Weir.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+Use this to specify the data output file.  <strong>Emap</strong> will overwrite the file if
+it exists, and create a new file if it does not.   The default value is 
+<em>qtlcart.cro</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+You need to specify a data input file with this option.  The data should be
+<strong>Rcross.out</strong>, <strong>cross.inp</strong> or <strong>mapmaker.raw</strong> format.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+Use this to specify the map input file.  <strong>Emap</strong> will read the map from this file
+and try to rearrange markers to improve their ordering.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dl"><strong>-l</strong></a></strong><br />
+</dt>
+<dd>
+The completed map will be written to a file specified with this option.  The default
+is <em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-M</strong></a></strong><br />
+</dt>
+<dd>
+Requires an integer to indicate the linkage map method.  At present, the only options
+are 10, 11, 12 or 13.
+</dd>
+<p></p>
+<dt><strong><a name="item__2df"><strong>-f</strong></a></strong><br />
+</dt>
+<dd>
+Requires an integer option to specify the  mapping function.   See <strong>Rmap(1)</strong> for more information
+on mapping functions.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dp"><strong>-p</strong></a></strong><br />
+</dt>
+<dd>
+Requires a real number.   Some map functions need an extra parameter, and 
+this allows the user to specify it.  See the manual for details.
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-S</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify the significance level for declaring segregation distortion
+between a pair of markers.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dl"><strong>-L</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify the significance level for declaring linkage between a pair
+of markers.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dr"><strong>-r</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify the number of permutations.  It is not an active option at
+this time.
+</dd>
+<p></p>
+<dt><strong><a name="item__2do"><strong>-O</strong></a></strong><br />
+</dt>
+<dd>
+This allows you to specify the objective function.  Use 0 for SAL (sum of adjacent likelihoods)
+or 1 for SAR (sum of adjacent recombination fractions).
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p><strong>Emap</strong>  recognizes three types of files.  The first is the <em>Rcross.out</em> format.
+The second is a special format defined in the example
+file <em>cross.inp</em> included in the distribution.   Finally,  <strong>MAPMAKER</strong> raw files
+can be read by <strong>Emap</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % Emap -i sample.raw</pre>
+<p>Will attempt to create a genetic linkage map for the data in the <em>sample.raw</em> file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<ol>
+<li></li>
+Doerge, R.W. and B. S. Weir (1999) .
+<em>XXX</em> <strong>1</strong>, 174-181.
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>This is an initial version and needs some work.  It does fine on simulated data,
+but could use some testing with real data.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

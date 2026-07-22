@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CSSupdate</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>SSupdate.pl - Update the column sums and sums of squares</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+   CSSupdate.pl [-f CWTfile] [-h] &lt; input &gt; output</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>CSSupdate.pl</strong> reads from the standard input and writes to the standard
+output. It reads the results of a <strong>Zmapqtl</strong> analysis and updates the column
+sum and sum of squares file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2df"><strong>-f</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an input filename that must exist.  It allows the user to 
+specify the <em>CSSupdate.out</em> file for processing.   If it is not given, then the 
+script assumes that an initial file will be created.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dc"><strong>-C</strong></a></strong><br />
+</dt>
+<dd>
+requires an integer operand.  This should be the column from the <em>Zmapqtl.out</em>
+file that you want processed.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>See the example in the <strong>GetMaxLR.pl</strong> manpage.  An alternate version
+of the shell script is given below, but the example in <strong>GetMaxLR</strong>
+is cleaner and simpler to understand.   The one presented below
+has the advantage of being able to input command line parameters
+rather than having to edit the script.   This script has also been
+rewritten as a <strong>Perl</strong> script with its own man page (<strong>Permute.pl(1)</strong>).</p>
+<p><strong>CWTupdate.pl</strong> was meant to be run in a shell script.  Here is an 
+example of a <strong>c</strong> shell program that allows calculate the experimentwise
+threshold.</p>
+<pre>
+        #!/bin/csh
+        #   Permute.csh
+        #   Usage:  Permute.csh stem permutations email
+        #  where stem is the filename stem.
+        #        permutations is the number of permutations
+        #  and   email is the user's email address
+        #  Note:  This only works if you have set and used a filename stem.
+        #
+        if ( $1 == '-h' ) then
+        echo &quot;    Usage:  Permute.csh stem model permutations email&quot;
+        echo &quot;Where&quot;
+        echo &quot;          stem  = filename stem&quot;
+        echo &quot;         model  = Zmapqtl Model&quot;
+        echo &quot;  permutations  = number of permutations&quot;
+        echo &quot;         email  = user's email address&quot;
+        echo &quot; &quot;
+        echo &quot;Now exiting&quot;
+        exit
+        endif
+        set templog=temp.log
+        /usr/bin/rm -f $templog
+        echo &quot;Permutation test started &quot; &gt; $templog
+        /usr/bin/date &gt;&gt;  $templog
+        echo &quot;Stem: &quot; $1 &gt;&gt; $templog
+        echo &quot;Model: &quot; $2 &gt;&gt; $templog
+        echo &quot;Reps: &quot; $3 &gt;&gt; $templog
+        echo &quot;Email: &quot; $4 &gt;&gt; $templog
+        set bindir=/usr/local/bin
+        set i=1
+        /usr/bin/mv $1.log $1.logsave
+        /usr/bin/mv $1.z $1.zsave
+        /usr/bin/rm -f $1.z$2e
+        $bindir/CWTupdate -C 4 &lt; $1.z &gt; $1.z$2c
+        while ( $i &lt; $3 )
+        $bindir/Prune -A -V -i $1.cro -b 2  &gt;&gt;&amp;  $templog
+        nice $bindir/Zmapqtl -A -V -M $2 -i $1.crb  &gt;&gt;&amp;  $templog
+        $bindir/CWTupdate -f $1.z$2c -C 4 &lt; $1.z  &gt;&gt; $1.z$2cc
+        /usr/bin/mv -f $1.z$2cc $1.z$2c
+        /usr/bin/rm -f $1.z
+        @ i++
+        end
+        /usr/bin/mv $1.zsave $1.z
+        /usr/bin/mv $1.logsave $1.log
+        /usr/bin/date &gt;&gt;  $templog
+        /usr/ucb/mail $4 &lt;  $templog</pre>
+<p>Suppose you had a data set <em>corn.cro</em> and a map file <em>corn.map</em>.  To use the above
+shell script, create a directory called <em>cornperm</em> and copy the two files into it.
+Run <strong>Qstats</strong> on the files to initialize the <em>qtlcart.rc</em> file, and <strong>SRmapqtl</strong> to
+rank a set of markers for use with composite interval mapping.  Make sure that the
+<strong>QTL Cartographer</strong> programs are installed in the <em>/usr/local/bin</em> subdirectory
+(or change the 29th line above).   Then, to do a permutation test using interval
+mapping with 1,000 repetitions, run</p>
+<pre>
+        % Permute.csh corn 3 1000 your.email.address  &amp;</pre>
+<p>(substituting your real email address above).  The script will email you a message when
+it is complete.</p>
+<p>Note that the above example uses <strong>-C 4</strong> for the <strong>CWTupdate</strong> line in the loop.
+If you want to use a different column of likelihood ratios, you can change 
+that option.  You could create multiple files of the format <em>ZipermC.out</em>
+and collect the maximal likelihood ratio from different hypothesis tests by
+having multiple instances of <strong>CWTupdate</strong> in the loop.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Zmapqtl(1)</strong>, <strong>Prune(1)</strong>,  <strong>GetMaxLR.pl(1)</strong>, <strong>Permute.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

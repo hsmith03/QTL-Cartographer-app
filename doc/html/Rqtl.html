@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Rqtl</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Rqtl - Place a set of estimated or randomly generated QTLs on a molecular map.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>Rqtl</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-i</strong> <em>input</em> ] [ <strong>-m</strong> <em>mapfile</em> ]
+[ <strong>-b</strong> <em>beta</em> ] [ <strong>-t</strong> <em>Traits</em> ] [ <strong>-q</strong> <em>QTLperTrait</em> ]
+[ <strong>-d</strong> <em>dominance</em> ] [ <strong>-1</strong> <em>beta1</em> ] [ <strong>-2</strong> <em>beta2</em> ] [ <strong>-E</strong> <em>prop</em> ]
+[ <strong>-M</strong> Rmode ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Rqtl</strong> will translate a genetic model or simulate a random model for use
+by <strong>Rcross</strong> to simulate a data set.   It places a specified number of QTLs 
+(Quantitative Trait Loci) on the molecular map created or translated by <strong>Rmap</strong>.  
+For simulations, they are placed randomly on the map, and the additive, 
+dominace and epistatic effects are also  determined. The molecular map could be a random one produced 
+by  <strong>Rmap</strong>,  or a real one in the same format as the output of  <strong>Rmap</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename for output.   <strong>Rqtl</strong> will overwrite the file if
+it exists, and create a new file if it does not.   If not used, then <strong>Rqtl</strong> will use
+<em>qtlcart.qtl</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist.  <strong>Rqtl</strong> will
+attempt to identify the format of the file and translate it to another format.
+This file should contain a genetic model defining a set of QTL and including
+their positions and effects.   See the file <em>qtls.inp</em> for the format.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename that must exist.  <strong>Rqtl</strong> will
+read the genetic linkage map from this file.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+This allows the user to specify the number of traits to simulate.   It is
+1 by default.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dq"><strong>-q</strong></a></strong><br />
+</dt>
+<dd>
+This requires an integer argument.   It allows the user to specify the number
+of QTL that affect the trait.  If one trait is simulated, then exactly this number
+of QTL will be created.  If more than one trait are simulated, then the number of
+QTL per trait will vary but have mean value specified here.   The default is 9.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dd"><strong>-d</strong></a></strong><br />
+</dt>
+<dd>
+You can specify the type of dominance at the trait loci.  If we assume
+inbred parental lines with line one marker trait alleles all Q and line
+two trait alleles all q, then  use a 1 for no dominance, a 2 for
+complete dominance of Q over q, a 3 for complete dominance of q over Q,
+and a 4 for dominance that is random in direction and magnitude for each
+locus. It is 1 by default, that is no dominance.
+</dd>
+<p></p>
+<dt><strong><a name="item__2db"><strong>-b</strong></a></strong><br />
+</dt>
+<dd>
+Specifies the parameter needed to determine the additive effect of a
+QTL. It is 0.5 by default.  See Zeng (1992) equation (12) and
+accompanying text for a discussion of this parameter. Itis not the
+allelic effect of a QTL allele, rather it is the shape parameter in the
+beta distribution.
+</dd>
+<p></p>
+<dt><strong><a name="item__2d1_2c__2d2"><strong>-1</strong>, <strong>-2</strong></a></strong><br />
+</dt>
+<dd>
+Allows you to specify the two parameters  used to determine the dominance effect of a QTL.
+The effect is simulated from a beta distribution.  See the manual for more details.
+</dd>
+<p></p>
+<dt><strong><a name="item__2de"><strong>-E</strong></a></strong><br />
+</dt>
+<dd>
+For a <em>k</em> QTL model, there will be <em>2k(k+1)</em> potential epistatic terms.   
+This option sets the proportion of epistatic interactions that will be non-zero in a simulated model.
+The effects are generated with the same beta funtion used for the dominance effects.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-M</strong></a></strong><br />
+</dt>
+<dd>
+By default, <strong>Rqtl</strong> will not place a new QTL on the same interval or an adjacent interval.
+If you use this option with a value of 1, then it will allow QTL in adjacent intervals.  
+The value of this option will be returned to 0 at the completion of the program.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p>The input format of the molecular map should be the same as that of the 
+output format from the program  <strong>Rmap</strong>.</p>
+<p>If a file is specified with the  <strong>-i</strong>
+option, then that file will be read for the positions and effects of the QTLs.
+The format of this file should be identical to that of the output of 
+<strong>Rqtl</strong>,  or of a special format defined in the file <em>qtls.inp</em> included with the 
+distribution.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % Rqtl   -d 2</pre>
+<p>Places 9 QTLs on the map in <em>Rmap.out</em>.  There is complete dominance of A over a.</p>
+<pre>
+        % Rqtl   -i qtls.inp -o test.qtl</pre>
+<p>Reads the file <em>qtls.inp</em> and translates it into the output format of
+<strong>Rqtl</strong>. The output is written to the file <em>test.qtl</em>, which is overwritten if it
+exists.</p>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<ol>
+<li></li>
+Zeng, Zhao-Bang (1992) Correcting the bias of Wright's estimates of the 
+number of genes affecting a quantitative trait:  A further improved method.
+<em>Genetics</em> <strong>132</strong>, 823-839.
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>The <strong>-t</strong> option for the number of traits is rather primitive at this
+time.  The number of QTLs and their effects are randomly determined, 
+with means given in the other options.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

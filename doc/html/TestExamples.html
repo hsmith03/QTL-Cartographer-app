@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TestExamples</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#note">NOTE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>TestExamples.pl - Run a basic analysis on the example files</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  TestExamples.pl [-D debug] [-t test dir ] [-e example dir ][-b bin dir ] [-h]</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>TestExamples.pl</strong> is a script that will use the <strong>QTL Cartographer</strong> commands to 
+run basic analyses on all of the example data sets.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2db"><strong>-b</strong></a></strong><br />
+</dt>
+<dd>
+This option requires the path to the <strong>QTL Cartographer</strong> binaries and perl scripts.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+This option requires the path to the base directory for doing the analyses.
+This directory will be created if it doesn't exist.  Each data set will have
+a subdirectory in the base directory for analysis.
+</dd>
+<p></p>
+<dt><strong><a name="item__2de"><strong>-e</strong></a></strong><br />
+</dt>
+<dd>
+Use this to specify the location of the example subdirectory.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dd"><strong>-D</strong></a></strong><br />
+</dt>
+<dd>
+Allows you to set the debug level.   The default is zero.  You can set it to
+any of 0, 1, 2, or 3.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>Suppose that the example files are in <em>/home/user/QTLCartUnix/example</em> and you want to 
+run all the tests in a base directory <em>/home/user/test</em>.   Suppose further that
+you have installed the <strong>QTL Cartographer</strong> binaries in <em>/usr/local/bin</em>.  Use</p>
+<pre>
+    % TestExamples.pl -b /usr/local/bin -t /home/user/test \
+        -e /home/user/QTLCartUnix/example</pre>
+<p>This will create the directory <em>/home/user/test</em> if it doesn't exist, and then
+create subdirectories for each data set.  It will copy the data file and genetic linkage
+map from the example subdirectory into the data set subdirectory of <em>/home/user/test</em>.
+Then, it will convert the map and data files into the proper formats and run
+<strong>Qstats</strong>, <strong>LRmapqtl</strong>, <strong>SRmapqtl</strong>, <strong>Zmapqtl</strong> on all traits.  If there are multiple traits,
+<strong>JZmapqtl</strong> will be run followed by <strong>Eqtl</strong> and <strong>Preplot</strong>.  Then, <strong>JZmapqtl</strong> will convert
+the data so that <strong>MultiRegress</strong> can generate an initial model that <strong>Rqtl</strong> translates and
+<strong>MImapqtl</strong> refines.   This will be done for all the data sets in the example directory that
+have filename extension <em>.inp</em>.</p>
+<p>The script also runs analyses for the <em>mletest</em> and <em>sample</em> data sets, and 
+does two simulations:  One with a single trait and one with two traits.</p>
+<p>At the end of the script, you will find a file <em>/home/user/test/Verbiage.txt</em> that 
+contains all of the verbal output from the programs.  This file is deleted by the
+script  if you run it again.</p>
+<p>
+</p>
+<hr />
+<h1><a name="note">NOTE</a></h1>
+<p>You will need at least 36 megabytes of disk space to run this program.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>QTLcart(1)</strong> and all programs referenced therein.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+NAME
+    Vert.pl - Convert line endings
+
+SYNOPSIS
+       Vert.pl [-i u||d||m ] [-o u||d||m  ]  [-h] < input > output
+
+DESCRIPTION
+    Vert.pl reads from the standard input and writes to the standard output.
+    It converts the line endings of text files from one format to another
+    based on the optins -i and -o. The default is to convert UNIX files into
+    DOS files.
+
+OPTIONS
+    -i  This option requires a one letter code indicating the type of input
+        file. Options are u for UNIX, d for DOS and m for Macintosh.
+
+    -o  This option requires a one letter code indicating the type of output
+        file. Options are u for UNIX, d for DOS and m for Macintosh.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+EXAMPLE
+    Suppose corn.cro and corn.map are UNIX formatted files that you want to
+    convert to DOS. The following sequence converts them to DOS format
+
+            % Vert.pl -i u -o d < corn.cro > dcorn.cro
+            % Vert.pl -i u -o d < corn.map > dcorn.map
+        
+    No imagine that you have an entire directory of UNIX files and you want
+    to convert them to Macintosh formatted files. You could use
+
+            % foreach i ( * )
+            ? Vert.pl -i u -o m < $i > $i.mac
+            ? /usr/bin/mv $i.mac $i
+            ? end
+            %
+
+    The above would replace all of the files with Macintosh formatted
+    versions. Alternatively, you could copy them into a new directory:
+
+            % mkdir macdir
+            % foreach i ( * )
+            ? if ( -f $i ) Vert.pl -i u -o m < $i > macdir/$i 
+            ? end
+            %
+
+    This script is useful for shared filesystems, that is when a fileserver
+    can be accessed by Windows, UNIX or Macintoshes.
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

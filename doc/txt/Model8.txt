@@ -1,0 +1,61 @@
+NAME
+    Model8.pl - Iterate Zmapqtl model 8 to determine a stable set of
+    cofactors
+
+SYNOPSIS
+      Model8.pl  [-b bindir] [-X stem] [-S sig. threshold] [-i iterations] 
+        [-m max nbp] [-H hypothesis] [-h]   
+
+DESCRIPTION
+    Model8.pl iterates using Zmapqtl and Eqtl to determine a stable set of
+    cofactors for composite interval mapping. First, interval mapping is run
+    and the nearest markers to significant peaks are identified. These
+    markers are used as cofactors in the first iteration of composite
+    interval mapping. A new set of cofactors are identified by proximity to
+    the likelihood peaks and the process is repeated.
+
+OPTIONS
+    -b  This option requires the path to the QTL Cartographer binaries and
+        perl scripts.
+
+    -i  requires an integer to control how many iterations you want to do.
+
+    -X  This option allows you to specify the filename stem.
+
+    -S  This option requires a real number to indicate the significance
+        threshold for the likelihood ratio.
+
+    -m  This option allows you to specify the maximum number of background
+        parameters in composite interval mapping.
+
+    -H  Use this option to specify which hypothesis test you want to use.
+        The usual values are 10 or 30.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+EXAMPLE
+    Suppose the files mletest.map and mletest.cro are in the current working
+    directory.
+
+        % Model8.pl  -b /home/basten/bin  -X mletest -S 13.0 -m 25 -H 10 -i 15
+
+    Will assume that the QTL Cartographer programs are in /home/basten/bin.
+    It will use a significance threshold of 13.0 and allow for up to 25
+    markers in composite interval mapping. It will iterate 15 times in an
+    attempt to find a stable set of cofactors. This script uses another
+    script called SRcompare.pl which compares the set of cofactors (in
+    SRmapqtl.out format) between consecutive runs and reports how many
+    cofactors have been added or deleted.
+
+SEE ALSO
+    Zmapqtl(1), Qstats(1), Eqtl(1), SRcompare.pl(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Vert</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Vert.pl - Convert line endings</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+   Vert.pl [-i u||d||m ] [-o u||d||m  ]  [-h] &lt; input &gt; output</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Vert.pl</strong> reads from the standard input and writes to the standard
+output. It converts the line endings of text files from one format
+to another based on the optins <strong>-i</strong> and <strong>-o</strong>.   The default is to
+convert UNIX files into DOS files.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+This option requires a one letter code indicating the type of 
+input file.   Options are <strong>u</strong> for UNIX, <strong>d</strong> for DOS and 
+<strong>m</strong> for Macintosh.
+</dd>
+<p></p>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This option requires a one letter code indicating the type of 
+output file.   Options are <strong>u</strong> for UNIX, <strong>d</strong> for DOS and 
+<strong>m</strong> for Macintosh.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>Suppose <em>corn.cro</em> and <em>corn.map</em> are UNIX formatted files that you want
+to convert to DOS.   The following sequence converts them to DOS format</p>
+<pre>
+        % Vert.pl -i u -o d &lt; corn.cro &gt; dcorn.cro
+        % Vert.pl -i u -o d &lt; corn.map &gt; dcorn.map
+        
+No imagine that you have an entire directory of UNIX files and you want to 
+convert them to Macintosh formatted files.   You could use</pre>
+<pre>
+        % foreach i ( * )
+        ? Vert.pl -i u -o m &lt; $i &gt; $i.mac
+        ? /usr/bin/mv $i.mac $i
+        ? end
+        %</pre>
+<p>The above would replace all of the files with Macintosh formatted versions.  Alternatively,
+you could copy them into a new directory:</p>
+<pre>
+        % mkdir macdir
+        % foreach i ( * )
+        ? if ( -f $i ) Vert.pl -i u -o m &lt; $i &gt; macdir/$i 
+        ? end
+        %</pre>
+<p>This script is useful for shared filesystems, that is when a fileserver can be
+accessed by Windows, UNIX or Macintoshes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

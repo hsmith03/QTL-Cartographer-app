@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Ttransform</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#transforms">TRANSFORMS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Ttransform.pl - Shell of a script to allow programming of trait transformations</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  Ttransform.pl [-a a] [-b b] [-c c] [-f func] [-h]   &lt; input &gt; output</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Ttransform.pl</strong> reads an <em>Rcross.out</em> formatted file from the standard input
+and writes same to the standard output.   You can customize the script to 
+transform trait values.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>You will need to customize the script to suit your needs.   Look for 
+the phrase LOOK HERE in the script.</p>
+<dl>
+<dt><strong><a name="item__2da"><strong>-a</strong></a></strong><br />
+</dt>
+<dd>
+requires a real-valued operand.  It is 0.0 by default and used as explained 
+below.
+</dd>
+<p></p>
+<dt><strong><a name="item__2db"><strong>-b</strong></a></strong><br />
+</dt>
+<dd>
+requires a real-valued operand.  It is 1.0 by default and used as explained 
+below.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dc"><strong>-c</strong></a></strong><br />
+</dt>
+<dd>
+requires a real-valued operand.  It is 0.0 by default and used as explained 
+below.
+</dd>
+<p></p>
+<dt><strong><a name="item__2df"><strong>-f</strong></a></strong><br />
+</dt>
+<dd>
+requires an integer-valued operand.  It is 1 by default tells <strong>Ttransform.pl</strong>
+which function to use.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="transforms">TRANSFORMS</a></h1>
+<p>There are some predefined transforms available.   Let Y be the trait value,
+a, b and c  real-valued  coefficients and Z the transformed trait.   Use the <strong>-f</strong> option and
+an integer from one to six to have the following transforms applied to all traits:</p>
+<ol>
+<li></li>
+Subtract the mean and divide by the standard error.  This is the default.
+<p>Z = (Y - <code>Mean(Y))</code> / <code>STDERR(Y)</code></p>
+<p></p>
+<li></li>
+Subtract the mean, square it and divide by the sample variance.
+<p>Z = (Y - Mean(Y))^2 / <code>VAR(Y)</code></p>
+<p></p>
+<li></li>
+This is a linear or quadratic tranform.
+<p>Z = a + b Y + c Y^2</p>
+<p></p>
+<li></li>
+This is a natural log tranform.
+<p>Z = a + b <code>log(Y)</code></p>
+<p></p>
+<li></li>
+This is an expontial transform
+<p>Z = a exp(b Y)</p>
+<p></p>
+<li></li>
+This is for you to code any transform that you like.
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>Suppose the file   <em>mletest.cro</em> is in the current working
+directory.</p>
+<pre>
+    % Ttransform.pl &lt; mletest.cro &gt; mletest.cro.out</pre>
+<p>would transform all the traits in <em>mletest.cro</em>.  The default transform is
+to subtract the mean and divide by the standard error.</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>You should know some Perl to use this script.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934
+
+</pre>
+
+</body>
+
+</html>

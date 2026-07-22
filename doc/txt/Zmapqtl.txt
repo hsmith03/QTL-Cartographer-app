@@ -1,0 +1,292 @@
+NAME
+    Zmapqtl - Composite interval mapping module
+
+SYNOPSIS
+    Zmapqtl [ -o *output* ] [ -i *input* ] [ -m *mapfile* ] [ -l *lrfile* ]
+    [ -S *srfile* ] [ -t *trait* ] [ -M *Model* ] [ -c *chrom* ] [ -d *walk*
+    ] [ -n *nbp* ] [ -w *window* ] [ -r *perms* ] [ -r *boots* ]
+
+DESCRIPTION
+    Zmapqtl uses composite interval mapping to map quantitative trait loci
+    to a map of molecular markers. It requires a molecular map that could be
+    a random one produced by Rmap, or a real one in the same format as the
+    output of Rmap. The sample could be a randomly generated one from Rcross
+    or a real one in the same format as the output of Rcross. In addition,
+    the program requires the results of the stepwise linear regression
+    analysis of SRmapqtl for composite interval mapping.
+
+OPTIONS
+    See QTLcart(1) for more information on the global options -h for help,
+    -A for automatic, -V for non-Verbose -W path for a working directory, -R
+    file to specify a resource file, -e to specify the log file, -s to
+    specify a seed for the random number generator and -X stem to specify a
+    filename stem. The options below are specific to this program.
+
+    If you use this program without specifying any options, then you will
+    get into a menu that allows you to set them interactively.
+
+    -o  This requires a filename for output. Zmapqtl will append the file if
+        it exists, and create a new file if it does not. If not used, then
+        Zmapqtl will use qtlcart.z.
+
+    -i  This requires an input filename. This file must exist. It should be
+        in the same format as the output of Rcross. The default file is
+        qtlcart.cro.
+
+    -m  Zmapqtl requires a genetic linkage map. This option requires the
+        name of a file containing the map. It should be in the same format
+        that Rmap outputs. The default file is qtlcart.map.
+
+    -t  Use this to specify which trait Zmapqtl will analyze. If this number
+        is greater than the number of traits, then all traits will be
+        analyzed. The default is to analyze trait 1 only.
+
+    -l  Allows the user to specify the name of the file containing results
+        from LRmapqtl. Zmapqtl reads those results and uses the information
+        to choose cofactors for some of the analysis methods.
+
+    -S  Allows the user to specify the name of the file containing results
+        from SRmapqtl. Zmapqtl reads the results and uses the information to
+        choose cofactors for composite interval mapping model 6.
+
+    -M  Zmapqtl assumes the specified model (see below) in the analysis.
+        Model 3 is default.
+
+    -c  The user can specify a specific chromosome for Zmapqtl to analyze.
+        If zero, then all will be analyzed.
+
+    -d  Zmapqtl walks along the chromosome at a rate that can be specified
+        with this option. The default is to do an analysis every 2
+        centiMorgans along the chromosome.
+
+    -n  Use this to indicate how many background parameters Zmapqtl uses in
+        composite interval mapping. This is used only with model 6, and
+        gives an upper bound. If fewer than this number of markers are
+        ranked in the SRmapqtl.out file, then less than the specified number
+        of markers will be used.
+
+    -w  Zmapqtl blocks out a region of this many centiMorgans on either side
+        of the markers flanking the test position when picking background
+        markers. It is 10 by default and is only used in models 5 and 6. We
+        refer to it as the *window size*.
+
+    -r  Zmapqtl can do a permutation test to determine the threshold for
+        rejecting the null hypothesis of no QTL at a site. By default, this
+        option sets the number of permutations equal to 0, which means no
+        permutation test is run. You can set it to a number < 10000 to do
+        the test. See Churchill and Doerge (1994) for more details. The
+        results are in an interim file. Use Eqtl to summarize them when
+        enough repetitions have been done. You need to run Zmapqtl without
+        permutations or bootstraps at least once before you can do the
+        permutation tests. This option only allows for interval mapping
+        (Model 3) or composite interval mapping (Model 6).
+
+    -b  When used with argument 1, Zmapqtl will do a single bootstrap. You
+        need to run Prune to actually create the bootstrapped data set: This
+        option merely analyzes it and stores summary statistics in an
+        interim file qtlcart.z3b by default, for model 3. You should also
+        run Zmapqtl without bootstraps or permutation tests before doing a
+        bootstrap analysis.
+
+        When used with an argument 2, Zmapqtl will do a jackknife analysis.
+        Again, Zmapqtl should be run without this argument prior to doing a
+        jackknife.
+
+INPUT FORMAT
+    The input format of the molecular map should be the same as that of the
+    output format from the program Rmap. The input format of the individual
+    data should be the same as the output format of the program Rcross.
+
+EXAMPLES
+            % Zmapqtl  
+
+    Calculates the likelihood ratio test statistics of the dataset in
+    qtlcart.cro using the map in qtlcart.map.
+
+            % nice Zmapqtl -A -V -i corn.cro -m corn.map -M 6 -r 500 &
+
+    Calculates the likelihood ratio test statistics of the dataset in
+    corn.cro using the map in corn.map. Model 6 is used for analysis and a
+    permutation test with 500 replications is performed. The program is
+    nice'd as a courtesy to other users, and run in the background so that
+    the user can logout and relax.
+
+MODELS
+    Different parameters for the -M option allow for the analysis of the
+    data assuming different models. Models 1-3 were described in Zeng (1993,
+    1994).
+
+    1.  Fit all the background markers. This was meant for illustration of
+        the method in the original paper (Zeng, 1993), and should not be
+        used for analysis.
+
+    2.  Fit all unlinked background markers. This is another illustrative
+        example and also should not be used.
+
+    3.  Fit only the mean (Lander and Botstein (1989) method)
+
+    4.  Fit a subset of the other markers, namely those unlinked markers
+        with the highest correlation with the trait on each chromosome. This
+        is an ad hoc model programmed in anticipation of model 6 below.
+
+    5.  This model uses a pair of markers from each other chromosome and all
+        linked markers that fall outside a window around the flanking
+        markers. This window extends to 10 cM beyond the markers immediately
+        flanking the test position. The window size can be changed with the
+        -w option. This is another ad hoc model programmed in anticipation
+        of model 6 below.
+
+    6.  This model uses a specified number of markers that fall outside a
+        window around the flanking markers. This window extends to 10 cM
+        beyond the markers immediately flanking the test position. The
+        number of markers are set by the -n option. You need to run SRmapqtl
+        to rank the markers before using model 6. You should use this for
+        composite interval mapping when using markers ranked by SRmapqtl.
+
+    7.  This model requires that you have already run Zmapqtl and Eqtl. It
+        reads in the estimated QTL from the *Eqtl.out* file and uses them as
+        virtual markers to control for the genetic background. All
+        identified markers are used that do not fall within the window. This
+        has not been extensively tested: Use it at your own risk.
+
+    8.  Like model 7, this requires a prior run of Zmapqtl and Eqtl. Instead
+        of using virtual markers, Zmapqtl uses the closest flanking markers
+        to identified QTL. Again, all of these markers outside the window
+        are used. This is good model. You can iterate this process to see if
+        a stable set of cofactors can be identified. See the script below
+        and the Model8.pl(1) man page for more details.
+
+    The default is to fit only the mean, that is to use interval mapping.
+
+PERMUTATION TESTS
+    Churchill and Doerge (1994) describe a method to calculate the threshold
+    values for quantitative trait mapping that we have implemented in this
+    program. Basically, it does a permutation of the trait values and the
+    genotypes and redoes the analysis. Over the number of replicates, two
+    types of thresholds are defined: "experimentwise" and "comparisonwise".
+    We calculate the experimentwise thresholds, but only give p values for
+    the comparisonwise values to save on storage space. The p values give
+    the proportion of permuted replicates that have loglikelihood ratios
+    larger than the observed ratios.
+
+    If you choose to do permutation tests, you need to run Zmapqtl with the
+    model of choice prior to doing the permutation test. Also, if the
+    program terminates prematurely, you can restart it from where it left
+    off to complete the permutation test.
+
+REFERENCES
+    1.  Churchill, G. A. and R. W. Doerge (1994) Empirical threshold values
+        for quantitative trait mapping. *Genetics* 138, 963-971.
+
+    2.  Lander, E. S. and D. Botstein (1989) Mapping Mendelian factors
+        underlying quantitative traits using RFLP linkage maps. *Genetics*
+        121, 185-199.
+
+    3.  Zeng, Zhao-Bang (1993) Theoretical basis for separation of multiple
+        linked gene effects in mapping quantitative trait loci. *Proc. Natl.
+        Acad. Sci., USA* 90, 10972-10976.
+
+    4.  Zeng, Zhao-Bang (1994) Precision mapping of quantitative trait loci.
+        *Genetics* 136, 1457-1468.
+
+CAVEATS
+    Model 7 has not been extensively tested. Remember that you will need to
+    run Zmapqtl with some other model (say 3 or 6) and then run Eqtl prior
+    to using model 7.
+
+    Model 8 requires a prior run of Zmapqtl and Eqtl as well. There is a
+    shell script called Model8.csh in the scripts subdirectory that allows
+    you to easily iterate using model 8. Try using it to see whether your
+    set of cofactors (or estimated QTL) becomes stable after a few
+    iterations. A low threshold may lead to adding and dropping putative QTL
+    over consecutive analyses using Model 8. Here is the shell script:
+
+            #!/usr/bin/csh
+            #
+            #  Run Model 8 iteration
+            #           Copyright 2001 Christopher J. Basten
+            #   Usage:
+            #   Model8  bindir  stem   siglevel  iterations  max_nbp
+            #     bindir is the binary subdirectory
+            #     stem is the filename stem
+            #     siglevel  is the significance level to declare a QTL
+            #     iterations is the number of iterations
+            #     max_nbp is the maximal number of background parameters.
+            #
+            if ( $1 == '-h' ) then
+            echo "    Usage:  Model8.csh bindir  stem   siglevel  iterations  max_nbp"
+            echo "Where"
+            echo "        bindir  = QTL Cart. binary directory"
+            echo "          stem  = filename stem"
+            echo "      siglevel  = Significance level to declare a QTL"
+            echo "    iterations  = number of iterations"
+            echo "       max_nbp  = maximal number of background parameters"
+            echo " "
+            echo "Now exiting"
+            exit
+            endif
+            set bindir=$1
+            set stem=$2
+            set siglevel=$3
+            set iterations=$4
+            set maxnbp=$5
+            $bindir/Qstats -X $stem -A -V
+            $bindir/Zmapqtl -A -V -M 3
+            $bindir/Eqtl -A -V -S $siglevel
+            #
+            #  Save the original files
+            #
+            /usr/bin/mv $stem.eqt $stem.eqt.0
+            /usr/bin/mv $stem.z $stem.z.0
+            /usr/bin/cp $stem.sr $stem.sr.0
+            #
+            #  Use model 8 iteratively with cofactors from previous run.
+            #
+            set i=1
+            while ( $i < $iterations )
+            echo "Doing iteration $i"
+            $bindir/Zmapqtl -A -V -M 8 -n $maxnbp
+            /usr/bin/rm $stem.sr 
+            $bindir/Eqtl -A -V -S $siglevel
+            /usr/bin/cp $stem.sr $stem.sr.$i
+            /usr/bin/mv $stem.eqt $stem.eqt.$i
+            /usr/bin/mv $stem.z $stem.z.$i
+            @ i++
+            end
+            /usr/bin/rm $stem.sr 
+            echo "Finished"
+
+    The above script has been translated into Perl to make it more useful.
+    The Model8.pl script can take command line parameters and is
+    self-documenting.
+
+BUGS
+    It is likely that we will abandon the internal permutation tests in
+    Zmapqtl. It is more efficient to use Prune and a batch file to do the
+    same job. This paradigm will allow users to do permutation tests with
+    any of the programs. Of course, you will need access to a UNIX platform
+    to do this.
+
+SEE ALSO
+    Emap(1), Rmap(1), Rqtl(1), Rcross(1), Qstats(1), LRmapqtl(1),
+    BTmapqtl(1), SRmapqtl(1), JZmapqtl(1), Eqtl(1), Prune(1), Preplot(1),
+    MImapqtl(1), MultiRegress(1), Examples(1) SSupdate.pl(1), Prepraw.pl(1),
+    EWThreshold.pl(1), GetMaxLR.pl(1), Permute.pl(1), Vert.pl(1),
+    CWTupdate.pl(1), Ztrim.pl(1), SRcompare.pl(1), Ttransform.pl(1),
+    TestExamples.pl(1), Model8.pl(1), Dobasics.pl(1), Bootstrap.pl(1)
+
+CONTACT INFO
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Bioinformatics Research Center, North Carolina State University
+            1523 Partners II Building/840 Main Campus Drive
+            Raleigh, NC 27695-7566     USA
+            Phone: (919)515-1934
+
+    Please report all bugs via email to qtlcart-bug@statgen.ncsu.edu.
+
+    The QTL Cartographer web site ( http://statgen.ncsu.edu/qtlcart ) has
+    links to the manual, man pages, ftp server and supplemental materials.
+

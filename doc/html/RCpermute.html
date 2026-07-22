@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>RCpermute</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#analysis">ANALYSIS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>RCpermute.pl - Compute statistics from a permutation test</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+   RCpermute.pl [-R row file] [-R col file] [-h]   &gt; output</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>RCpermute.pl</strong> reads the results from two special files produced
+by <strong>Permute.pl</strong>.   These files contain the sum and sum of squares 
+for the rows or the columns of the permutation analysis.   We define
+rows as the permutation, and columns as the sites.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2dc"><strong>-C</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an input filename that must exist.  It allows the user to 
+specify the column results file for processing.   If it is not given, then the
+script will exit.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dr"><strong>-R</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an input filename that must exist.  It allows the user to 
+specify the row results file for processing.   If it is not given, then the
+script will exit.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="analysis">ANALYSIS</a></h1>
+<p><strong>Zmapqtl</strong> calculates likelihood ratios at numerous sites during each
+permutation.   Think of a matrix of these likelihood ratios where 
+columns are for sites in the genome and rows are for permutations.
+If you run <strong>Permute.pl</strong> with the <strong>-u</strong> flag, then the row and column
+sums will be stored in files.   Sums of squares are also saved. 
+The row results file will store a sum, sum of squares and sample size
+over the genome for each of the permutations.  The column results file
+will store the sum, sum of squares and sample size over permutations for
+each test site.   For the stem <em>qtlcart</em>, model <em>3</em> and <em>r</em> permutations,
+these results will be in <em>qtlcart.z3.rss</em> and <em>qtlcart.z3.css.r</em>, respectively.</p>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>For a row results file <em>qtlcart.z3.rss</em> and a column results file
+<em>qtlcart.z3.css.1000</em>, use</p>
+<pre>
+    RCpermute.pl -R qtlcart.z3.rss -C qtlcart.z3.css.1000 &gt; qtlcart.rcout</pre>
+<p>to compute the row/column means and standard deviations.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Zmapqtl(1)</strong>, <strong>Prune(1)</strong>,  <strong>GetMaxLR.pl(1)</strong>, <strong>Permute.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

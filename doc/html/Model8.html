@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Model8</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Model8.pl - Iterate Zmapqtl model 8 to determine a stable set of cofactors</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  Model8.pl  [-b bindir] [-X stem] [-S sig. threshold] [-i iterations] 
+    [-m max nbp] [-H hypothesis] [-h]</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Model8.pl</strong> iterates using <strong>Zmapqtl</strong> and  <strong>Eqtl</strong> to determine a stable set of
+cofactors for composite interval mapping.   First, interval mapping is run and the
+nearest markers to significant peaks are identified.  These markers are used as 
+cofactors in the first iteration of composite interval mapping.  A new set of 
+cofactors are identified by proximity to the likelihood peaks and the process is
+repeated.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2db"><strong>-b</strong></a></strong><br />
+</dt>
+<dd>
+This option requires the path to the <strong>QTL Cartographer</strong> binaries and perl scripts.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+requires an integer to control how many iterations you want to do.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dx"><strong>-X</strong></a></strong><br />
+</dt>
+<dd>
+This option allows you to specify the filename stem.
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-S</strong></a></strong><br />
+</dt>
+<dd>
+This option requires a real number to indicate the significance threshold for the likelihood ratio.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+This option allows you to specify the maximum number of background parameters in composite interval 
+mapping.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-H</strong></a></strong><br />
+</dt>
+<dd>
+Use this option to specify which hypothesis test you want to use.  The usual values are 10 or 30.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<p>Suppose the files <em>mletest.map</em> and <em>mletest.cro</em> are in the current working
+directory.</p>
+<pre>
+    % Model8.pl  -b /home/basten/bin  -X mletest -S 13.0 -m 25 -H 10 -i 15</pre>
+<p>Will assume that the <strong>QTL Cartographer</strong> programs are in <em>/home/basten/bin</em>. 
+It will use a significance threshold of 13.0 and allow for up to 25 markers in 
+composite interval mapping.   It will iterate 15 times in an attempt to find a stable
+set of cofactors.  This script uses another script called <strong>SRcompare.pl</strong> which compares
+the set of cofactors (in <em>SRmapqtl.out</em> format) between consecutive runs and reports
+how many cofactors have been added or deleted.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Zmapqtl(1)</strong>, <strong>Qstats(1)</strong>, <strong>Eqtl(1)</strong>, <strong>SRcompare.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934</pre>
+
+</body>
+
+</html>

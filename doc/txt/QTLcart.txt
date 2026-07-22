@@ -1,0 +1,295 @@
+NAME
+    QTLcart - A rudimentary front end for the QTL Cartographer system.
+
+SYNOPSIS
+    QTLcart [ -h ] [ -V ] [ -A ] [ -s *seed* ] [ -W *workdir* ] [ -X *stem*
+    ] [ -e *logfile* ] [ -R *resource* ]
+
+DESCRIPTION
+    QTLcart exists but does nothing at this time. It is intended to be the
+    front end to a set of programs collectively known as QTL Cartographer.
+    This man page explains the options that are valid in all the programs of
+    the QTL Cartographer suite. It also outlines how to get started using
+    the programs.
+
+OPTIONS
+    The following options can be used with any of the programs in the QTL
+    Cartographer suite.
+
+    -h  Prints out the current values of all program options, and
+        information on what the program does. It then exits.
+
+    -V  Turns the verbosity mode off. The programs in the suite print out
+        messages while running. This option turns off those messages. This
+        is useful for batch files.
+
+    -A  Skips the interactive screen for setting options. All programs start
+        up with a menu that allows setting of options. This turns the menu
+        off. It is also very useful for batch files.
+
+    -R  The programs will read the default parameters from a file specified
+        with this option. If a file called qtlcart.rc is in the current
+        working directory, it will be opened by default and all parameter
+        values read. If no such file exists, then default parameter values
+        will be assumed, and the file will be created.
+
+        It is probably better to simply rename a resource file qtlcart.rc
+        than to use this option.
+
+    -W  This option allows one to set the work directory. This directory
+        must exist. All the input files must be in this directory and the
+        output files will be placed there.
+
+    -s  This requires a long integer to act as the random number seed. By
+        default, it is the value returned by the ANSI C function *time()*,
+        which is usually the number of seconds since some arbitrary past
+        date (often 1 January 1970). This number will also be used as a
+        unique identifer on the first line of the output file.
+
+        This can be a useful option. It is recorded in the log file when any
+        program is run. It is possible to recreate exactly what was done
+        using the log file.
+
+    -e  This requires a filename for the log file. It will be appended to if
+        it exists and created if not. The default is qtlcart.log.
+
+    -X  Give a filename stem. All output will start with this stem and have
+        extensions indicating what is in them.
+
+    -D  Is a debugging option. It can be followed by a number to indicate
+        the level of debugging output. For example, -D0 indicates no
+        debugging output and is the default. -D1 and -D2 will cause some of
+        the programs to output extra information to the log file. -D3 will
+        cause the programs to create a file memacct.txt and record all
+        allocation and deallocation of memory.
+
+EXAMPLES
+    For all the following examples, assume that QTLCart is just a wildcard
+    for any of the programs in the suite.
+
+            % QTLcart -R resource.file 
+
+    QTLcart will read option values from the file resource.file. The other
+    programs do this, and except for Preplot, will regenerate the file upon
+    exit.
+
+            % QTLcart -X corn 
+
+    Will set the filename stem to *corn*. The output files will then have
+    names beginning with *corn* and logical extensions. For example, the map
+    file will be placed in corn.map and the file containing the data from a
+    cross will be in corn.cro. Filenaming conventions should follow the old
+    DOS 8+3 rule due to historical reasons.
+
+GLOBAL COMMAND LINE OPTIONS
+    All the parameters for QTLcart are also parameters for the other
+    programs in the QTL Cartographer system.
+
+GLOBAL BEHAVIOR
+    All the programs in the QTL Cartographer suite behave in the same
+    general way. They were originally UNIX programs and can be run as such
+    (using command line options). More recently, we have added an
+    interactive menu that allows the user to set parameters. Once inside any
+    of the programs, all the parameters of the program are displayed with
+    their current values. The user chooses whichever parameter he or she
+    wishes to change by selecting a number. The menu is in a loop. Choosing
+    0 will end the loop and proceed with the current parameter values.
+
+    The menu is also where one can get online help. Online help will be a
+    numbered option in the list of parameters. Choose it and specify the
+    location of the help file if the program couldn't find it.
+
+    When the programs begin to run, they will print out their parameter
+    values to a log file (qtlcart.log by default).
+
+    Here is an example of the Rcross menu:
+
+      ==================================================================
+      No.          Options                                    Values:
+      ------------------------------------------------------------------
+       0. Continue with these parameters
+       1. Input File                                                     
+       2. Output File                                         qtlcart.cro
+       3. Error File                                          qtlcart.log
+       4. Genetic Linkage Map File                            qtlcart.map
+       5. QTL Data File                                       qtlcart.qtl
+       6. Random Number Seed                                  1014739725 
+       7. Output format (0,1,2)                               0          
+       8. Cross (1,2,3) => (B1,B2,F2)                         B1         
+       9. Heritability                                        0.500000   
+      10. Replications (Not yet active)                       0          
+      11. Interactive Crosses? (0,1) => (no,yes)              0          
+      12. Environmental Variance (used if > 0)                -1.000000  
+      13. Sample Size                                         200        
+      -------------------------------------------------------------------
+      14. Specify Resource File                               qtlcart.rc 
+      15. Change Filename stem                                qtlcart    
+      16. Change Working Directory: 
+      17. Quit
+      18. Quit, but update the Resource File
+      ===================================================================
+  
+          Please enter a number... 
+
+    This menu is in a loop. To change a parameter, select its number and
+    press return. You will be prompted for a new value or filename. You can
+    clear out a filename or working directory by inputting a single period
+    (.). When satisfied that the parameters are set correctly, you can
+    select 0 to run the program. If you want to quit without changing the
+    resource file, simply select 17. Selecting 18 will update the resource
+    file with any parameter changes you have made.
+
+    Each program will have a different number of parameters, thus the last
+    five options may not have the same numbering as in the Rcross example
+    above. In addition, Rmap, Rqtl and Rcross have options that only make
+    sense if you are simulating data. These options disappear if you set an
+    input file to translate and thus the last five options are renumbered.
+
+RESOURCE FILE
+    The resource file keeps track of the most current parameter values used
+    in the programs. Each time the user runs a program, the program accepts
+    new values for parameters and writes them to the resource file. This is
+    unlike the log file which keeps track of the parameters used at the time
+    of running each program. The resource file that is generated by the
+    programs in the suite is self documenting. Look in the qtlcart.rc file.
+
+WORKING DIRECTORY
+    You can specify a working directory (or folder) with the -W option. This
+    directory (folder) must exist prior to running any of the programs. The
+    directory can be relative or complete, and should have the standard
+    directory delimiter appended to it. For example
+
+            -W /home/user/qtlcart/work/
+
+    would use /home/user/qtlcart/work as the working directory. All input
+    and ouput files would have to be in this directory. For a Windows
+    system, the line might be
+
+            -W c:\qtlcart\work\ 
+
+    whereas a Macintosh would require
+
+            -W HardDrive:qtlcart:work:
+
+    The equivalent line in the resource file would have -workdir instead of
+    just -W.
+
+    In UNIX, you can set a path variable pointing to the programs and simply
+    set your current working directory to the working directory. For Mac,
+    you double click the icons and should use a working directory variable.
+    Relative paths are also possible. For example, if the programs reside in
+    a bin folder in the qtlcart folder on a Macintosh, then you can have a
+    data folder in the qtlcart folder and use
+
+            -W ::data:
+
+    as the working directory. The two colons mean go up one level and then
+    go into the data folder.
+
+    On a Windows system, you can either open a command window and type in
+    commands as you would under UNIX, or double click program icons as you
+    would on a Macintosh. If you use the Macintosh mode, then you will need
+    to set a working directory as the resource file is saved in the same
+    directory where the binaries reside. If you use the command line mode,
+    then you should have the binary directory in the PATH variable so that
+    you can run the programs in the working directory and not have to set
+    that variable.
+
+    Newer versions of the Macintosh have UNIX underneath the windowing
+    system. QTL Cartographer can be compiled and used in the UNIX enviroment
+    on the Macintosh as under any UNIX system. You will need to get the
+    developer package and install it on your Macintosh to do this.
+
+FILENAME STEM
+    The filename stem is an important concept in the usage of this package.
+    Beginning with version 1.12, the programs utilize the filename stem
+    qtlcart. All files are then named using this stem and filename
+    extensions relevant to the filetype. For example, if the -X option is
+    followed by corn, then when new files are created, they will have the
+    stem corn followed by a logical extension. An example would be corn.map
+    for a genetic linkage map. With some practice, you will be able to know
+    the contents of a file by its extension.
+
+USING THE INDIVIDUAL PROGRAMS
+    For now it is best to use the individual programs rather than the front
+    end. If you have no data, then you would use the programs in the
+    following order:
+
+    1.  Rmap, to create a random map of markers.
+
+    2.  Rqtl, to generate a random genetic model for the map.
+
+    3.  Rcross, to create a random cross.
+
+    4.  LRmapqtl, to do a simple linear regression of the data on the
+        markers.
+
+    5.  SRmapqtl, to do a stepwise linear regression of the data on the
+        markers to rank the markers.
+
+    6.  Zmapqtl, to do interval or composite interval mapping.
+
+    7.  Preplot, to reformat the output of the analysis for GNUPLOT.
+
+    8.  GNUPLOT, to see the results graphically.
+
+    If you have data, then you might use the programs in the following
+    order:
+
+    1.  Rmap, to reformat the output of MAPMAKER or a standard input file.
+
+    2.  Rcross, to reformat your data.
+
+    3.  Qstats, to summarize missing data and calculate some basic
+        statistics on your quantitative traits.
+
+    4.  LRmapqtl, to do a simple linear regression of the data on the
+        markers.
+
+    5.  SRmapqtl, to do a stepwise linear regression of the data on the
+        markers to rank the markers. This should be run with model 2.
+
+    6.  Zmapqtl, to do interval or composite interval mapping. This should
+        be run twice, once with model 3 and a second time with model 6.
+
+    7.  Preplot, to reformat the output of the analysis for Gnuplot.
+
+    8.  GNUPLOT, to see the results graphically.
+
+    We recommend that the new user tries a simulation to gain an
+    understanding of the programs
+
+REFERENCES
+    1. T. Williams and C. Kelley (1993) GNUPLOT: An Interactive Plotting
+    Program. Version 3.5
+
+BUGS
+    Many UNIX systems have been known to get upset when trying to run the
+    QTL Cartographer programs from out of the front end. It has something to
+    do with the memory management. Try running the individual programs one
+    by one. A good test is to simply run each program without changing any
+    parameters.
+
+SEE ALSO
+    Emap(1), Rmap(1), Rqtl(1), Rcross(1), Qstats(1), LRmapqtl(1),
+    BTmapqtl(1), SRmapqtl(1), JZmapqtl(1), Eqtl(1), Prune(1), Preplot(1),
+    MImapqtl(1), MultiRegress(1), Examples(1) SSupdate.pl(1), Prepraw.pl(1),
+    EWThreshold.pl(1), GetMaxLR.pl(1), Permute.pl(1), Vert.pl(1),
+    CWTupdate.pl(1), Ztrim.pl(1), SRcompare.pl(1), Ttransform.pl(1),
+    TestExamples.pl(1), Model8.pl(1), Dobasics.pl(1), Bootstrap.pl(1)
+
+CONTACT INFO
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Bioinformatics Research Center, North Carolina State University
+            1523 Partners II Building/840 Main Campus Drive
+            Raleigh, NC 27695-7566     USA
+            Phone: (919)515-1934
+
+    Please report all bugs via email to qtlcart-bug@statgen.ncsu.edu.
+
+    The QTL Cartographer web site ( http://statgen.ncsu.edu/qtlcart ) has
+    links to the manual, man pages, ftp server and supplemental materials.
+

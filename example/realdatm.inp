@@ -1,0 +1,27 @@
+# 13234789    bychromosome     -filetype map.inp
+-type intervals  the interval distance following the marker is given.
+-function     1  where 1 => haldane mapping function,
+                       2 => kosambi and 
+                       3 => fixed (no mapping function).
+-Units       cM  where cM means centiMorgans 
+-chromosomes  1  the haploid number of chromosomes 
+-maximum      9  markers on any chromosome.   
+-named      yes  markers will have names.   
+
+-start 
+-Chromosome c10
+D10MIT31   9.1
+D10MIT42   4.2
+IGF1       1.3
+D10MIT9    1.3
+D10MIT10   1.6
+D10MIT41   3.3
+D10MIT12   2.2
+D10NDS2    8.3
+D10MIT14   0.0
+-stop
+
+-end  
+
+
+

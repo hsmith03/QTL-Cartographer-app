@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Ztrim</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#output">OUTPUT</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Ztrim.pl - Trim a Zmapqtl output file for terminal reading</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+   Ztrim.pl  [-H Hypothesis]  [-l lines]  [-w width] [-t]  [-r]  
+           [-s]  [-h] &lt; input &gt; output</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Ztrim.pl</strong> reads from the standard input and writes to the standard
+output. It reads the output of <strong>Zmapqtl</strong> and eliminates columns based on
+the value of <em>Hypothesis</em>.  It is a quick way to make the output file fit
+in a terminal window without having the text wrap.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2dh"><strong>-H</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an integer value of 1, 10, 20, 30,31, 32 or 33.   The behavior
+of the program for each value is explained below.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dl"><strong>-l</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an integer value greater than 1.  It specifies how often the column headers should
+be printed.   The default value of  0  means that headers will  be printed at the top of
+each block of output.   If your terminal shows 25 lines, then it is useful to reprint the header every
+21 lines so as to have a header on each page of the output.   (The header is 3 lines long...if you use 
+<strong>more</strong>, then you will need one more line for it.)
+</dd>
+<p></p>
+<dt><strong><a name="item__2dw"><strong>-w</strong></a></strong><br />
+</dt>
+<dd>
+This option requires an integer value greater than 1.      It specifies character width of
+ the output terminal.   The default is 80, which is a common value.   It only effects the
+horizontal bars defining the headers.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-h</strong></a></strong><br />
+</dt>
+<dd>
+requires no operand.  If used, it prints a usage message and exits.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dr"><strong>-r</strong></a></strong><br />
+</dt>
+<dd>
+Prints   R squared values
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+Prints total R squared values
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-s</strong></a></strong><br />
+</dt>
+<dd>
+Prints residual test statistic values
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="output">OUTPUT</a></h1>
+<p>Different values used with the <em>-H</em> option allow the user to output
+specific columns from the <em>qtlcart.z</em> file.   All options print out 
+columns for the chromosome, marker and postions.   All print at least one
+likelihood ratio test statistic and at least one parameter estimate.</p>
+<p>For crosses with two marker classes (backcrosses and recombinant inbreds), 
+we can estimate one parameter value, namely the additive effect.   The test is
+H0 (no QTL) versus H1 (QTL with an additive effect <em>a</em>).</p>
+<p>For crosses with three marker classes, we can estimate additive and dominance effects.
+Let <em>a</em> be the additive effect and <em>d</em> be the dominance effect.  
+We can   set up four hypotheses:</p>
+<dl>
+<dt><strong><a name="item_h0">H0</a></strong><br />
+</dt>
+<dd>
+No QTL:    <em>a</em> = 0 and <em>d</em> = 0.
+</dd>
+<p></p>
+<dt><strong><a name="item_h1">H1</a></strong><br />
+</dt>
+<dd>
+QTL with an additive effect:  <em>a</em> not 0 and <em>d</em> = 0.   We refer to the estimate of
+the additive effect as <em>a1</em> under this hypothesis.
+</dd>
+<p></p>
+<dt><strong><a name="item_h2">H2</a></strong><br />
+</dt>
+<dd>
+QTL with a dominance effect: <em>a</em> = 0 and <em>d</em> not 0.  We refer to the estimate of
+the dominance effect as <em>d2</em> under this hypothesis.
+</dd>
+<p></p>
+<dt><strong><a name="item_h3">H3</a></strong><br />
+</dt>
+<dd>
+QTL with both an additive and a dominance effect: <em>a</em> not 0 and <em>d</em> not 0.  
+We refer to the estimate of
+the additive effect as <em>a3</em> and that of the dominance effect as <em>d3</em> under this hypothesis.
+</dd>
+<p></p></dl>
+<p>Using the following values with the <em>-H</em> option  yields</p>
+<ol>
+<li></li>
+This is the default and is useful for crosses with two genotypic classes.
+The output simply deletes the columns with zeros.    You are left with the
+likelihood ratio of H1 to H0 and the estimate of the additive effect.
+<p></p>
+<li></li>
+This essentially prints the same information as 1 above except it does it for
+crosses with three genotypic classes.
+<p></p>
+<li></li>
+This prints the likelihood ratio for a test of dominance where the additive effect is zero.
+You get the H2 to H0 likelihood ratio, the estimate of dominance, the R squared estimates and
+the test statistic for normality of the residuals.
+<p></p>
+<li></li>
+This prints the H3 to H0 likelihood ratio.
+You get the hypothesis test likelihood ratio, the estimates of additivity and 
+dominance, the R squared estimates and
+the test statistic for normality of the residuals.
+<p></p>
+<li></li>
+This option prints everything that option 30 prints, but adds the test of H3 to H1 and
+the <em>a1</em> estimate.
+<p></p>
+<li></li>
+This option prints everything that option 30 prints, but adds the test of H3 to H2 and
+the <em>d2</em> estimate.
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<pre>
+  ./Ztrim.pl -l 20 -w 78 -H 30 -s &lt; qtlcart.z | more</pre>
+<p>will print the test statistic H3:H0 and the estimates of the additive and
+dominance effects for the results in  <em>qtlcart.z</em>.  It will also reprint the 
+column headers every 20 lines.   This works well for a terminal set to 24 lines
+by 80 columns.   The headers take 3 lines each and the <strong>more</strong> command chews up the
+last line of each screen.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Zmapqtl(1)</strong> 
+
+</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)
+
+</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Department of Statistics, North Carolina State University
+        Raleigh, NC 27695-7566, USA
+        Phone: (919)515-1934
+
+</pre>
+
+</body>
+
+</html>

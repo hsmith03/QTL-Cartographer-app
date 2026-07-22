@@ -1,0 +1,560 @@
+ChangeLog for QTL Cartographer  
+Christopher J. Basten
+basten@statgen.ncsu.edu
+(919)515-1934
+
+
+January, 2005,  1.17j
+    1.  Fixed bug in MissMark.c that incorrectly estimated genotype 
+        probabilities for T(Bi)SFx lines.   Effected all analysis modules.
+    2.  Attempting to compile Bmapqtl (Bayesian mapping module)...it's compiled 
+        but needs to be debugged.
+    3.  Continuing to implement pleitropy v close linkage in JZmapqtl
+    4.  The append_seed subroutine in params.c was overwriting the qtlcart.rc
+        file:  Changed this to appending.  
+    5.  Added an option to Qstats to produce a table of marker probabilities
+        (useful for missing or dominant markers). 
+
+October-December, 2004, 1.17i
+    1.  Added pleiotropy test to JZmapqtl
+    2.  fixed Eqtl bug that missed QTL on very end of last chromosome
+    3.  Implementing pleiotropy x close linkage test in JZmapqtl: ongoing
+    4.  In Zmapqtl, the sampling variance was calculated using an unbiased estimator.
+        To be consistent with the em algorithm, I changed it to the biased estimator with
+        n in the denominator rather than n-1.   The result is that r2 = tr2 for
+        interval mapping.   Proper estimation of variance components should be done
+        with MImapqtl.  
+    5.  There was a bug in the output of Emap that printed the wrong marker values. 
+        This was fixed.  The .e1c file is correct, but the final .cro file is not.
+    6.  Added option to Prune to collapse the map and data to the smallest map with no
+        intermarker distances of 0.0.  Useful if you have reestimated the map with
+        Emap.   
+
+July, 2004, 1.17h
+    1.  Allowed for Permute.pl to get experimentwise thresholds for
+        GxE LR scores when using hypothesis test 14 or 34.
+    2.  Fixed Prune bug that wouldn't set the proper level of selective 
+        genotyping from the command line.  
+
+March-April, 2004, 1.17g
+    1.  Updated documentation, namely the INSTALL file and the intro.
+    2.  Modified Emap so that you can reestimate the intermarker distances without
+        rearranging markers.   Also fixed a bug that gave incorrect telomeric segments
+        and crashed when trying to assign names to the telomeres.   
+    3.  Changed Prune so that the last random number will be printed as the
+         seed in the qtlcart.rc file when doing bootstraps, permutations and
+         simulations.   This will cause the programs to switch to reading and
+         writing the random number.   This was done so that scripts that did 
+         bootstraps would not reuse the same random number seed in consecutive
+         iterations. 
+ 
+February, 2004, 1.17f
+    1.  Introduced FPN variable so that programs can use
+        double or float universally (-DFPN=double, -DFPN=float).
+    2.  Fixed output bug in JZmapqtl that effected input of
+        MultiRegress for dominance effects. 
+    3.  Was able to compile 64 bit binaries under Solaris and
+        someone did same for Unix Tru64 v5.1.   See the Makefile
+        for the different compiler flags needed.  
+    4.  Fixed bug that was tripped in MImapqtl when attempting to output
+        residuals and using a working directory.   Working directory was
+        prepended twice to the output file name.  
+    
+August 27, 2003  v1.17e
+    1.  Fixed initialization bug in Mdatain.c
+    2.  Put on server
+    
+July, 2003  v 1.17d
+    1.  Fixed Mdatain.c bug that wouldn't allow more than 50 chromosomes
+        in a map.
+    2.  Fixed bug that didn't recognize "position" token in map.inp formatted file.
+    3.  Slight changes in Z, JZ and LR-mapqtl output to clarify that the test statistic is
+        -2ln(L0/L1) rather than L0/L1.  
+
+April, 2003  v 1.17c
+    1.  Fixed Eqtl bug that didn't recognize Zjack.out filetype
+        (should have been Zijack.out).  If you have v 1.17b, just insert 
+        an 'i' between the 'Z' and 'j' of Zjack.out to work around this bug.
+    2.  Altered Preplot so that only up to 20 marker names will be placed on the
+        plots.  More than 20 and it gets too cluttered.   
+    3.  Changed SAS output routine to use PROC GLM instead of PROC ANOVA.  Updated
+        menu message so that values of [0...7] are shown.  
+    4.  Fixed Mdatain.c bug that wouldn't read more than 50 markers/chromosome
+        
+Spring, 2003  v 1.17b
+    1.  Released on 8 April 2003
+
+Spring, 2003  v 1.17a
+	1.  Update manual to explain Emap
+
+Fall, 2002  v 1.16e
+	1.  Added Otto and Jones estimator for QTL number.
+	2.  Fixed a few bugs 
+
+Summer, 2002  v1.16d
+    1.  Began work on Emap, a module to infer genetic linkage maps
+    2.  Added data sets to the examples subdirectory
+    3.  Make allowances in Rqtl, Eqtl and Rcross for zero QTL
+    4.  Modified Preplot so that marker names would be put on graphs in GNUPLOT
+
+March, 2002  v1.16c
+    1.  Fixed MImapqtl bug that crashed when forward searching of epistatic 
+        effects
+    2.  Fixed bug in MissMark.c that tripped up when markers weren't on the 
+        telomeres
+    3.  Fixed SSupdate.pl and modified Permute.pl, Bootstrap.pl
+    4.  added .csh to c-shell scripts
+    5.  Released 28 March 2002
+
+February, 2002 v1.16b
+    1.  Eqtl wasn't reporting correct LRs for hypothesis tests 31, 32.  fixed
+    2.  Updated manual
+    3.  Released
+    
+January, 2002 v1.16a
+    1.  Cleaned up some of the code.   
+    2.  Rewrote the Permute, Model8 and Bootstrap csh scripts in perl.  
+    3.  Releases in February, 2002
+
+September-November, 2001 v1.15e
+    1.  Fixed bug in calculating expected genotypes for  T(SFx+y)SFy crosses.
+    2.  Modified cofactor selection in JZmapqtl model 6:  Now you can set the
+        upper bound for ranks and the cofactor summary is printed in the output
+    3.  JZmapqtl model 9 produces output file of expected values that can
+        be analyzed with new module, MultiRegress
+    4.  MultiRegress is new module to map traits onto expected values of 
+        QTL genotypes.   Stepwise regression is main algorithm.   This is a
+        quick and effective way to get an initial model for MImapqtl
+    5.  Minor modifications to MImapqtl for specifying input and output
+        model files.   
+    
+July, 2001  v1.15d
+	1.  Added R, SAS and Plabqtl output formats to Rcross
+	2.  Added Plabqtl input capability to Rcross
+	3.  Native Carbon Apps now part of Mac distribution
+
+May, 2001  v1.15c
+    1.  Fixed bug in histogram presented in Qstats output that 
+        had 0.0 as an element.  
+    2.  Fixed bug in Zmapqtl:  If data set has multiple traits and
+        there is missing data, then analysis of all data caused some
+        individuals to be deleted if they had missing phenotypes.
+    3.  Fixed bug in MImapqtl that used individuals with missing data for
+        data sets with multiple traits. 
+    4.  Added option to Prune to filter out all but one trait.  Added Prune option
+        to do selective genotyping.   
+    
+April, 2001 v1.15b
+	1. Edited man pages and manual in anticipation of the Summer Institute.
+	2. Released this version with caveat that it will be tested during Summer
+	Institute and released again in June.
+	3. Released 24 April 2001
+
+October, 2000  v1.15a
+	1. Refined MImapqtl...with a bit more testing it will be ready to roll
+	2. Modified Rqtl to simulate epistasis
+	3. Modified Rqtl to convert epistatic terms from qtls.inp file
+	4. Modified Rcross to use Cockerham's general genetic model and
+	   to use epistatic terms from Rqtl
+	5. Eliminated qtlcart.hlp file and its usage in programs.   The help.c
+	   file was not my code, and I don't want to maintain it.  From now on,
+	   the manual and man pages are the documentation.   
+	6. Took the histogram out of the LRmapqtl output...it's the same histogram
+	   from Qstats.
+	7. Eliminated different versions of LocalD.h...now the one version can be used
+	   on different platforms with a little bit of editing.   
+
+September, 2000  v1.14f
+    1. Created MImapqtl module to do multiple interval mapping.
+    2. Unreleased.  Needs to be refined and tested.  
+
+July 22, 2000 v1.14e
+    1. Modify Eqtl to produce an SRmapqtl.out section that can be used
+       by Zmapqtl in model 8
+    2. Allow user to specify maximum number of steps in forward regression in SRmapqtl.
+    3. Unreleased
+
+March 31, 2000 v1.14d
+    1. Fixed bug in JZmapqtl that picked incorrect markers for CIM
+    2. Fixed bug in Eqtl that caused crash in Unix.
+    3. Eliminated 068k Macintosh binaries.  All Mac versions will now
+       require the PPC chip.
+    4. Fixed read_markers bug that tested for ch==EOF before ch had been 
+       assigned a value.
+    5. Allow for extra map parameter in map.inp file as well as 'Telomere'
+       keyword in map to input telomeric DNA.
+    6. Released 22 June 2000
+
+November, 1999 v1.14c
+    1. Fix Rcross bug that didn't do bogus map when converting a mapmaker file
+    2. Calculate quantiles in Qstats
+    3. Calculate coefficient of variation, standard errors of skew and kurtosis.
+    4. Unreleased
+    
+July, 1999, v1.14b
+    1. Worked on JZmapqtl to fix RI line analysis
+    2. Allow for marker names in simulated maps in Rmap
+    3. Compiled and tested under CodeWarrior v5...even Wintel binaries work.
+    
+March 27, 1999 v1.14a
+    1. Implement GxE in JZmapqtl
+    2. Unreleased
+    
+February, 1999 v1.13h
+	1. Add ability to test for segregation of markers
+	2. Produce Watcom binaries without Windows Sioux (says v1.13g)
+	3. Get rid of annoying pause at end of programs
+	4. Fiddle with Qstats output to make it a little nicer
+
+Late December 1998 v1.13g
+  1. Fiddle with code to clean up.
+  2. Variances -> Standard deviations in Rmap, now
+     standard deviations of output are from map.  Rmap always
+     used standard deviations...I had just misslabelled them 
+     variances.
+  3. Cleaned up Rmap and Rqtl output. 
+  4. Eliminated MLinpak.c...now all are in Linpak.c.  Added 
+     files MLnpkws.c and Lnpkws.c to account for different 
+     structures for multitrait analysis.
+  5. -X stem on command line sets the stem.  Also, added 
+     quit option from menu that updates resoure file.
+  6. Pared down Preplot so that automagic mode is only mode left
+  7. Added ability to change random markers to dominant in Prune.
+  8. Global buffer and name spaces (gbuffer, gname, gwarn) to decrease
+     system overhead and allocate/deallocate calls.  A few bugs resulted,
+     but I think I've caught them all.
+  9. Verbosity output is now a bit nicer
+ 10. Cleaned up JZmapqtl output on the way to integration with other programs
+ 11. Zmapqtl can now do analysis for more than one trait (serially) in one
+     run.   Traits to be analyzed are specified as in JZmapqtl.  Only models
+     3 and 6 will work, and not permutations, bootstraps or jackknives 
+     are allowed.
+ 12. When you run Eqtl, it finds the maximal LR value and saves it in 
+     qtlcart.rc.  This is a ratching value, in that it will only increase
+     with each run of Eqtl.  Also, if you switched to LOD scores, it will
+     be saved as a LOD score.  This max value will then be use by Preplot
+     to set the y range.  The y range will be bigger than the max. LR and
+     will take on values 50, 100, 200, 300, 400, 500 or 1000, whichever 
+     is smallest and still larger than max LR.      
+ 13. Eqtl also processes JZmapqtl output and summarizes it in the .eqt file.
+ 14. Eqtl now outputs in Rqtl.out format and the more readable format.
+     Rcross can now read the file by going directly to the first block
+     of Rqtl.out formatted text.   The output mode is thus discontinued.
+  
+ 15. Released, 4 January 1999.
+ 
+14 December 1998 v1.13f
+  1. Converted to using function prototypes.
+  2. Found a few bugs associated with function calls.
+  3. Reorganized header files.   All load through Main.h.
+  4. SRmapqtl no longer bombs.   Use Metroworks Codewarrior under NT now.
+     Use of function prototypes caught bug whereby double * were passed
+     as int *.  Had no effect in Mac or UNIX, but killed NT version.
+  5. Unreleased
+
+9 September 1998 v1.13e
+  1. Fixed bug in Idatain.c with respect to translating categorical traits from the
+     cross.inp file when given by individuals.
+  2. Unreleased   
+
+9 April 1998 v1.13d
+  1. Add new map functions seen in Ben Liu's book
+  2. Unreleased   
+
+2 April 1998 v1.13c
+  1. Allow calculation of S in Zmapqtl to test for normality of residuals
+  2. Modify Zmapqtl to calculate r2 properly
+  3. Qstats calculates Skew, Kurtosis as in Lynch and Walsh
+  4. Modify Eqtl to take into account modifications of Zmapqtl
+  2. Unreleased   
+
+16 March 1998 v1.13b
+  1. Fixed bug calculating mean and variance of intermarker distances from Rmap
+  2. Unreleased   
+
+4 March 1998 v1.13a
+  1. Allow for calculation of R2 and TR2 in Zmapqtl output
+  2. Platform definitions are now in LocalD.h rather than in the Makefile
+  3. Preliminary JZmapqtl module
+  4. Released   
+
+25 August 1997 v1.12f
+  1. Fixed bug in params.c:  for loop went beyond array bound
+  2. Fixed bug in Zmapqtl:  added #include in Zfunc.c
+  3. Added trait name to Zmapqtl output
+  4. Released in August, 1997   
+
+2 June 1997 v1.12e
+  1. Modified Rcross so that tokens in the 'data' line can be upper or lower
+     case. 
+  2. Unreleased.   
+
+30 April 1997 v1.12d
+  1. Added jackknifing to Zmapqtl.  
+  2. Modified Eqtl to read jackknife interim results and
+     calculate relevant statistics. 
+  3. Released 29 May 1997 after some testing and major updates in the manual
+     and man pages.   
+
+2 April 1997 v1.12c
+  1. Completed most of updates for bootstrapping with Zmapqtl.  
+  2. Eliminated the interactive setting of endpoints for Zmapqtl analysis.
+  3. Modified Eqtl to read permutation test and bootstrap interim results and
+     calculate relevant statistics. 
+  4. Unreleased.   
+
+31 March 1997 v1.12b
+  1. Modified Prune so that it could produce a 'permuted' dataset, like
+     produces a 'bootstrapped' data set.  
+  2. Prune now has limited automatic activities (bootstrapping, permuting
+     or simulating missing data).  Other activities must be done in
+     an interactive menu.
+  3. Modified Zmapqtl to single bootstrap analysis and print interim results.
+     The interim results are the sum and sum of squares at each test site
+     for LR, a and d. 
+  4. Unreleased.   
+
+26 March 1997 v1.12a
+  1. Created SRmapqtl to do stepwise regression.  Running it will
+     be necessary to determine which markers to use in the background
+     for CIM.
+  2. Modified Zmapqtl to use the results from SRmapqtl.
+  3. Modified Zmapqtl to print out interim results of Permutation tests. 
+  4. Unreleased.   
+
+12 March 1997 v1.11i
+  1. Added an internal hook to recognize filetypes.  
+  2. Unreleased.   
+
+27 February 1997 v1.11h
+  1. Added option in Preplot and Eqtl to output LOD scores rather than
+     likelihood ratios.  
+  2. Modified simulation of Ri0, Ri1 and Ri2 designs so that they are more
+     accurate.
+  3. Unreleased.   
+
+20 February 1997 v1.11g
+  1. I am in the process of incorporating multitrait analysis.  As a 
+     result, some internal structures have been changed.  The user should
+     notice no changes from 1.11f due to these modifications.  
+  2. Sue Carson wanted some special experimental designs for pine tree
+     crosses.  These are called SC1 and SC2, although the SC2 doesn't
+     behave as expected.  Actually, SC1 is all that is needed.  Basically,
+     one starts with a pair of individuals in which the markers are dominant
+     (in the P1), and the QTLs are random accross loci.  Then you get a 
+     large number of offspring to look for correlations.
+  3. Unreleased.   
+
+14 August 1996 v1.11f
+  1. Made a definition for the range of the values of the quantitative
+     trait.  MISS_VAL = -1,000,000.  This can be changed in Utilities.h
+     from now on.  This also fixes the print_histogram subroutine which
+     was incorrectly determining the min and max values.  
+  2. Modification of the interactive menus for Rmap, Rqtl and Rcross:
+     If one chooses to translate a file by specifying an input file,
+     then the simulation parameters dissappear.   They can come back by
+     eliminating the input file.
+  3. Unreleased.   
+
+13 August 1996 v1.11e
+  1. Made it possible for the programs to recognize a change in the 
+     random number seed, either on the command line or the interactive
+     menu.
+  2. Unreleased.   
+
+4 June 1996 v1.11d
+  1. Fixed a bug in MissMark.c...it wasn't initializing a matrix for 
+     T(SFx)SFy crosses.
+  2. Unreleased.   
+
+10 May 1996 v1.11c
+  1. Fixed a bug in Rcross that caused it to not translate a *.raw file
+     without a molecular map.
+  2. Unreleased.   
+
+9 May 1996 v1.11b
+  1. Added subroutine to check parameters.  If verbosity is on, will
+     tell which parameters changed.  All programs except Preplot and
+     Prune will have this feature.
+  2. Redid the gnuplot_map subroutine so that it puts the output files
+     in the proper subdirectory, and can do more than 10 chromosomes.
+     Had to modify term pointer in Preplot as a result.
+  3. Unreleased.   
+
+5 May 1996 v1.11a
+  1. Model 7 in Zmapqtl uses previous results to produce virtual
+     markers for the control of the genetic background.  It will produce
+     virtual markers at the positions estimated by a previous run of
+     Zmapqtl using one of Models 1-6 and summarized by Eqtl.
+  2. Unreleased.  Requires testing. 
+
+2 May 1996 v1.10b
+  1. Bug in Rcross that neglected to make individual names lower case
+     for traits and otraits when case is ignored.
+  2. LRmapqtl requires that rows be initialized to 1.
+  3. Released 3 May 1996   
+
+23 April 1996 v1.10a
+  1. Added ability to simulate missing data in Prune.
+  2. Added ability to use postscript and hpljii terminal types in Preplot.
+  3. Allow for the Model to be a part of the plot file name in Preplot output.
+     (  c#t#.lb would now be c#t#.z3, etc).
+  4. Unreleased.   
+
+17 April 1996 v1.09c
+  1. Fixed bug in LRmapqtl and Zmapqtl that affected Windows versions.
+  2. Released.  17 April 1996
+
+16 April 1996 v1.09b
+  1. Fixed bug in processing -R and -W command line options.
+  2. Unreleased.  
+
+4 April 1996 v1.09a
+  1. Added ability to put use other traits in Zmapqtl.
+  2. Fixed a bug in Preplot.
+  3. Released.  9 April 1996 
+
+4 April 1996 v1.08a
+  1. Added ability to put use other traits in LRmapqtl.
+  2. Unreleased.  
+
+2 April 1996 v1.07b
+  1. Eqtl prints out trait names with the estimates of their QTL.
+  2. Unreleased.  
+
+29 March 1996 v1.07a
+  1. Preplot: major change.  Now there is an 'automagic' mode. 
+     It is default and will simply process all results to the
+     best of its abililty
+  2. Unreleased.  Need to test on Windows, Unix.
+
+28 March 1996 v1.06b
+  1. Eqtl: fixed a bug that picked up the wrong QTL.  
+     Still need to do checking for incomplete results.
+     Still need to process lrfile, and add new formats.
+  2. Unreleased.
+
+27 March 1996 v1.06a
+  1. Eqtl: reengineered to hopefully process all results in the
+     Eqtl.out file.  Still needs a few bug fixes.
+  2. Unreleased.
+
+21 March 1996 v1.05f
+  1. Zmapqtl:  added in a bailout facility to the ECM algorithm.
+  2. Unreleased.
+
+15 March 1996 v1.05e
+  1. Zmapqtl estimated a/2 for Ri lines instead of a.  Fixed.
+  2. Released. Announced 19 March.
+       
+13 March 1996 v1.05d
+  1. Fixed small bug in parse_cross.
+  2. Released.
+       
+9 March 1996 v1.05c
+  1. Tracked down bug in RI lines and fixed it.
+  2. Put in code to take care of T(Bi)SFx lines
+  3. Fixed bug in Prune (print_individuals had wrong arg list)
+  4. Released in all versions
+    
+1 March 1996 v1.05b
+  1. Rcross: if no marker or trait names, will create bogus ones.
+     This will allow the translation of simulated data sets into
+     MAPMAKER and cross.inp formats.  
+  2. In interactive menu: A solitary period wipes the option.
+  3. Found a couple of bugs in the output subroutines for Mapmaker
+     and cross.inp output formats.
+  4. Unreleased.
+
+29 February 1996 v1.05a
+  1. Rcross: Added ability to read in Rcross.out format.
+  2. Added ability to specify output format: Rcross.out, cross.inp, *.raw.
+  3. Unreleased.
+
+27 February 1996 v1.04c
+  1. Testing and tracking down bugs in  Rcross, LRmapqtl and Zmapqtl.
+  2. Modify *.raw translations wrt new experimental designs.
+  3. Unreleased.
+
+27 February 1996 v1.04b
+  1. Bug fixes for Rcross.
+  2. Begin testing of Rcross, LRmapqtl and Zmapqtl.
+  3. Unreleased.
+
+21 February 1996 v1.04a
+  1. Started modification of Rcross to do more complex simulations.
+  2. Unreleased.
+
+21 February 1996 v1.03a
+  1. Continued implementation of Jiang and Zeng's methods to infer
+     genotypes based in flanking marker information.  This 
+     affected LRmapqtl.
+  2. Unreleased.
+
+19 February 1996 v1.02a
+  1. Began implementation of Jiang and Zeng's methods to infer
+     genotypes based in flanking marker information.  This 
+     affected Zmapqtl.
+  2. Unreleased.
+
+15 February 1996 v1.01j
+  1. Reading in a MAPMAKER output file with one chromosome had
+     a problem which was fixed.
+  2. Changed the choices for the model in Zmapqtl to be (1-6).
+  3. Released at 11:30am EST.
+  
+14 February 1996 v1.01i
+  1. Permutation tests and bootstraps don't work for Windows
+     platform so they have been disabled.  This is probably a 
+     defect of the compiler or OS, as it is not a problem with
+     the Mac or Unix versions.  Permutations and bootstraps 
+     should probably be done in the UNIX environment anyway.
+  2. Minor change in the printout of the parameter values in
+     the interactive menu.  Just an English correction.
+  3. Unreleased.
+  
+13 February 1996 v1.01h
+  1. Removed a line that printed some unnecessary information
+     from LRmapqtl.  
+  2. Unreleased.
+
+13 February 1996 v1.01g
+  1. Zmapqtl was incorrectly picking markers to control for the
+     genetic background when using model 5.  This was fixed.  
+
+13 February 1996 v1.01f
+  1. The EM algorithm fails for some data sets.  In Windows,
+     an annoying clickbox would appear. This was disabled.
+  2. Unreleased.
+  
+12 February 1996 v1.01e
+  1. Fixed bug in LRmapqtl that caused it to crash when doing a 
+     permutation test.  
+  2. Added a print statement to indicate which permutation the 
+     program was on.
+  3. Unreleased, because other enhancements were anticipated.
+     
+ 2 February 1996 v1.01d
+  1. Previously, EOF was checked for by comparing with a char variable.
+     Changed this variable to int where ever EOF occurred.  The programs
+     now run on IBM AIX and Silicon Graphics machines.  Only UNIX
+     version was released.
+
+13 January 1996 v1.01c
+  1.  Put an sprintf statement in Qstats so that the Windows version
+      wouldn't crash.  There may be a bug in the Borland C v4.5 
+      compiler.  It makes no sense.
+  2.  Version bumped from 1.01b to 1.01c
+  3.  Put on the archive at 4:30 pm EST (only WinTel version).
+
+9 January 1996  v1.01b
+  1.  Added copyright notice to all source files.
+  2.  Changed Eqtl so that the output file is not overwritten
+      when the -b option is used.
+  3.  Added copyright notice to be printed to the screen when
+      using interactive menu.
+  4.  Note: This update not posted.  
+  5.  Version bumped from 1.01a to 1.01b
+
+19 December 1995  v1.01a
+  1.  First official version 1.01a.

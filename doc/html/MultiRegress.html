@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MultiRegress</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MultiRegress - Multiple Regression analysis of QTL data</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>MultiRegress</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-i</strong> <em>input</em> ]  
+[ <strong>-t</strong> <em>trait</em> ] [ <strong>-c</strong> <em>cat</em> ] [ <strong>-S</strong> <em>size</em> ] [ <strong>-w</strong> <em>window</em> ]  
+[ <strong>-u</strong> <em>MaxSteps</em> ] [ <strong>-I</strong> <em>hypo</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>MultiRegress</strong> uses stepwise  regression to map quantitative trait loci.  The data consist
+of trait values that will be mapped onto expected genotypes.   The standard data set can
+be translated by <strong>JZmapqtl</strong> using model 9.   Map information is encoded in the
+data file and thus a separate map is not needed.</p>
+<p>You might rightly ask ``What does this program add to the QTL Cartographer system?''    
+First, it doesn't require a  map like the
+other programs in the <strong>QTL Cartographer</strong> system.  Second, since all of the
+genotypic expected values have been calculated, just about any type of cross
+could be analyzed.   The user could write a program to calculate
+expected genotypes at specified sites.   Finally, it can speed up the process of
+finding QTL when using <strong>MImapqtl</strong> (see the EXAMPLE section).</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename for output.   <strong>MultiRegress</strong> will append the file if
+it exists, and create a new file if it does not.   If not used, then <strong>MultiRegress</strong> will use
+<em>qtlcart.mr</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-i</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist. 
+The format is defined below. The default file is <em>qtlcart.zr</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-t</strong></a></strong><br />
+</dt>
+<dd>
+Use this to specify which trait <strong>MultiRegress</strong>
+will analyze.  If this number is greater than
+the number of traits, then all traits whose names do not begin with a minus sign
+will be analyzed.  If 0, then no traits except those beginning with a plus sign 
+will be analyzed. The default is
+to analyze trait 1 only.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dc"><strong>-c</strong></a></strong><br />
+</dt>
+<dd>
+This tells  <strong>MultiRegress</strong>
+whether to use the categorical traits in the analysis.  Use a 1 to include categorical 
+traits and a 0 to exclude them.
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-S</strong></a></strong><br />
+</dt>
+<dd>
+Requires a real number in the range 0.0 to 1.0.  
+This is a threshold p value for adding or deleting sites from the model.  The default is 0.05.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dw"><strong>-w</strong></a></strong><br />
+</dt>
+<dd>
+Requires a non-negative real number.  
+This defines a window around a site already in a regression model to block from further analysis.
+</dd>
+<p></p>
+<dt><strong><a name="item__2du"><strong>-u</strong></a></strong><br />
+</dt>
+<dd>
+Requires an integer valued argument.  
+This allows you to specify a hard limit to the number parameters in the   regression
+analysis.     By default, it is 100.
+</dd>
+<p></p>
+<dt><strong><a name="item__2di"><strong>-I</strong></a></strong><br />
+</dt>
+<dd>
+Requires a value of 10 or 30.  The value 10 means just analyze additive effects, while the
+value 30 means analyze for dominance and additive effects.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p>Here is an example of the data input file:</p>
+<pre>
+        #     1002909319   -filetype JZmapqtl.zr 
+        #
+        #       QTL Cartographer v. 1.15e, October 2001
+        #       This output file (qtlcart.zr) was 
+        #       created by JZmapqtl...
+        #
+        #       It is 13:55:19 on Friday, 12 October 2001
+        #
+        #
+        #  This output of JZmapqtl is meant to be used 
+        #  with MultiRegress 
+        -walk         2.00      Interval distance in cM
+        -cross          B1      Cross
+        -otraits         1      Number of explanatory variables
+        -traits          2      Number of Traits 
+        -positions 39           Number of positions
+        -n               9      Sample Size
+        -Trait 1   Trait.1
+                                5             5.3           6.2           
+                                4.1           5.5 
+                            5.8           6.7           6.1           
+                            6.4 
+        -Trait 2   Trait.2
+                           15            15.3          16.2          
+                           24.1          25.5 
+                           25.8          16.7          26.1          
+                           16.4 
+        -Otrait 1   Sex
+                1     2     1     1     1     2     2     
+                1     2 
+        -Site 1 -parameter additive -chromosome 1  
+        -marker 1 -name c1m1  -position 0.000100  -values
+                          0.5           0.5           0.5         
+                          0.499         0.499 
+                         -0.5          -0.5          -0.5          
+                         -0.5 
+        -Site 2 -parameter additive -chromosome 1  
+        -marker 1 -name c1m1  -position 0.020100  -values
+                   0.4984        0.4984        0.4984        
+                   0.3026        0.3026 
+                  -0.4984       -0.4984       -0.4984       
+                  -0.4984 
+        -Site 3  ......</pre>
+<p>The data file above was created by <strong>JZmapqtl</strong> with model 9.   The
+header of the file is similar to the <em>qtlcart.cro</em> format:   The first
+line has a long integer and specifies the filetype as <em>JZmapqtl.zr</em>.   
+Some header information is followed by parameter definitions that  
+include the distances between sites (same as the walking speed in
+<strong>Zmapqtl</strong>, <strong>JZmapqtl</strong> and <strong>MImapqtl</strong>), the cross, numbers of
+categorical traits and quantitative traits, positions (or sites) and
+sample size (<em>n</em>). The data set above has a sample size of 9 for two
+traits, one categorical trait and 39 genotype sites. The cross and
+<em>walk</em> parameters are not needed by <strong>MultiRegress</strong>:  They are provided 
+as a reminder of how the data set was created.    The genotypes are
+expected QTL types based on flanking marker information.</p>
+<p>After the parameters, the traits are listed.  For each trait, there will
+be a token <em>-Trait</em> followed by the trait number, trait name and <em>n</em>
+real values.  After the traits come the categorical traits in the same
+format:  The token <em>-Otrait</em> is followed by the categorical trait
+number, name and then <em>n</em> integer values.</p>
+<p>Finally, data for each of the sites are presented.   Site data start
+with the token <em>-Site</em> followed by information about the site. The
+token <em>-parameter</em> is followed by the word <em>additive</em> or <em>dominance</em>
+indicating what expected value is calculated.  The other tokens indicate
+which chromosome and left-flanking marker define the site, and the
+position is from the left telomere of the chromosome.   The token
+<em>-values</em> is followed by <em>n</em> expected values of the QTL genotype at
+the site.    This structure is repeated for each site.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<p>Suppose we have a data set for an SF3 population in <em>qtlcart.zr</em> with three traits and the filename
+stem has already been set to <em>qtlcart</em>.</p>
+<pre>
+        % MultiRegress -I 30 -t 4</pre>
+<p>Does a  stepwise regression with   backward elimination steps
+for  the dataset.  All three traits are analyzed and both additive and dominance 
+effects are estimated.</p>
+<p>One can also speed up the process of finding QTL using multiple interval mapping.
+The core algorithms of <strong>MImapqtl</strong> are very compute intensive.   As an example,
+using <strong>MImapqt</strong> to search for QTL <em>de novo</em> takes 934 seconds on a Macintosh G4
+with an 867 MHz processor.    Contrast this with the following sequence:</p>
+<pre>
+        % JZmapqtl -X mletest -M 9 -A -V
+        % MultiRegress  -A -V
+        % Rqtl -i mletest.mr -o mletestPhase0.mqt
+        % MImapqtl -p 1  -IsMPrtseC</pre>
+<p>Converting the data with <strong>JZmapqtl</strong> and searching for putative QTL with <strong>MultiRegress</strong>
+yields a starting point for <strong>MImapqtl</strong>. <strong>Rqtl</strong> translates the output of
+<strong>MultiRegress</strong> so that <strong>MImapqtl</strong> can use it as an initial model.   The <em>-p 1</em> option tells
+<strong>MImapqtl</strong> to set the phase variable to one, and thus the program expects the input
+model to be in <em>mletestPhase0.mqt</em>.    This method takes about 25 seconds and comes up
+with a very similar set of QTL as  using <strong>MImapqtl</strong> to search from scratch.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>If you have a multitrait data set, then use all of the traits.  Convert them all with
+<strong>JZmapqtl</strong> by using a trait value greater than the number of traits, and be sure that
+none of the traits have names beginning with a minus sign.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

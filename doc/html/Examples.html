@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Examples</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copying">COPYING</a></li>
+	<li><a href="#input_format">INPUT FORMAT</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Examples -  Example data sets for <strong>QTL Cartographer</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The files in the <em>example</em> subdirectory are example data sets that 
+can be used with <strong>QTL Cartographer</strong>.  Some of these data sets have been
+published, so you can compare your results with those in the publications.</p>
+<p>If you are on a Unix system, you can use make to create a test subdirectory,
+with a different subdirectory for each  set of example files.   Be sure to 
+check the <em>Makefile</em> for proper <strong>rm</strong> and <strong>cp</strong> commands.  You will also
+want to set the target location for the test directory.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copying">COPYING</a></h1>
+<p>The file COPYING contains the GNU GENERAL PUBLIC LICENSE (Version 2, June 1991) that
+governs the usage of QTL Cartographer.   It does not cover the usage of the
+data sets in this directory.   You can use these data sets to learn about or
+teach QTL Cartographer.   Contact the people who generated the data if you want 
+to use their data sets for other purposes.  We are grateful to the individuals
+who created the data for allowing us to distribute their data sets.</p>
+<p>
+</p>
+<hr />
+<h1><a name="input_format">INPUT FORMAT</a></h1>
+<p>The genetic linkage map files will generally have to be converted using
+<strong>Rmap</strong>, and the data sets should be run through <strong>Rcross</strong>.   For example,
+the <em>sample</em> subdirectory contains files <em>sample.mps</em> and <em>sample.raw</em>.
+You will convert them with the commands</p>
+<pre>
+        % Rmap -i sample.map -X sample
+        % Rcross -i sample.raw</pre>
+<p>The above commands will output files <em>sample.map</em> and <em>sample.cro</em>.</p>
+<p>The only exception to this general rule is the <em>mletest</em> files, which are
+already in <strong>QTL Cartographer</strong> format.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<p>Here is a list of the example data files contained in this directory.</p>
+<ol>
+<li></li>
+<em>mletest.map</em> and  <em>mletest.cro</em>  contain the simulated data generated and
+used by Zhao Bang Zeng in his original paper on composite interval mapping (Zeng, 1994).
+<p>These are ready for use with QTL Cartographer.   There is also a file mletestq.inp
+which contains the true positions and effects of the QTL used in the simulation.
+It can be translated with Rqtl</p>
+<pre>
+        %  Rqtl -i mletestq.inp -X mletest</pre>
+<p>and then you can proceed with the analysis</p>
+<pre>
+        % Qstats
+        % LRmapqtl
+        % SRmapqtl
+        % Zmapqtl
+        % Zmapqtl -M 6
+        % Eqtl -S 12.0
+        % Preplot
+        % gnuplot mletest.plt</pre>
+<p>You can modify the above commands to explore how to use <strong>QTL Cartographer</strong>.</p>
+<p></p>
+<li></li>
+The files <em>realdatc.inp</em> and <em>realdatm.inp</em>  contain real data from Horvat and Medrano (1995).
+These should be converted with Rmap and Rcross before use with <strong>QTL Cartographer</strong>.
+<pre>
+        % Rmap -i realdatm.inp -X realdat
+        % Rcross -i realdatc.inp
+        % Qstats
+        % LRmapqtl
+        % SRmapqtl
+        % Zmapqtl
+        % Zmapqtl -M 6
+        % Eqtl -S 12.0
+        % Preplot
+        % gnuplot realdat.plt</pre>
+<p></p>
+<li></li>
+<strong>MAPMAKER/EXP</strong> and <strong>MAPMAKER/QTL</strong> (Lander <em>et al</em> 1987) come with a sample data set  which we have included
+in the  <strong>QTL Cartographer</strong> distribution.  <em>sample.raw</em> is the sample data set and <em>sample2.raw</em>
+is essentially the same data but the trait foo=log(weight) has been calculated and
+put in the file.  The <em>sample.raw</em> file was run through <strong>MAPMAKER/EXP</strong> to create the
+<em>sample.mps</em> file in preparation to use with <strong>QTL Cartographer</strong>.
+<p>These should be converted with Rmap and Rcross before use with <strong>QTL Cartographer</strong>.</p>
+<pre>
+        % Rmap -i sample.mps -X sample
+        % Rcross -i sample2.raw</pre>
+<p>or</p>
+<pre>
+        % Rmap -i sample.mps -X sample
+        % Rcross -i sample2.raw</pre>
+<p>and then you can run the rest of the analyses</p>
+<pre>
+        % Qstats
+        % LRmapqtl
+        % SRmapqtl
+        % Zmapqtl
+        % Zmapqtl -M 6
+        % Eqtl -S 12.0
+        % Preplot
+        % gnuplot sample.plt</pre>
+<p></p>
+<li></li>
+Nuhzdin <em>et al</em> (1997) present an analysis of sex-specific QTL Data coming from Trudy MacKay's lab.
+These data are contained in nuzhdinm.inp (the map) and nuzhdinc.inp (the data).
+They should be converted with <strong>Rmap</strong> and <strong>Rcross</strong> before use with <strong>QTL Cartographer</strong>.
+<pre>
+        % Rmap -i nuzhdinm.inp -X nuzhdin
+        % Rcross -i nuzhdinc.inp</pre>
+<p></p>
+<li></li>
+The data from Weber <em>et al</em> (1999) and Weber <em>et al</em> (2001) are in the
+files <em>weber519c.inp</em> and <em>weber701c.inp</em> and there is a map file for
+each.  The numbers in the file name indicate the sample sizes.  For the
+sample of size 519, convert the files prior to analysis:
+<pre>
+        % Rmap -i weber519m.inp -X weber519
+        % Rcross -i weber519c.inp</pre>
+<p>For sample of size 701, use <em>weber701m.inp</em> and <em>weber701c.inp</em></p>
+<pre>
+        % Rmap -i weber701m.inp -X weber701
+        % Rcross -i weber701c.inp</pre>
+<p>and proceed with the analyses.</p>
+<p></p>
+<li></li>
+Another data set from Trudy Mackay's lab was presented by Vieira <em>et al</em> (2000). 
+The data are in <em>vieiram.inp</em> and <em>vieirac.inp</em>.  The by-now usual conversion should
+preceed the analysis.
+<pre>
+        % Rmap -i vieiram.inp -X vieira
+        % Rcross -i vieirac.inp</pre>
+<p></p>
+<li></li>
+There are four data sets from Cathy Laurie's lab with analyses presented 
+by Zeng <em>et al</em> (2000).
+<p>The map file (<em>lauriem.inp</em>) should be used with all four of the data sets.
+The data sets include two backcrosses between <em>Drosophila simulans</em> and 
+<em>D. mauritiana</em>. Each backcross has two independent samples.  Think of
+<em>D. mauritiana</em> as parental line 1 (P1) and <em>D. simulans</em> as parental line 2 (P2).
+Then, we have B1 crosses (F1 x P1) and B2 crosses (F1 x P2).  
+The first B1 cross has a sample size of 192 and is in the file <em>lauriem4c.inp</em>,
+while the second  (<em>lauriem6c.inp</em>) has a sample size of 299.
+The first B2 cross has a sample size of 184  ( <em>lauries4c.inp</em>),
+while the second  (<em>lauries6c.inp</em>) has a sample size of 287.</p>
+<p>All need to be converted.</p>
+<pre>
+        % Rmap -i lauriem.inp -X lauriem4
+        % Rcross -i lauriem4c.inp</pre>
+<pre>
+        % Rmap -i lauriem.inp -X lauries4
+        % Rcross -i lauries4c.inp</pre>
+<pre>
+        % Rmap -i lauriem.inp -X lauriem6
+        % Rcross -i lauriem6c.inp</pre>
+<pre>
+        % Rmap -i lauriem.inp -X lauries6
+        % Rcross -i lauries6c.inp</pre>
+<p>You might want to create a separate subdirectory for each data.</p>
+<p></p>
+<li></li>
+Arabidopsis data from Rauh <em>et al</em> (2002)
+are in <em>rauhall.inp</em> with the map in <em>rauhmap.inp</em>.   There are four different traits
+raised in four different environments.   Each of the traits has been split into
+a file of its own.  Rootmass data are in <em>rauhrm.inp</em>, rootlength data in <em>rauhrl.inp</em>,
+arialmass data in <em>rauham.inp</em> and the ratio of root to arial mass in <em>rauhratio.inp</em>. 
+Again, they  need to be converted, and each dataset should its own subdirectory.
+For example, if you have all the files in one subdirectory, you could analyze the rootmass data
+as follows:
+<pre>
+        % mkdir rootmass
+        % cp rauhmap.inp rauhrm.inp rootmass
+        % cd rootmass
+        % Rmap -i rauhmap.inp -X rootmass
+        % Rcross -i rauhrm.inp
+        % Qstats
+        % LRmapqtl -t 5
+        % SRmapqtl -t 5
+        % Zmapqtl -t 5
+        % Zmapqtl -t 5 -M 6
+        % JZmapqtl -t 5 -I 14
+        % Eqtl -S 12.0 -H 14
+        % Preplot
+        % gnuplot rootmass.plt</pre>
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<ol>
+<li></li>
+Horvat, S. and J. F. Medrano (1995) Interval mapping of <em>high growth (hg)</em>, a major
+locus that increases weight gain in mice.   <em>Genetics</em> <strong>139:</strong>1737-1748.
+<p></p>
+<li></li>
+Lander,  E. S., P. Green, J. Abrahamson, A. Barlow, M. Daley, S. Lincoln and 
+L. Newburg (1987) MAPMAKER: An interactive computer package for constructing primary
+genetic linkage maps of experimental and natural populations.
+<em>Genomics</em> <strong>1:</strong> 174-181.
+<p></p>
+<li></li>
+Nuzhdin, S. V., E. G. Pasyukova, C. L. Dilda, Z. B. Zeng and 
+T. F. C. Mackay (1997) Sex-specific quantitative trait loci 
+affecting longevity in <em>Drosophila melanogaster</em>.  <em>Proceedings 
+of the National Academy of Science USA</em> <strong>94:</strong> 9734-9739.
+<p></p>
+<li></li>
+Rauh, B. L.,  C. Basten, and E. S. Buckler IV (2002) Quantitative trait loci analysis of 
+growth response to varying nitrogen sources in <em>Arabidopsis thaliana</em>.
+<em>Theor Appl Genet</em>  <strong>104:</strong> 743-750.
+<p></p>
+<li></li>
+Vieira, C., E. G. Pasyukova, Z. B. Zeng, J. B. Hackett, R. F. Lyman and 
+T. F. C. Mackay (2000) Genotype-environment interaction for quantitative 
+trait loci affecting lifespan in <em>Drosophila melanogaster</em>. <em>Genetics</em>  <strong>154:</strong> 213-227.
+<p></p>
+<li></li>
+Weber, K., R. Eisman, S. Higgins, L. Kuhl, A. Patty, J. Sparks and Z. B. Zeng  (1999) 
+An analysis of polygenes affecting wing shape on chromosome three in <em>Drosophila 
+melanogaster</em>. <em>Genetics</em> <strong>153:</strong> 773-786.
+<p></p>
+<li></li>
+Weber, K., R. Eisman, S. Higgins, L. Morey, A. Patty, M. Tausek and Z. B. Zeng  (2001) 
+An analysis of polygenes affecting wing shape on chromosome 2 in <em>Drosophila melanogaster</em>. 
+<em>Genetics</em> <strong>159:</strong> 1045-1057.
+<p></p>
+<li></li>
+Zeng, Z. B. (1994) Precision mapping of quantitative trait loci. <em>Genetics</em> <strong>136:</strong>  1457-1468.
+<p></p>
+<li></li>
+Zeng, Z. B., J. Liu, L. F. Stam, C. H. Kao, J. M. Mercer and C.C. Laurie (2000) 
+Genetic architecture of a morphological shape difference between two Drosophila 
+species.  <em>Genetics</em> <strong>154:</strong> 299-310.
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

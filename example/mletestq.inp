@@ -1,0 +1,26 @@
+# 12345789    -filetype qtls.inp
+#
+#   Simulated data from Zeng (1994)
+#       Precision mapping of quantitative trait loci
+#       Genetics 136:1457-1468.
+#   This is the model for the simulation data in mletest.cro.
+#   Translate it with Rqtl.   
+#
+-Units       cM  where cM means centiMorgans and M means Morgans.
+-named      yes  traits will have names. 
+
+-start qtls 1
+Trait_1 10
+    1  16.0   0.42   0.0
+    1  48.0   0.75   0.0
+    1 108.0   0.58   0.0
+    2   3.0   1.02   0.0
+    2  43.0  -1.23   0.0
+    2  77.0  -1.26   0.0
+    3  33.0  -0.46   0.0
+    3  68.0   1.61   0.0
+    3 129.0   0.88   0.0
+    4  26.0   0.74   0.0
+-stop qtls
+
+-end   

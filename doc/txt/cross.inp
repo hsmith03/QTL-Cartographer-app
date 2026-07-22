@@ -1,0 +1,294 @@
+# 123456787        -filetype cross.inp
+# Documentation at the end
+-Cross       B1  
+-traits       2  
+-otraits      2  
+-SampleSize  10  
+-case        no  
+-TranslationTable
+     AA    2    2
+     Aa    1    1
+     aa    0    0
+     A-   12   12
+     a-   10   10
+     --   -1   -1
+-start markers
+Marker1_1 2 2 2 2 2 1 1 1 1 1 
+Marker1_2 2 2 2 1 1 1 1 1 1 1
+Marker1_3 1 2 2 2 2 1 1 1 1 1
+Marker1_4 1 1 2 2 2 1 1 1 1 1
+Marker1_5 2 2 2 2 2 1 1 1 1 1
+Marker2_1 2 1 1 2 2 1 1 1 1 1
+Marker2_2 2 2 2 1 1 1 1 1 1 1
+Marker2_3 2 2 1 1 1 1 2 2 2 2
+Marker2_4 2 1 1 1 1 1 1 1 2 2
+-stop markers 
+
+-missingtrait .  
+
+-start traits
+Trait_1    5.0  5.3  6.2  4.1  5.5  5.8  6.7  6.1   .   6.4
+Trait_2   15.0 15.3 16.2 24.1 25.5 25.8 16.7 26.1 33.2 16.4
+-stop traits 
+
+-start otraits
+Sex   M F M M M F F M F F 
+Brood 1 1 1 1 1 2 2 2 2 2
+-stop otraits
+
+-quit
+
+#---------->  Documentation for this file
+
+1.  First line:  it is critical that the first line 
+start with a pound symbol, a space, a number,   a -filetype token,
+and the cross.inp filetype:
+
+# 123456789    -filetype   cross.inp
+ ^          ^            ^             
+space      space       space        
+
+The spaces are necessary, because the input is token based. 
+The program will read the second token in the file as a long integer
+and use it as an identifier for the file.   Thus, each file should
+have a unique identifier  following the pound symbol.
+
+The '-filetype cross.inp' tells the QTL Cartographer programs that this
+is a 'cross.inp' formatted file.  
+
+
+
+2. Tokens:   A token is any string of non-whitespace
+surrounded by whitespace.  Each time a token begins with a -, it is
+assumed to be a command and the token following it is processed.  
+The program will ignore any token that it doesn't
+recognize.  The tokens that are recognized as commands in a 'cross.inp' file are
+
+-traits
+-SampleSize
+-TranslationTable
+-end
+-Cross
+-case
+-skip
+-unskip
+-quit
+-start
+
+Note that only the first letter of these tokens is actually necessary (except for -start,
+-stop and -skip, which require more letters to distinguish between them). 
+
+Case is important.  -Units is different from -units.  
+
+Extra whitespace is ignored, so you can put in spaces, tabs, carriage
+returns, etc, to format your data in an understandable fashion.
+
+3.  Meanings of commands:
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Token             Followed by           Means
+-------------------------------------------------------------------------------
+-Cross            string            type of cross: See below                                  
+-traits           integer           number of traits
+-otraits          integer           number of categorical variables
+-SampleSize       integer           sample size
+-case             yes or no         whether comparisons are case sensitive
+-TranslationTable table             table for marker translation
+-skip                               Tells Rcross to skip everything until  an
+-unskip                             which is the end of the -skip.  These 
+                                    cannot be within a -start to -stop block
+-start            sting             Start of a block of markers, traits or otraits
+-stop                               End of a block
+-end                                End of the file
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+ 
+
+The -case token changes how strings are matched.    Put a 'yes' here if comparisons are case dependant.
+With 'no', all names of individuals, markers and  traits are converted to lower case to 
+make comparisons.
+
+4. Marker Translation:  You can define how markers are translated.   Here is the 
+default translation table
+ 
+ -TranslationTable
+     AA    2    2
+     Aa    1    1
+     aa    0    0
+     A-   12   12
+     a-   10   10
+     --   -1   -1
+
+ 
+Note a few things in the above translation table.  There are six
+rows and three columns.  There must be a token in all 18 positions of
+the table.  The first column is the genotype.  The program assumes that
+the 'A' allele is diagnostic for the 'High' (Parental 1) line and the 
+'a' allele is diagnostic for the 'Low' (parental 2) line.  A minus sign
+'-' means the allele is unkown.  Thus, dominant markers can be encoded.
+The middle column is how the output of these genotypes will be encoded
+while the right (3rd) column is how you will code the input of this file.
+The above TranslationTable maps 2 to 2, 1 to 1, 0 to 0, etc.  Just about
+any set of tokens can be used for the third column, but DO NOT change the
+first two columns.  If you encoded your P1 homozygotes as BB, heterozygotes
+as Bb, etc, your translation table might appear as
+
+ -TranslationTable
+     AA    2   BB
+     Aa    1   Bb
+     aa    0   bb
+     A-   12   B-
+     a-   10   b-
+     --   -1   --
+     
+Anything in the following data file that is not recognized (doesn't match
+something in column 3) will become unkown (-1) in the output.
+
+REMEMBER:  You need all 18 tokens following the -TranslationTable command
+and the first two columns can't be altered.  You can only alter the last
+column.
+  
+  
+5. Crosses:  You need to define the type of cross.  We assume that there
+are initial parental lines P1 (all AA) and P2 (all aa).  An F1 line is
+a cross between P1 and P2.   The following crosses are possible
+                 
+                 Cross                Symbol              Note
+                 F1 x P1               B1
+                 F1 x P2               B2
+                 F1 x F1 selfed        SF2              selfed F lines
+                 SFx x SFx             SFx+1
+                 F1 x F1 random        RF2              random mating F lines
+                 RFx x RFx             RFx+1
+                 Selfed Recomb. Inbred Ri1              Recombinant inbred lines
+                 Sib Recomb. Inbred    Ri2
+                 P1 x SFx              T(B1)SFx         Test crosses
+                 P1 x RFx              T(B1)RFx          Test crosses  
+ 
+See the manual for more on the different crosses that QTL Cartographer can analyze. 
+
+6. Data Input:  Data can be input by markers or by individuals.   
+  
+I. Data by Markers and Traits:
+
+  One way to organize the data is by markers.  For each marker, you
+give the genotypes of the individuals.  The order of the individuals
+has to be the same for each marker.  Below is an example.  After the
+'-start markers', the program expects a repeating sequence of marker
+name, then n marker genotypes where n is the sample size.  The marker
+names should match those in the Map file.
+
+-start markers
+Marker1_1 2 2 2 2 2 1 1 1 1 1 
+Marker1_2 2 2 2 1 1 1 1 1 1 1
+Marker1_3 1 2 2 2 2 1 1 1 1 1
+Marker1_4 1 1 2 2 2 1 1 1 1 1
+Marker1_5 2 2 2 2 2 1 1 1 1 1
+Marker2_1 2 1 1 2 2 1 1 1 1 1
+Marker2_2 2 2 2 1 1 1 1 1 1 1
+Marker2_3 2 2 1 1 1 1 2 2 2 2
+Marker2_4 2 1 1 1 1 1 1 1 2 2
+-stop markers 
+
+  The traits are encoded in the same fashion. After the '-start traits'
+tokens, the program expects a repeating sequence of trait name and then
+n values for the sample.   
+The order of the individuals has to be the same as in the markers.  Also,
+you can specify the token for a missing trait with
+
+-missingtrait .   
+
+In the above, a lone period indicates a missing datum.
+
+-start traits
+Trait_1    5.0  5.3  6.2  4.1  5.5  5.8  6.7  6.1   .   6.4
+Trait_2   15.0 15.3 16.2 24.1 25.5 25.8 16.7 26.1 33.2 16.4
+-stop traits ... indicates the end of the trait data.
+
+  Categorical (otraits) are other traits that will be stored as character strings.
+These will be things such as sex, brood, eye color, etc.  Each token
+should be less than 64 characters in length.  The -missingtrait token can be
+reused with a different token if desired.  
+
+-start otraits
+Sex   M F M M M F F M F F 
+Brood 1 1 1 1 1 2 2 2 2 2
+-stop otraits
+
+
+
+II. Data by individuals  If the -start and -stop tokens are followed by
+the work 'individuals', then data will be read in by individuals.
+
+  Another way to organize the data is by individuals.  The program
+expects that the markers are ordered from marker 1 on chromosome 1,
+marker 2 on chromosome 1, ...,  to the last marker on the last chromosome.
+Since the individuals are named, they can be in any order.
+
+-start individuals markers
+Ind_1  2 2 1 1 2 2 2 2 2
+Ind_2  2 2 2 1 2 1 2 2 1
+Ind_3  2 2 2 2 2 1 2 1 1 
+Ind_4  2 1 2 2 2 2 1 1 1
+Ind_5  2 1 2 2 2 2 1 1 1
+Ind_6  1 1 1 1 1 1 1 1 1
+Ind_7  1 1 1 1 1 1 1 2 1
+Ind_8  1 1 1 1 1 1 1 2 1
+Ind_9  1 1 1 1 1 1 1 2 2
+Ind_10 1 1 1 1 1 1 1 2 2
+-stop individuals markers
+
+  The traits are done similarly.  All the traits have to be in this
+block.  Each column is for a different trait.  After the '-start'
+token, put individuals followed by traits, then the number of traits
+(2), then the names of the traits, then indicate whether the 
+individuals are named.  Here they are, but if they weren't, put
+an 'notnamed' token where the 'named' token presently is.  'otraits'
+below are done in the same fashion.
+                         
+-start individuals traits 2 Trait_1 Trait_2 named
+Ind_1  5.0 15.0
+Ind_2  5.3 15.3
+Ind_3  6.2 16.2 
+Ind_4  4.1 24.1
+Ind_5  5.5 25.5
+Ind_6  5.8 25.8
+Ind_7  6.7 16.7
+Ind_8  6.1 26.1
+Ind_9   .  33.2
+Ind_10 6.4 16.4
+-stop individuals traits     
+
+-start individuals otraits 2 sex brood named
+Ind_1   M 1 
+Ind_2   F 1
+Ind_3   M 1 
+Ind_4   M 1 
+Ind_5   M 1 
+Ind_6   F 2
+Ind_7   F 2 
+Ind_8   M 2
+Ind_9   F 2
+Ind_10  F 2 
+-stop  individuals otraits
+
+7.  Termination:   The -end token will tell Rcross to stop reading the file and
+to the translation.  The token -quit will do the same thing.
+
+
+8.  Annotation:   You can annotate the input file as much as you want. Be careful to 
+not put annotation in the -start to -stop or -interactions to -stop blocks.
+Also, don't use words that begin with a minus sign, or put such words in a 
+-skip to -unskip block.  Finally, anything after an -end or -quit token will be
+ignored. 
+ 
+
+9. Usage:  If this file were called 'cross.inp', then 
+
+% Rcross -i cross.inp
+
+would convert this file to the format required for the other programs
+in the QTL Cartographer system.  The above assumes that an appropriate map
+file exists.   
+

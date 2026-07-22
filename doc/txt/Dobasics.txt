@@ -1,0 +1,132 @@
+NAME
+    Dobasics.pl - Do a basic set of analyses for a QTL mapping data set
+
+SYNOPSIS
+      Dobasics.pl  [-b bindir] [-X stem] [-S sig. threshold] [-m mapinput] 
+        [-d datainput]  [-t trait] [-H hypothesis] [-V] [-h]   
+
+DESCRIPTION
+    Dobasics.pl does a basic analysis of a QTL mapping data set. Map and
+    data files are translated first. Then, basic single marker analyses are
+    followed by interval mapping and composite interval mapping. Eqtl
+    produces a summary of results and Preplot prepares the results for
+    plotting with Gnuplot.
+
+OPTIONS
+    -b  This option requires the path to the QTL Cartographer binaries and
+        perl scripts.
+
+    -t  requires an integer telling which trait to analyze. If you want to
+        do them all, set this to one more than the number of traits.
+
+    -X  This option allows you to specify the filename stem.
+
+    -S  This option requires a real number to indicate the significance
+        threshold for the likelihood ratio.
+
+    -m  This allows you to specify an input file for the map data. It should
+        be in the format of map.inp or MAPMAKER/EXP output. If not used, the
+        script assumes that the map file already exists in the correct
+        format.
+
+    -d  This allows you to specify an input file for the mapping data. It
+        should be in the format of cross.inp or MAPMAKER/EXP raw format. If
+        not used, the script assumes that the date file already exists in
+        the correct format.
+
+    -H  Use this option to specify which hypothesis test you want to use.
+        The usual values are 10 or 30.
+
+    -V  requires no operand. If used, it turns off messages indicating the
+        progress of the script.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+ANALYSES
+    Assume that we will use the filename stem *qtlcart* for the following.
+    The script does the tasks in this order:
+
+    Rmap
+        Convert the map found in the file specified by the -m option into
+        QTL Cartographer format with Rmap. If the option is not used, then
+        the script assumes that the map is already in the correct format and
+        resides in the file qtlcart.map.
+
+    Rcross
+        Convert the data found in the file specified by the -d option into
+        QTL Cartographer format with Rcross. If the option is not used, then
+        the script assumes that the data is already in the correct format
+        and resides in the file qtlcart.cro.
+
+    Qstats
+        Run Qstats to generate basic statistics.
+
+    LRmapqtl
+        Do simple linear regression with LRmapqtl.
+
+    SRmapqtl
+        Do stepwise linear regression with SRmapqtl.
+
+    Zmapqtl
+        Do composite interval mapping with Zmapqtl and the model specified
+        on the command line. The default is to use model 6.
+
+    JZmapqtl
+        Do multiple trait composite interval mapping with JZmapqtl. This
+        will only be done if you speciefied more than one trait with the -t
+        option.
+
+    Eqtl
+        Estimate QTL positions from the analyses above.
+
+    Preplot
+        Prepare the results for display with GNUPLOT. You will need to run
+        GNUPLOT on your own.
+
+    JZmapqtl
+        This step converts the data into a format that can be analyzed by
+        MultiRegress.
+
+    MultiRegress
+        Use least-squares analysis to estimate QTL postions.
+
+    Rqtl
+        Convert the output of MultiRegress into a format that can be read as
+        an initial model for multiple interval mapping.
+
+    MImapqtl
+        Use the reformatted results from MultiRegress to estimate new QTL
+        and epistatic effects.
+
+EXAMPLE
+    Suppose the files mletest.map and mletest.cro are in the current working
+    directory.
+
+        % Dobasics.pl  -b /home/basten/bin  -X mletest -S 13.0  -H 10  
+
+    Will assume that the QTL Cartographer programs are in /home/basten/bin.
+    It will use a significance threshold of 13.0. It will do basic
+    statistics, single marker analyses, interval and composite interval
+    mapping, and prepare the data for Gnuplot.
+
+    Suppose the files realdatm.inp and realdatc.inp are in the current
+    working directory. These files are formatted like map.inp and cross.inp
+    and need to be translated. Use
+
+            % Dobasics.pl -b /home/basten/bin  -X realdat -m realdatm.inp -d realdatc.inp  -S 13.0  -H 30
+
+    for this analysis.
+
+SEE ALSO
+    Zmapqtl(1), Qstats(1), Eqtl(1), LRmapqtl(1), SRmapqtl(1), Rmap(1),
+    Rcross(1), Rqtl(1), MultiRegress(1), MImapqtl(1), Preplot(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

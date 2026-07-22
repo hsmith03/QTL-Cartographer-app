@@ -1,0 +1,38 @@
+NAME
+    Prepraw.pl - Input a mapmaker.raw file and prepare it for QTL
+    Cartographer
+
+SYNOPSIS
+       Prepraw [-h]  < input  > output
+
+DESCRIPTION
+    Prepraw.pl reads from the standard input and writes to the standard
+    output. It reads a mapmaker.raw file and reformats it slightly. It will
+    use standard tokens for each marker type. It will count the number of
+    individuals typed for each marker, and print a warning if there are
+    missing tokens.
+
+OPTIONS
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+EXAMPLE
+    Suppose you have a MAPMAKER raw file called corn.raw. If you have
+    trouble converting it with Rcross, then try this.
+
+            % Prepraw.pl < corn.raw > corn2.raw
+
+    and check if there are the proper number of data points for each marker
+    and trait.
+
+SEE ALSO
+    Rcross(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

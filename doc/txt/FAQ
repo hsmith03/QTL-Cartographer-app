@@ -1,0 +1,152 @@
+                          QTL Cartographer 
+           
+           
+                     Frequently Asked Questions
+                     
+                     
+The following questions were addressed (repeatedly) to Chris Basten.  Most
+of the answers should now be in the newest manual.  You should first get
+the README file off the server and read it.  Then read this list.  If you 
+still have a question, email basten@statgen.ncsu.edu.  
+           
+1.  How do I get QTL Cartographer?
+		Ftp to statgen.ncsu.edu.  Use ftp as your username,
+		and your email address as the password.  cd to /pub/qtlcart.
+		Get the version you want.
+		
+		Or:  point your web browser to http://statgen.ncsu.edu/ and
+		follow the link called 'Software' and from there follow the
+		'QTL Cartographer' link.   
+		
+2.  What are the different versions?
+		Get the README file in the /pub/qtlcart subdirectory...it will
+		explain what the different versions are.
+		
+3.  What is the relationship between LOD and your LR test statistic?
+		LOD = 0.217 LR
+		
+4.  I have not been able to reach ftp server to get qtlcart program:  do
+	you know if the server is up?
+		Sometimes we have power or network outages and the server will be
+		unreachable.  You will have to try again later.
+
+5.	I tried downloading QTL Cartographer, but the ftp program timed out
+	sometime in the middle of downloading.  What is the problem.
+		The internet is getting busier all the time.  You may have to try again
+		at a less busy time.  Saturday and Sunday may be your best bet, and 
+		take into account that we are on the east coast of the United States.
+		
+6.  Is there an ftp mirror in Europe (or Asia) for the programs?
+		No (No).
+		
+7.  Can QTL Cartographer input Excel files?  Will it ever?
+		No. No.
+		
+8.  Will the MS-Windows version run under Windows 95?  
+		Yes, it should.  It will run in 16 bit mode.  We will try to get
+		32 bit versions ready in the future.  
+		
+		As of the fall of 1997, the 32 bit versions are available.   The
+		16 bit versions may be discontinued sometime in 1998.
+		
+		Now it is 2003.  The 16 bit versions are history.   You can still get
+		v1.12f off the server, but no new 16 bit versions will be compiled.
+		
+9.  How does one print postscript files in MS-DOS, MS Windows 3.x  or  Macintosh?
+		From DOS, you can copy a postscript file to the printer port, and if
+		the printer can handle postscript, it will print fine.  Use
+
+		c:\>  copy manual.ps lpt1:
+
+
+		For the Mac, you can use  utility called DropPS, which is available 
+		on many anonymous ftp sites.
+         
+         
+10. How can I get the significance level and how do I interpret it?
+		You need to run a permutation test.  See the references in the manual
+		for the interpretation. 
+		
+11. How do you prefer to cite this software program?
+		Use the following:
+		
+		C.J.  Basten, B.S. Weir and Z.-B. Zeng, 2003.  QTL Cartographer: A Reference
+		Manual and Tutorial for QTL Mapping.  Department of Statistics, North 
+		Carolina State University, Raleigh, NC.
+		
+		
+		C. J. Basten, B. S. Weir and Z.-B. Zeng, 1994. Zmap--a QTL cartographer.
+		IN Proceedings of the 5th World Congress on Genetics Applied 
+		to Livestock Production: Computing Strategies and Software,
+		edited by C. Smith, J. S. Gavora, B. Benkel, J. Chesnais, W. Fairfull, 
+		J. P. Gibson, B. W. Kennedy and E. B. Burnside.
+		Vol 22, pages 65-66.
+
+12. I was wondering if QTL Cartographer now handles BC2 populations? 
+ 		Yes.  If you backcross i times to P1, then use BC1i.  If i times
+ 		to P2, BC2i would be the proper cross.
+
+13. Can I get an MS-Word or WordPerfect version of the manual?  
+		No to both.  
+
+14. Will there ever be an MS-Word or WordPerfect version of the manual?
+		No.
+
+15. Why can't I see the equations in the html version of the manual?
+		Latex2HTML isn't perfect.   It is being improved, so the translation
+		from Latex to HTML will be better in the future.
+
+16. What is the difference between r2 and tr2?
+
+      R2 and TR2 are now calculated by Zmapqtl.  R2 is the proportion of 
+  variance explained by a QTL at a test site with the estimated parameters.
+  TR2 is the proportion of variance explained by a QTL conditioned on the
+  cofactors in composite interval mapping.  
+  
+  Let
+     H0: y = u + XB + e
+     H1: y = u + ax + dz + XB + e
+  where a and d are the additive and dominance effects, XB is the matrix
+  of cofactors and estimates of their effects, u is the mean and e the
+  residual.  If s0 and s1 are the sample standard deviations of the
+  e's under H0 and H1, and st is the standard deviation of the y's, then
+  
+  R2 = (s0^2 - s1^2)/s0^2
+  
+  TR2 =  (st^2 - s1^2)/st^2
+  
+17.  What is the meaning of the following message from LRmapqtl that 
+turns up in the log file?
+
+"Had trouble doing the linear regression of data from c:\cartb\qtlb-ult.cro...
+errorlevel =   47"
+
+
+	LRmapqtl failed on the linear regression for 47 of the tests.  The number of tests is
+	the number of markers time the number of traits.   If x(i) is the marker value
+	for individual i, then Sxx = sum x(i)^2  - (sum x(i))^2/n.  If Sxx is zero,
+	then the linear regression will fail.
+
+18.  I have a problem with the Windows front end.  Who do I contact?  
+
+    The Windows front-end was written by and is maintained by Shengchu Wang.
+    His email address is shchwang@statgen.ncsu.edu and all questions related to 
+    using the front-end should be directed to him.
+    
+19.  I'm a little confused about the variables in the *.qtl file. Could you give
+a little info on the first column (seems to always be "-1"), the variables
+".RecombiL." and ".RecombiR." I assume that ".Additive." and ".Dominance."
+ are the additive and dominance effects.Thanks!
+ 
+ 
+	The first column is the token "-l" (minus ell) indicating a new line.
+	The chromosome and marker define the left flanking marker.   RecombiL is
+	the recombination rate between the QTL and the left flanking marker. RecombiR
+	is the rate between the QTL and the right flanking marker.   For chromosome c and
+	marker r,
+	
+					 RecombiL    RecombiR
+	c   -----------|-----------^-----|--------
+				   m                m+1
+
+    

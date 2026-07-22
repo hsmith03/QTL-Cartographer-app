@@ -1,0 +1,79 @@
+NAME
+    Ttransform.pl - Shell of a script to allow programming of trait
+    transformations
+
+SYNOPSIS
+      Ttransform.pl [-a a] [-b b] [-c c] [-f func] [-h]   < input > output
+
+DESCRIPTION
+    Ttransform.pl reads an Rcross.out formatted file from the standard input
+    and writes same to the standard output. You can customize the script to
+    transform trait values.
+
+OPTIONS
+    You will need to customize the script to suit your needs. Look for the
+    phrase LOOK HERE in the script.
+
+    -a  requires a real-valued operand. It is 0.0 by default and used as
+        explained below.
+
+    -b  requires a real-valued operand. It is 1.0 by default and used as
+        explained below.
+
+    -c  requires a real-valued operand. It is 0.0 by default and used as
+        explained below.
+
+    -f  requires an integer-valued operand. It is 1 by default tells
+        Ttransform.pl which function to use.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+TRANSFORMS
+    There are some predefined transforms available. Let Y be the trait
+    value, a, b and c real-valued coefficients and Z the transformed trait.
+    Use the -f option and an integer from one to six to have the following
+    transforms applied to all traits:
+
+    1   Subtract the mean and divide by the standard error. This is the
+        default.
+
+        Z = (Y - Mean(Y)) / STDERR(Y)
+
+    2   Subtract the mean, square it and divide by the sample variance.
+
+        Z = (Y - Mean(Y))^2 / VAR(Y)
+
+    3   This is a linear or quadratic tranform.
+
+        Z = a + b Y + c Y^2
+
+    4   This is a natural log tranform.
+
+        Z = a + b log(Y)
+
+    5   This is an expontial transform
+
+        Z = a exp(b Y)
+
+    6   This is for you to code any transform that you like.
+
+EXAMPLE
+    Suppose the file mletest.cro is in the current working directory.
+
+        % Ttransform.pl < mletest.cro > mletest.cro.out
+
+    would transform all the traits in mletest.cro. The default transform is
+    to subtract the mean and divide by the standard error.
+
+CAVEATS
+    You should know some Perl to use this script.
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

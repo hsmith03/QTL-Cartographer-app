@@ -1,0 +1,115 @@
+NAME
+    CWTupdate.pl - Update the comparisonwise test results file during a
+    permutation test
+
+SYNOPSIS
+       CWTupdate.pl [-f CWTfile] [-h] < input > output
+
+DESCRIPTION
+    CWTupdate.pl reads from the standard input and writes to the standard
+    output. It can do one of two things. The first is to initialize a file
+    of likelihood ratios in the ZipermC.out format from a Zmapqtl.out file.
+    The second is to read the results of a run of Zmapqtl and the current
+    ZipermC.out file and update the results. It is a Perl script meant to be
+    run in a loop with Prune and Zmapqtl.
+
+OPTIONS
+    -f  This option requires an input filename that must exist. It allows
+        the user to specify the ZipermC.out file for processing. If it is
+        not given, then the script assumes that an initial file will be
+        created.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+    -C  requires an integer operand. This should be the column from the
+        Zmapqtl.out file that you want processed.
+
+EXAMPLE
+    See the example in the GetMaxLR.pl manpage. An alternate version of the
+    shell script is given below, but the example in GetMaxLR is cleaner and
+    simpler to understand. The one presented below has the advantage of
+    being able to input command line parameters rather than having to edit
+    the script. This script has also been rewritten as a Perl script with
+    its own man page (Permute.pl(1)).
+
+    CWTupdate.pl was meant to be run in a shell script. Here is an example
+    of a c shell program that allows calculate the experimentwise threshold.
+
+            #!/bin/csh
+            #   Permute.csh
+            #   Usage:  Permute.csh stem permutations email
+            #  where stem is the filename stem.
+            #        permutations is the number of permutations
+            #  and   email is the user's email address
+            #  Note:  This only works if you have set and used a filename stem.
+            #
+            if ( $1 == '-h' ) then
+            echo "    Usage:  Permute.csh stem model permutations email"
+            echo "Where"
+            echo "          stem  = filename stem"
+            echo "         model  = Zmapqtl Model"
+            echo "  permutations  = number of permutations"
+            echo "         email  = user's email address"
+            echo " "
+            echo "Now exiting"
+            exit
+            endif
+            set templog=temp.log
+            /usr/bin/rm -f $templog
+            echo "Permutation test started " > $templog
+            /usr/bin/date >>  $templog
+            echo "Stem: " $1 >> $templog
+            echo "Model: " $2 >> $templog
+            echo "Reps: " $3 >> $templog
+            echo "Email: " $4 >> $templog
+            set bindir=/usr/local/bin
+            set i=1
+            /usr/bin/mv $1.log $1.logsave
+            /usr/bin/mv $1.z $1.zsave
+            /usr/bin/rm -f $1.z$2e
+            $bindir/CWTupdate -C 4 < $1.z > $1.z$2c
+            while ( $i < $3 )
+            $bindir/Prune -A -V -i $1.cro -b 2  >>&  $templog
+            nice $bindir/Zmapqtl -A -V -M $2 -i $1.crb  >>&  $templog
+            $bindir/CWTupdate -f $1.z$2c -C 4 < $1.z  >> $1.z$2cc
+            /usr/bin/mv -f $1.z$2cc $1.z$2c
+            /usr/bin/rm -f $1.z
+            @ i++
+            end
+            /usr/bin/mv $1.zsave $1.z
+            /usr/bin/mv $1.logsave $1.log
+            /usr/bin/date >>  $templog
+            /usr/ucb/mail $4 <  $templog
+
+    Suppose you had a data set corn.cro and a map file corn.map. To use the
+    above shell script, create a directory called cornperm and copy the two
+    files into it. Run Qstats on the files to initialize the qtlcart.rc
+    file, and SRmapqtl to rank a set of markers for use with composite
+    interval mapping. Make sure that the QTL Cartographer programs are
+    installed in the /usr/local/bin subdirectory (or change the 29th line
+    above). Then, to do a permutation test using interval mapping with 1,000
+    repetitions, run
+
+            % Permute.csh corn 3 1000 your.email.address  &
+
+    (substituting your real email address above). The script will email you
+    a message when it is complete.
+
+    Note that the above example uses -C 4 for the CWTupdate line in the
+    loop. If you want to use a different column of likelihood ratios, you
+    can change that option. You could create multiple files of the format
+    ZipermC.out and collect the maximal likelihood ratio from different
+    hypothesis tests by having multiple instances of CWTupdate in the loop.
+
+SEE ALSO
+    Zmapqtl(1), Prune(1), GetMaxLR.pl(1), Permute.pl(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+

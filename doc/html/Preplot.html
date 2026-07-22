@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Preplot</title>
+<link rev="made" href="mailto:root@hampsten.nonet" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+<!--
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#references">REFERENCES</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#contact_info">CONTACT INFO</a></li>
+</ul>
+-->
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Preplot - Process results of LRmapqtl and Zmapqtl for input to gnuplot</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><strong>Preplot</strong> [ <strong>-o</strong> <em>output</em> ] [ <strong>-m</strong> <em>mapfile</em> ]
+[ <strong>-l</strong> <em>lrfile</em> ] [ <strong>-z</strong> <em>zfile</em> ] [ <strong>-q</strong> <em>qtlfile</em> ]  
+[ <strong>-S</strong> <em>threshold</em> ] [ <strong>-T</strong> <em>terminal</em> ] [ <strong>-H</strong> <em>hypo</em> ] [ <strong>-L</strong> <em>lod</em> ]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Preplot</strong> reformats the output of <strong>LRmapqtl</strong>  and  <strong>Zmapqtl</strong>
+so that it can be plotted by <strong>GNUPLOT</strong>.   
+It requires a molecular map that was used in the analysis of the data
+with  <strong>LRmapqtl</strong>  and  <strong>Zmapqtl</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>See <strong>QTLcart(1)</strong> for more information on the global options
+<strong>-h</strong> for help, <strong>-A</strong> for automatic,  <strong>-V</strong> for non-Verbose
+<strong>-W path</strong> for a working directory, <strong>-R file</strong> to specify a resource
+file, <strong>-e</strong> to specify the log file, <strong>-s</strong> to specify a seed for the
+random number generator and <strong>-X stem</strong> to specify a filename stem. 
+The options below are specific to this program.</p>
+<p>If you use this program without specifying any options, then you will
+get into a menu that allows you to set them interactively.</p>
+<dl>
+<dt><strong><a name="item__2do"><strong>-o</strong></a></strong><br />
+</dt>
+<dd>
+This requires a filename stem for output.   <strong>Preplot</strong> will overwrite the file if
+it exists, and create a new file if it does not.   If not used, then <strong>Preplot</strong> will use
+<em>qtlcart</em>.  The <strong>GNUPLOT</strong> file will be <em>qtlcart.plt</em> in that case.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dm"><strong>-m</strong></a></strong><br />
+</dt>
+<dd>
+<strong>Zmapqtl</strong> requires a genetic linkage map.  This option requires
+the name of a file containing the map.  It should be in the same format
+that <strong>Rmap</strong> outputs.  The default file is <em>qtlcart.map</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dl"><strong>-l</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist.  It should be in the
+same format as the output of <strong>LRmapqtl</strong>. The default file is <em>qtlcart.lr</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dq"><strong>-q</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file may or may not exist.  It should be in the
+same format as the output of <strong>Rqtl</strong>. The default file is <em>qtlcart.qtl</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dz"><strong>-z</strong></a></strong><br />
+</dt>
+<dd>
+This requires an input filename.    This file must exist.  It should be in the
+same format as the output of <strong>Zmapqtl</strong>. The default file is <em>qtlcart.z</em>.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dt"><strong>-T</strong></a></strong><br />
+</dt>
+<dd>
+Allows the user to set the output terminal.  Valid options can be found in the
+<strong>GNUPLOT</strong> manual. The default is <em>x11</em> on UNIX, <em>mac</em> for Macintosh and <em>windows</em> for
+MS-Windows.
+</dd>
+<p></p>
+<dt><strong><a name="item__2ds"><strong>-S</strong></a></strong><br />
+</dt>
+<dd>
+When given an argument, <strong>Preplot</strong>  will use this significance threshold. It is 3.84
+by default.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dh"><strong>-H</strong></a></strong><br />
+</dt>
+<dd>
+<strong>Preplot</strong> will get results for this hypothesis test from the 
+<strong>Zmapqtl</strong> outputfile.  Test 1 is the default, which is the only value for a backcross.
+</dd>
+<p></p>
+<dt><strong><a name="item__2dl"><strong>-L</strong></a></strong><br />
+</dt>
+<dd>
+If given an argument of 1, 
+<strong>Preplot</strong>  will output LOD scores instead of the LR test statistics.
+</dd>
+<p></p></dl>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<pre>
+        % Preplot -L 1</pre>
+<p><strong>Preplot</strong> will automagically reformat your results to be plotted by 
+<strong>GNUPLOT</strong>, converting the likelihood ratio test statistics into LOD scores along the way.</p>
+<p>
+</p>
+<hr />
+<h1><a name="references">REFERENCES</a></h1>
+<ol>
+<li></li>
+T. Williams and C. Kelley (1993) GNUPLOT: An Interactive Plotting Program.
+Version 3.5
+<p></p></ol>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p><strong>Preplot</strong> will search for the ouput files from <strong>Rqtl</strong>, <strong>Eqtl</strong> and <strong>MImapqtl</strong> and try to 
+process them.  If you don't want them processed, rename or move the files.   Note that 
+<strong>Preplot</strong> only searches for files with names <em>stem.eqt, stem.qtl</em> and <em>stem.mqt</em>, where
+<em>stem</em> is the filename stem.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p><strong>Preplot</strong> ignores <strong>JZmapqtl</strong> output.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><strong>Emap(1)</strong>,  
+<strong>Rmap(1)</strong>,  
+<strong>Rqtl(1)</strong>, 
+<strong>Rcross(1)</strong>, 
+<strong>Qstats(1)</strong>, 
+<strong>LRmapqtl(1)</strong>,
+<strong>BTmapqtl(1)</strong>,
+<strong>SRmapqtl(1)</strong>, 
+<strong>JZmapqtl(1)</strong>, 
+<strong>Eqtl(1)</strong>,
+<strong>Prune(1)</strong>, 
+<strong>Preplot(1)</strong>,  
+<strong>MImapqtl(1)</strong>, 
+<strong>MultiRegress(1)</strong>,
+<strong>Examples(1)</strong>
+<strong>SSupdate.pl(1)</strong>, 
+<strong>Prepraw.pl(1)</strong>, 
+<strong>EWThreshold.pl(1)</strong>, 
+<strong>GetMaxLR.pl(1)</strong>, 
+<strong>Permute.pl(1)</strong>, 
+<strong>Vert.pl(1)</strong>, 
+<strong>CWTupdate.pl(1)</strong>, 
+<strong>Ztrim.pl(1)</strong>, 
+<strong>SRcompare.pl(1)</strong>, 
+<strong>Ttransform.pl(1)</strong>, 
+<strong>TestExamples.pl(1)</strong>, 
+<strong>Model8.pl(1)</strong>, 
+<strong>Dobasics.pl(1)</strong>, 
+<strong>Bootstrap.pl(1)</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="contact_info">CONTACT INFO</a></h1>
+<p>In general, it is best to contact us via email (<a href="mailto:basten@statgen.ncsu.edu">basten@statgen.ncsu.edu</a>)</p>
+<pre>
+        Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+        Bioinformatics Research Center, North Carolina State University
+        1523 Partners II Building/840 Main Campus Drive
+        Raleigh, NC 27695-7566     USA
+        Phone: (919)515-1934</pre>
+<p>Please report all bugs via email to <a href="mailto:qtlcart-bug@statgen.ncsu.edu.">qtlcart-bug@statgen.ncsu.edu.</a></p>
+<p>The <strong>QTL Cartographer</strong> web site ( <a href="http://statgen.ncsu.edu/qtlcart">http://statgen.ncsu.edu/qtlcart</a> ) has
+links to the manual, man pages, ftp server and supplemental 
+materials.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+NAME
+    RCpermute.pl - Compute statistics from a permutation test
+
+SYNOPSIS
+       RCpermute.pl [-R row file] [-R col file] [-h]   > output
+
+DESCRIPTION
+    RCpermute.pl reads the results from two special files produced by
+    Permute.pl. These files contain the sum and sum of squares for the rows
+    or the columns of the permutation analysis. We define rows as the
+    permutation, and columns as the sites.
+
+OPTIONS
+    -C  This option requires an input filename that must exist. It allows
+        the user to specify the column results file for processing. If it is
+        not given, then the script will exit.
+
+    -R  This option requires an input filename that must exist. It allows
+        the user to specify the row results file for processing. If it is
+        not given, then the script will exit.
+
+    -h  requires no operand. If used, it prints a usage message and exits.
+
+ANALYSIS
+    Zmapqtl calculates likelihood ratios at numerous sites during each
+    permutation. Think of a matrix of these likelihood ratios where columns
+    are for sites in the genome and rows are for permutations. If you run
+    Permute.pl with the -u flag, then the row and column sums will be stored
+    in files. Sums of squares are also saved. The row results file will
+    store a sum, sum of squares and sample size over the genome for each of
+    the permutations. The column results file will store the sum, sum of
+    squares and sample size over permutations for each test site. For the
+    stem qtlcart, model *3* and *r* permutations, these results will be in
+    qtlcart.z3.rss and qtlcart.z3.css.r, respectively.
+
+EXAMPLE
+    For a row results file qtlcart.z3.rss and a column results file
+    qtlcart.z3.css.1000, use
+
+        RCpermute.pl -R qtlcart.z3.rss -C qtlcart.z3.css.1000 > qtlcart.rcout
+
+    to compute the row/column means and standard deviations.
+
+SEE ALSO
+    Zmapqtl(1), Prune(1), GetMaxLR.pl(1), Permute.pl(1)
+
+AUTHORS
+    In general, it is best to contact us via email
+    (basten@statgen.ncsu.edu).
+
+            Christopher J. Basten, B. S. Weir and Z.-B. Zeng
+            Department of Statistics, North Carolina State University
+            Raleigh, NC 27695-7566, USA
+            Phone: (919)515-1934
+
