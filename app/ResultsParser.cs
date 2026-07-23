@@ -30,6 +30,12 @@ namespace QTLCartographer.Gui
         public string LeftMarker { get; set; }
         public string RightMarker { get; set; }
         public bool Significant { get; set; }
+        public double Support15Left { get; set; }
+        public double Support15Right { get; set; }
+        public double Support20Left { get; set; }
+        public double Support20Right { get; set; }
+        public double BootstrapLeft { get; set; }
+        public double BootstrapRight { get; set; }
     }
 
     internal sealed class AnalysisResults
@@ -39,6 +45,7 @@ namespace QTLCartographer.Gui
         public List<ResultPoint> Points { get; private set; }
         public List<QtlPeak> Peaks { get; private set; }
         public List<double> PermutationMaxima { get; private set; }
+        public Dictionary<int, List<double>> ChromosomePermutationMaxima { get; private set; }
 
         public AnalysisResults()
         {
@@ -46,6 +53,7 @@ namespace QTLCartographer.Gui
             Points = new List<ResultPoint>();
             Peaks = new List<QtlPeak>();
             PermutationMaxima = new List<double>();
+            ChromosomePermutationMaxima = new Dictionary<int, List<double>>();
         }
 
         public double EmpiricalThreshold(double alpha)
@@ -53,6 +61,16 @@ namespace QTLCartographer.Gui
             if (PermutationMaxima.Count == 0)
                 return double.NaN;
             List<double> sorted = PermutationMaxima.OrderBy(x => x).ToList();
+            int index = (int)Math.Ceiling((1.0 - alpha) * sorted.Count) - 1;
+            return sorted[Math.Max(0, Math.Min(sorted.Count - 1, index))];
+        }
+
+        public double ChromosomeThreshold(int chromosome, double alpha)
+        {
+            List<double> values;
+            if (chromosome <= 0 || !ChromosomePermutationMaxima.TryGetValue(chromosome, out values) || values.Count == 0)
+                return EmpiricalThreshold(alpha);
+            List<double> sorted = values.OrderBy(x => x).ToList();
             int index = (int)Math.Ceiling((1.0 - alpha) * sorted.Count) - 1;
             return sorted[Math.Max(0, Math.Min(sorted.Count - 1, index))];
         }
@@ -72,13 +90,15 @@ namespace QTLCartographer.Gui
             if (!string.IsNullOrEmpty(eqt))
                 ParseEqt(eqt, results);
             string map = Find(directory, stem, ".map");
-            if (!string.IsNullOrEmpty(map))
-                ApplyMarkerNames(map, results);
             foreach (string file in Directory.Exists(directory)
                 ? Directory.GetFiles(directory, "*.z*e") : new string[0])
                 ParsePermutationMaxima(file, results);
             if (results.Peaks.Count == 0)
                 DetectLocalPeaks(results);
+            if (!string.IsNullOrEmpty(map))
+                ApplyMarkerNames(map, results);
+            CalculateSupportIntervals(results);
+            ApplyBootstrapIntervals(directory, stem, results);
             return results;
         }
 
@@ -170,7 +190,17 @@ namespace QTLCartographer.Gui
                 double value;
                 if (p.Length >= 2 && int.TryParse(p[0], out _) &&
                     double.TryParse(p[1], NumberStyles.Float, Invariant, out value))
+                {
                     results.PermutationMaxima.Add(value);
+                    for (int chromosome = 1; chromosome + 1 < p.Length; chromosome++)
+                    {
+                        double chromosomeMaximum;
+                        if (!double.TryParse(p[chromosome + 1], NumberStyles.Float, Invariant, out chromosomeMaximum)) continue;
+                        if (!results.ChromosomePermutationMaxima.ContainsKey(chromosome))
+                            results.ChromosomePermutationMaxima[chromosome] = new List<double>();
+                        results.ChromosomePermutationMaxima[chromosome].Add(chromosomeMaximum);
+                    }
+                }
             }
         }
 
@@ -224,6 +254,72 @@ namespace QTLCartographer.Gui
                     }
                 }
             }
+        }
+
+        private static void CalculateSupportIntervals(AnalysisResults results)
+        {
+            double lrPerLod = 2.0 * Math.Log(10.0);
+            foreach (QtlPeak peak in results.Peaks)
+            {
+                List<ResultPoint> points = results.Points.Where(p => p.Chromosome == peak.Chromosome)
+                    .OrderBy(p => p.PositionCm).ToList();
+                peak.Support15Left = FindBoundary(points, peak.PositionCm, peak.LikelihoodRatio - 1.5 * lrPerLod, true);
+                peak.Support15Right = FindBoundary(points, peak.PositionCm, peak.LikelihoodRatio - 1.5 * lrPerLod, false);
+                peak.Support20Left = FindBoundary(points, peak.PositionCm, peak.LikelihoodRatio - 2.0 * lrPerLod, true);
+                peak.Support20Right = FindBoundary(points, peak.PositionCm, peak.LikelihoodRatio - 2.0 * lrPerLod, false);
+                peak.BootstrapLeft = peak.Support15Left;
+                peak.BootstrapRight = peak.Support15Right;
+            }
+        }
+
+        private static double FindBoundary(List<ResultPoint> points, double peak, double cutoff, bool left)
+        {
+            IEnumerable<ResultPoint> side = left
+                ? points.Where(p => p.PositionCm <= peak).OrderByDescending(p => p.PositionCm)
+                : points.Where(p => p.PositionCm >= peak).OrderBy(p => p.PositionCm);
+            ResultPoint boundary = side.FirstOrDefault(p => p.LikelihoodRatio <= cutoff);
+            if (boundary != null) return boundary.PositionCm;
+            ResultPoint end = side.LastOrDefault();
+            return end == null ? peak : end.PositionCm;
+        }
+
+        private static void ApplyBootstrapIntervals(string directory, string stem, AnalysisResults results)
+        {
+            if (!Directory.Exists(directory)) return;
+            string prefix = string.IsNullOrEmpty(stem) ? "qtlcart" : stem;
+            foreach (string file in Directory.GetFiles(directory, prefix + ".z*b"))
+            {
+                Dictionary<int, List<double>> positions = new Dictionary<int, List<double>>();
+                foreach (string raw in File.ReadLines(file))
+                {
+                    string[] p = Regex.Split(raw.Trim(), @"\s+");
+                    int chromosome;
+                    double position;
+                    if (p.Length >= 3 && int.TryParse(p[0], out chromosome) &&
+                        double.TryParse(p[2], NumberStyles.Float, Invariant, out position))
+                    {
+                        if (position < 10) position *= 100.0;
+                        if (!positions.ContainsKey(chromosome)) positions[chromosome] = new List<double>();
+                        positions[chromosome].Add(position);
+                    }
+                }
+                foreach (QtlPeak peak in results.Peaks)
+                {
+                    List<double> values;
+                    if (!positions.TryGetValue(peak.Chromosome, out values) || values.Count < 4) continue;
+                    values.Sort();
+                    peak.BootstrapLeft = Percentile(values, .025);
+                    peak.BootstrapRight = Percentile(values, .975);
+                }
+            }
+        }
+
+        private static double Percentile(List<double> sorted, double probability)
+        {
+            double index = probability * (sorted.Count - 1);
+            int lower = (int)Math.Floor(index);
+            int upper = Math.Min(sorted.Count - 1, lower + 1);
+            return sorted[lower] + (sorted[upper] - sorted[lower]) * (index - lower);
         }
 
         private static string Find(string directory, string stem, string extension)

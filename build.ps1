@@ -5,7 +5,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$Version = '2.0.0'
+$Version = '3.0.0'
 $root = $PSScriptRoot
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 if (-not (Test-Path -LiteralPath $vswhere)) {
@@ -68,6 +68,7 @@ try {
     $guiArgs = @('/nologo', '/target:winexe', '/platform:anycpu', '/warn:4',
         '/reference:System.dll', '/reference:System.Core.dll', '/reference:System.Drawing.dll', '/reference:System.Windows.Forms.dll',
         '/reference:System.Windows.Forms.DataVisualization.dll', '/reference:System.Runtime.Serialization.dll',
+        '/reference:System.IO.Compression.dll', '/reference:System.IO.Compression.FileSystem.dll',
         '/out:build\app\QTL-Cartographer.exe') + $guiSources
     if ($Configuration -eq 'Release') { $guiArgs += '/optimize+' } else { $guiArgs += @('/debug+', '/optimize-') }
     Write-Host 'Building QTL-Cartographer.exe'

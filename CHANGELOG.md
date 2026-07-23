@@ -1,5 +1,29 @@
 # Changelog
 
+## 3.0.0 - 2026-07-23
+
+- Repair clipped banner, subtitle, navigation categories, and tab labels at
+  standard and high-DPI display scales; retain the version only in the title bar.
+- Add 1.5-LOD, 2-LOD, and native-bootstrap peak confidence intervals.
+- Add peak-selected genotype/phenotype distributions, mean-effect plots,
+  uncertainty bars, group sample sizes, and additive/dominance summaries.
+- Add chart zoom, chromosome selection, marker labels, confidence bands,
+  accessible colors, and multi-run comparison.
+- Add experiment-wide and chromosome-wide permutation thresholds with clear
+  multiple-testing explanations.
+- Move permutation tests to recoverable background jobs with deterministic
+  seeds, pause/resume, cancellation, progress estimates, and persisted state.
+- Add CSV templates and CSV, R/qtl, R/qtl2, PLINK, and VCF interoperability.
+- Add missingness, allele-frequency, segregation-distortion, and phenotype
+  diagnostics plus model-aware covariate/environment/interaction guidance.
+- Add manuscript methods text and reproducibility bundles with settings,
+  inputs, commands, logs, versions, random seeds, checksums, and rerun scripts.
+- Add golden native benchmarks, independent R/qtl2 CSV comparison, cross-type
+  validation, malformed/large/multi-trait cases, and parser fuzz testing.
+- Make project saves atomic, retain backup copies, and detect changed inputs
+  through SHA-256 hashes.
+- Add an interactive example analysis tutorial.
+
 ## 2.0.0 - 2026-07-23
 
 - Add an integrated results dashboard for native `.z` and `.eqt` output with

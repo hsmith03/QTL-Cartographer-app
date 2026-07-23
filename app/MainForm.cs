@@ -66,8 +66,8 @@ namespace QTLCartographer.Gui
         {
             Text = "QTL Cartographer " + ProductInfo.Version;
             Icon = SystemIcons.Application;
-            MinimumSize = new Size(1050, 700);
-            Size = new Size(1280, 820);
+            MinimumSize = new Size(1180, 760);
+            Size = new Size(1400, 900);
             StartPosition = FormStartPosition.CenterScreen;
             BackColor = Pale;
             Font = new Font("Segoe UI", 9F);
@@ -95,21 +95,23 @@ namespace QTLCartographer.Gui
 
         private void BuildInterface()
         {
-            Panel banner = new Panel { Dock = DockStyle.Top, Height = 76, BackColor = Navy };
+            Panel banner = new Panel { Dock = DockStyle.Top, Height = 92, BackColor = Navy };
             Label appName = new Label
             {
-                Text = "QTL Cartographer " + ProductInfo.Version,
+                Text = "QTL Cartographer",
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI Semibold", 21F),
                 AutoSize = true,
-                Location = new Point(24, 12)
+                Location = new Point(24, 14)
             };
             Label subtitle = new Label
             {
                 Text = "Quantitative trait locus analysis workspace",
                 ForeColor = Color.FromArgb(190, 211, 227),
-                AutoSize = true,
-                Location = new Point(27, 50)
+                AutoSize = false,
+                Location = new Point(27, 57),
+                Size = new Size(640, 24),
+                TextAlign = ContentAlignment.MiddleLeft
             };
             banner.Controls.Add(appName);
             banner.Controls.Add(subtitle);
@@ -127,14 +129,19 @@ namespace QTLCartographer.Gui
 
             SplitContainer split = new SplitContainer
             {
-                Dock = DockStyle.Fill,
-                SplitterDistance = 255,
+                Dock = DockStyle.None,
                 FixedPanel = FixedPanel.Panel1,
                 BackColor = Border
             };
             Controls.Add(split);
-            split.BringToFront();
-            banner.BringToFront();
+            Shown += delegate
+            {
+                PositionWorkspace(split, banner, status);
+                split.Panel1MinSize = 280;
+                split.Panel2MinSize = 760;
+                split.SplitterDistance = 300;
+            };
+            Resize += delegate { PositionWorkspace(split, banner, status); };
 
             TableLayoutPanel navigation = new TableLayoutPanel
             {
@@ -221,7 +228,13 @@ namespace QTLCartographer.Gui
             heading.Controls.Add(summaryLabel);
             heading.Controls.Add(helpButton);
 
-            tabs = new TabControl { Dock = DockStyle.Fill };
+            tabs = new TabControl
+            {
+                Dock = DockStyle.Fill,
+                Multiline = true,
+                SizeMode = TabSizeMode.Normal,
+                Padding = new Point(14, 5)
+            };
             tabs.TabPages.Add(BuildConfigurePage());
             tabs.TabPages.Add(BuildOutputPage());
             tabs.TabPages.Add(BuildQueuePage());
@@ -232,6 +245,13 @@ namespace QTLCartographer.Gui
             split.Panel2.Controls.Add(content);
         }
 
+        private void PositionWorkspace(SplitContainer split, Panel banner, StatusStrip status)
+        {
+            int top = Math.Max(banner.Bottom, MainMenuStrip == null ? 0 : MainMenuStrip.Bottom);
+            int bottom = status.Top;
+            split.SetBounds(0, top, ClientSize.Width, Math.Max(100, bottom - top));
+        }
+
         private void BuildApplicationMenu()
         {
             MenuStrip menu = new MenuStrip { Dock = DockStyle.Top };
@@ -240,15 +260,23 @@ namespace QTLCartographer.Gui
             ((ToolStripMenuItem)file.DropDownItems.Add("&Open project…", null, delegate { OpenProject(); })).ShortcutKeys = Keys.Control | Keys.O;
             ((ToolStripMenuItem)file.DropDownItems.Add("&Save project", null, delegate { SaveProject(false); })).ShortcutKeys = Keys.Control | Keys.S;
             file.DropDownItems.Add("Save project &as…", null, delegate { SaveProject(true); });
+            file.DropDownItems.Add("Export &reproducibility bundle…", null, delegate { ExportReproducibilityBundle(); });
             file.DropDownItems.Add(new ToolStripSeparator());
             file.DropDownItems.Add("E&xit", null, delegate { Close(); });
             ToolStripMenuItem analysis = new ToolStripMenuItem("&Analysis");
             ((ToolStripMenuItem)analysis.DropDownItems.Add("&Results dashboard…", null, delegate { ShowResultsDashboard(); })).ShortcutKeys = Keys.Control | Keys.D;
             analysis.DropDownItems.Add("&Load example analysis", null, delegate { LoadSampleWorkflow(); });
+            analysis.DropDownItems.Add("&Pre-analysis diagnostics…", null, delegate { ShowDiagnostics(); });
+            analysis.DropDownItems.Add("Covariates and analysis &design…", null, delegate { ShowAnalysisDesign(); });
+            analysis.DropDownItems.Add("&Scientific benchmarks…", null, delegate { ShowBenchmarks(); });
+            ToolStripMenuItem data = new ToolStripMenuItem("&Data");
+            data.DropDownItems.Add("&Modern format import/export…", null, delegate { ShowModernFormats(); });
             ToolStripMenuItem help = new ToolStripMenuItem("&Help");
             ((ToolStripMenuItem)help.DropDownItems.Add("Selected program help", null, delegate { ShowProgramHelp(); })).ShortcutKeys = Keys.F1;
+            help.DropDownItems.Add("&Interactive example tutorial…", null, delegate { ShowTutorial(); });
             menu.Items.Add(file);
             menu.Items.Add(analysis);
+            menu.Items.Add(data);
             menu.Items.Add(help);
             MainMenuStrip = menu;
             Controls.Add(menu);
@@ -1448,6 +1476,7 @@ namespace QTLCartographer.Gui
                 SelectedTool = selectedTool == null ? "" : selectedTool.Name,
                 SelectedArguments = BuildCurrentRequest() == null ? "" : BuildCurrentRequest().Arguments
             };
+            document.InputHashes = ProjectStore.HashInputs(document.WorkingDirectory);
             foreach (CommandRequest request in queue)
                 document.Queue.Add(new ProjectStep
                 {
@@ -1475,6 +1504,7 @@ namespace QTLCartographer.Gui
                     return;
                 }
                 currentProjectFile = dialog.FileName;
+                List<string> changedInputs = ProjectStore.DetectChangedInputs(document);
                 workingDirectoryBox.Text = document.WorkingDirectory;
                 stemBox.Text = document.Stem;
                 resourceBox.Text = document.ResourceFile;
@@ -1489,6 +1519,11 @@ namespace QTLCartographer.Gui
                 RefreshQueue();
                 RefreshFiles();
                 statusLabel.Text = "Project opened (created with version " + document.Version + ")";
+                if (changedInputs.Count > 0)
+                    MessageBox.Show(this,
+                        "These inputs changed after the project was saved:\r\n" + string.Join("\r\n", changedInputs.ToArray()) +
+                        "\r\n\r\nExisting results may no longer be reproducible. Rerun the affected workflow stages.",
+                        "Input data changed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -1502,6 +1537,73 @@ namespace QTLCartographer.Gui
             }
             using (ResultsDashboardForm dashboard = new ResultsDashboardForm(directory, stemBox.Text.Trim()))
                 dashboard.ShowDialog(this);
+        }
+
+        private CrossData LoadCrossData()
+        {
+            string directory = workingDirectoryBox.Text.Trim();
+            string stem = stemBox.Text.Trim();
+            string map = Path.Combine(directory, (stem.Length == 0 ? "qtlcart" : stem) + ".map");
+            string cross = Path.Combine(directory, (stem.Length == 0 ? "qtlcart" : stem) + ".cro");
+            return CrossDataParser.Load(cross, map);
+        }
+
+        private void ShowDiagnostics()
+        {
+            CrossData data = LoadCrossData();
+            if (data.Individuals.Count == 0)
+            {
+                MessageBox.Show(this, "No native cross data is available. Run Rmap and Rcross first.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            using (DiagnosticsForm diagnostics = new DiagnosticsForm(data)) diagnostics.ShowDialog(this);
+        }
+
+        private void ShowModernFormats()
+        {
+            using (ModernImportForm form = new ModernImportForm(workingDirectoryBox.Text.Trim(), stemBox.Text.Trim(), LoadCrossData()))
+                form.ShowDialog(this);
+            RefreshFiles();
+        }
+
+        private void ShowBenchmarks()
+        {
+            using (BenchmarkForm form = new BenchmarkForm(workingDirectoryBox.Text.Trim(), stemBox.Text.Trim())) form.ShowDialog(this);
+        }
+
+        private void ShowAnalysisDesign()
+        {
+            string directory = workingDirectoryBox.Text.Trim();
+            if (!Directory.Exists(directory)) return;
+            using (AnalysisDesignForm form = new AnalysisDesignForm(directory, stemBox.Text.Trim()))
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    string stemArgument = stemBox.Text.Trim().Length == 0 ? "" : "-X " + Quote(stemBox.Text.Trim()) + " ";
+                    AddSampleStep(form.RecommendedTool, stemArgument + "-A", directory);
+                    RefreshQueue();
+                    statusLabel.Text = "Validated " + form.RecommendedTool + " design added to workflow";
+                }
+        }
+
+        private void ShowTutorial()
+        {
+            using (TutorialForm tutorial = new TutorialForm(delegate { LoadSampleWorkflow(); })) tutorial.ShowDialog(this);
+        }
+
+        private void ExportReproducibilityBundle()
+        {
+            string directory = workingDirectoryBox.Text.Trim();
+            if (!Directory.Exists(directory)) return;
+            using (SaveFileDialog dialog = new SaveFileDialog
+            {
+                Filter = "Reproducibility ZIP (*.zip)|*.zip",
+                FileName = (stemBox.Text.Trim().Length == 0 ? "qtlcart" : stemBox.Text.Trim()) + "-reproducibility.zip"
+            })
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    ReproducibilityBundle.Create(directory, stemBox.Text.Trim(), currentProjectFile, queue, dialog.FileName);
+                    statusLabel.Text = "Reproducibility bundle created";
+                }
         }
 
         private void SaveConsoleLog()

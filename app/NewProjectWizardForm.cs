@@ -39,7 +39,9 @@ namespace QTLCartographer.Gui
             string cross = File.ReadAllText(crossFile);
             Match type = Regex.Match(cross, @"(?im)(?:-Cross\s+|data\s+type\s+)([^\s]+(?:\s+intercross)?)");
             if (type.Success) result.CrossType = type.Groups[1].Value.Trim();
-            Match sample = Regex.Match(cross, @"(?im)(?:-SampleSize\s+|^\s*)(\d+)\s+\d+\s+\d+\s*$");
+            Match sample = Regex.Match(cross, @"(?im)-SampleSize\s+(\d+)");
+            if (!sample.Success)
+                sample = Regex.Match(cross, @"(?im)^\s*(\d+)\s+\d+\s+\d+\s*$");
             if (sample.Success) result.Individuals = int.Parse(sample.Groups[1].Value);
             Match traits = Regex.Match(cross, @"(?im)-traits\s+(\d+)");
             if (traits.Success) result.Traits = int.Parse(traits.Groups[1].Value);
