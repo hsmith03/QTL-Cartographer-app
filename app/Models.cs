@@ -52,6 +52,9 @@ namespace QTLCartographer.Gui
         public ToolDefinition Tool { get; set; }
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }
+        public string ResourceFile { get; set; }
+        public string RequestedStem { get; set; }
+        public Dictionary<string, string> Options { get; set; }
 
         public string DisplayCommand
         {

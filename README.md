@@ -1,5 +1,7 @@
 # QTL Cartographer for Windows
 
+Current Windows GUI version: **1.1.0** (native analysis engine: 1.17j).
+
 QTL Cartographer for Windows combines the complete QTL Cartographer 1.17 C
 analysis suite with a native desktop GUI. The statistical engine and file
 formats remain compatible with the Unix release; the GUI adds discoverable
@@ -8,7 +10,7 @@ sample data, and generated-file management.
 
 ## Run the packaged application
 
-1. Download and extract `QTL-Cartographer-Windows-x64.zip`.
+1. Download and extract `QTL-Cartographer-v1.1.0-Windows-x64.zip`.
 2. Run `QTL-Cartographer.exe`.
 3. Choose an analysis tool, select a working directory, enable the desired
    options, and click **Run analysis**.
@@ -27,6 +29,8 @@ Every original command-line executable is also included under `tools`.
 - Reusable multi-program workflow queue
 - Project file browser and packaged sample data
 - Original CLI interfaces for scripts and reproducible pipelines
+- Automatic filename-stem synchronization from project resource/log files
+- Missing-map warning that prevents accidental one-chromosome cross imports
 
 ## Build
 
@@ -45,7 +49,7 @@ From PowerShell:
 ```
 
 The application is created under `build\app`; the distributable ZIP is
-`build\QTL-Cartographer-Windows-x64.zip`.
+`build\QTL-Cartographer-v1.1.0-Windows-x64.zip`.
 
 ## License and attribution
 

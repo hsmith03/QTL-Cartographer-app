@@ -5,6 +5,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$Version = '1.1.0'
 $root = $PSScriptRoot
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 if (-not (Test-Path -LiteralPath $vswhere)) {
@@ -75,10 +76,10 @@ try {
 finally { Pop-Location }
 
 Copy-Item -Force (Join-Path $root 'app\QTL-Cartographer.exe.config') $appDir
-Copy-Item -Force (Join-Path $root 'LICENSE'), (Join-Path $root 'README.md') $appDir
+Copy-Item -Force (Join-Path $root 'LICENSE'), (Join-Path $root 'README.md'), (Join-Path $root 'CHANGELOG.md') $appDir
 Copy-Item -Recurse -Force (Join-Path $root 'example'), (Join-Path $root 'doc') $appDir
 
-$zip = Join-Path $buildRoot 'QTL-Cartographer-Windows-x64.zip'
+$zip = Join-Path $buildRoot "QTL-Cartographer-v$Version-Windows-x64.zip"
 Compress-Archive -Force -Path (Join-Path $appDir '*') -DestinationPath $zip
 Write-Host "Application: $(Join-Path $appDir 'QTL-Cartographer.exe')"
 Write-Host "Package: $zip"

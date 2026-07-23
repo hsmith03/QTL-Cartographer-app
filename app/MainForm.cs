@@ -42,6 +42,7 @@ namespace QTLCartographer.Gui
         private ToolDefinition selectedTool;
         private Process currentProcess;
         private bool runningQueue;
+        private bool synchronizingProject;
         private int queueIndex;
         private string lastHelpText = "";
 
@@ -52,7 +53,7 @@ namespace QTLCartographer.Gui
 
         public MainForm()
         {
-            Text = "QTL Cartographer";
+            Text = "QTL Cartographer " + ProductInfo.Version;
             Icon = SystemIcons.Application;
             MinimumSize = new Size(1050, 700);
             Size = new Size(1280, 820);
@@ -81,7 +82,7 @@ namespace QTLCartographer.Gui
             Panel banner = new Panel { Dock = DockStyle.Top, Height = 76, BackColor = Navy };
             Label appName = new Label
             {
-                Text = "QTL Cartographer",
+                Text = "QTL Cartographer " + ProductInfo.Version,
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI Semibold", 21F),
                 AutoSize = true,
@@ -297,7 +298,11 @@ namespace QTLCartographer.Gui
             settings.SetColumnSpan(rawArgumentsBox, 2);
 
             EventHandler update = delegate { UpdateCommandPreview(); };
-            workingDirectoryBox.TextChanged += update;
+            workingDirectoryBox.TextChanged += delegate
+            {
+                UpdateCommandPreview();
+                SynchronizeProjectState(null);
+            };
             stemBox.TextChanged += update;
             resourceBox.TextChanged += update;
             rawArgumentsBox.TextChanged += update;
@@ -410,7 +415,7 @@ namespace QTLCartographer.Gui
                 Dock = DockStyle.Top,
                 Height = 240,
                 Font = new Font("Segoe UI", 10F),
-                Text = "QTL Cartographer for Windows\r\n\r\n" +
+                Text = "QTL Cartographer for Windows " + ProductInfo.Version + "\r\n\r\n" +
                        "A native Windows desktop interface for QTL Cartographer 1.17. " +
                        "All statistical calculations are performed by the original GPL-licensed C engine.\r\n\r\n" +
                        "The GUI exposes every program option, supports queued workflows, streams console output, " +
@@ -594,7 +599,11 @@ namespace QTLCartographer.Gui
                     OptionEditor editor = new OptionEditor { Definition = option, Enabled = enabled, Value = value };
                     editors.Add(editor);
                     enabled.CheckedChanged += delegate { value.Enabled = enabled.Checked; UpdateCommandPreview(); };
-                    value.TextChanged += delegate { UpdateCommandPreview(); };
+                    value.TextChanged += delegate
+                    {
+                        InferStemFromOutput(editor);
+                        UpdateCommandPreview();
+                    };
                     browse.Click += delegate { BrowseOption(editor); };
                     optionTable.Controls.Add(enabled, 0, row);
                     optionTable.Controls.Add(value, 1, row);
@@ -613,6 +622,7 @@ namespace QTLCartographer.Gui
             finally
             {
                 optionTable.ResumeLayout();
+                SynchronizeProjectState(null);
                 UpdateCommandPreview();
             }
         }
@@ -648,23 +658,26 @@ namespace QTLCartographer.Gui
             if (selectedTool == null)
                 return null;
             List<string> arguments = new List<string>();
-            foreach (OptionEditor editor in editors)
+            Dictionary<string, string> options = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            if (resourceBox.Text.Trim().Length > 0)
             {
-                if (!editor.Enabled.Checked)
-                    continue;
-                arguments.Add(editor.Definition.Flag);
-                if (editor.Value.Text.Trim().Length > 0)
-                    arguments.Add(Quote(editor.Value.Text.Trim()));
+                arguments.Add("-R");
+                arguments.Add(Quote(resourceBox.Text.Trim()));
             }
             if (stemBox.Text.Trim().Length > 0)
             {
                 arguments.Add("-X");
                 arguments.Add(Quote(stemBox.Text.Trim()));
             }
-            if (resourceBox.Text.Trim().Length > 0)
+            foreach (OptionEditor editor in editors)
             {
-                arguments.Add("-R");
-                arguments.Add(Quote(resourceBox.Text.Trim()));
+                if (!editor.Enabled.Checked)
+                    continue;
+                arguments.Add(editor.Definition.Flag);
+                string optionValue = editor.Value.Text.Trim();
+                options[editor.Definition.Flag] = optionValue;
+                if (optionValue.Length > 0)
+                    arguments.Add(Quote(optionValue));
             }
             if (automaticBox.Checked)
                 arguments.Add("-A");
@@ -677,7 +690,10 @@ namespace QTLCartographer.Gui
             {
                 Tool = selectedTool,
                 Arguments = string.Join(" ", arguments.ToArray()),
-                WorkingDirectory = workingDirectoryBox.Text.Trim()
+                WorkingDirectory = workingDirectoryBox.Text.Trim(),
+                ResourceFile = resourceBox.Text.Trim(),
+                RequestedStem = stemBox.Text.Trim(),
+                Options = options
             };
         }
 
@@ -718,6 +734,8 @@ namespace QTLCartographer.Gui
                 return;
             }
             Directory.CreateDirectory(request.WorkingDirectory);
+            if (!ConfirmRcrossMap(request))
+                return;
             string executable = Path.Combine(ToolsDirectory, request.Tool.Name + ".exe");
             if (!File.Exists(executable))
             {
@@ -756,6 +774,8 @@ namespace QTLCartographer.Gui
                     cancelButton.Enabled = false;
                     statusLabel.Text = code == 0 ? "Completed " + request.Tool.Name : request.Tool.Name + " failed (exit " + code + ")";
                     RefreshFiles();
+                    if (code == 0)
+                        SynchronizeProjectState(request);
                     if (fromQueue && runningQueue)
                     {
                         if (code == 0)
@@ -789,6 +809,119 @@ namespace QTLCartographer.Gui
                 cancelButton.Enabled = false;
                 MessageBox.Show(this, ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void InferStemFromOutput(OptionEditor editor)
+        {
+            if (synchronizingProject || selectedTool == null || editor.Definition.Flag != "-o")
+                return;
+            if (selectedTool.Name != "Rmap" && selectedTool.Name != "Rcross")
+                return;
+            string stem = ProjectState.StemFromFile(editor.Value.Text);
+            if (!string.IsNullOrEmpty(stem) && !string.Equals(stemBox.Text, stem, StringComparison.OrdinalIgnoreCase))
+                stemBox.Text = stem;
+        }
+
+        private bool ConfirmRcrossMap(CommandRequest request)
+        {
+            if (request.Tool.Name != "Rcross")
+                return true;
+            string input;
+            if (request.Options == null || !request.Options.TryGetValue("-i", out input) || string.IsNullOrWhiteSpace(input))
+                return true;
+
+            string map;
+            if (request.Options.TryGetValue("-m", out map) && !string.IsNullOrWhiteSpace(map))
+                map = ResolveProjectPath(request.WorkingDirectory, map);
+            else if (!string.IsNullOrWhiteSpace(request.RequestedStem))
+                map = ResolveProjectPath(request.WorkingDirectory, request.RequestedStem + ".map");
+            else
+            {
+                ProjectState state = ProjectState.Load(request.WorkingDirectory, request.ResourceFile);
+                map = state.ResolveProjectFile(request.WorkingDirectory, "-map", "");
+            }
+            if (!string.IsNullOrWhiteSpace(map) && File.Exists(map))
+                return true;
+
+            DialogResult result = MessageBox.Show(this,
+                "The linkage map for this cross was not found:\r\n" +
+                (string.IsNullOrWhiteSpace(map) ? "(no map configured)" : map) +
+                "\r\n\r\nWithout a map, Rcross places every marker on one chromosome. " +
+                "Choose No, select the correct map (-m), and run again.\r\n\r\n" +
+                "Continue with the one-chromosome fallback?",
+                "Linkage map required", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+            return result == DialogResult.Yes;
+        }
+
+        private void SynchronizeProjectState(CommandRequest completedRequest)
+        {
+            if (synchronizingProject || workingDirectoryBox == null)
+                return;
+            string directory = completedRequest == null ? workingDirectoryBox.Text.Trim() : completedRequest.WorkingDirectory;
+            if (!Directory.Exists(directory))
+                return;
+            string resource = completedRequest == null ? resourceBox.Text.Trim() : completedRequest.ResourceFile;
+            ProjectState state = ProjectState.Load(directory, resource);
+            string stem = completedRequest == null ? "" : completedRequest.RequestedStem;
+            string output;
+            if (completedRequest != null && string.IsNullOrWhiteSpace(stem) &&
+                completedRequest.Options != null && completedRequest.Options.TryGetValue("-o", out output))
+                stem = ProjectState.StemFromFile(output);
+            if (string.IsNullOrWhiteSpace(stem))
+                stem = state.Stem;
+
+            synchronizingProject = true;
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(stem))
+                    stemBox.Text = stem;
+                ApplyProjectDefaults(state);
+            }
+            finally
+            {
+                synchronizingProject = false;
+            }
+            UpdateCommandPreview();
+        }
+
+        private void ApplyProjectDefaults(ProjectState state)
+        {
+            if (selectedTool == null)
+                return;
+            Dictionary<string, string> mapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            mapping["-e"] = "-error";
+            if (selectedTool.Name == "Rmap")
+            {
+                mapping["-i"] = "-mapin";
+                mapping["-o"] = "-map";
+            }
+            else if (selectedTool.Name == "Rcross")
+            {
+                mapping["-i"] = "-iinfile";
+                mapping["-o"] = "-ifile";
+                mapping["-m"] = "-map";
+                mapping["-q"] = "-qtl";
+            }
+            foreach (OptionEditor editor in editors)
+            {
+                string resourceKey;
+                string value;
+                if (mapping.TryGetValue(editor.Definition.Flag, out resourceKey) &&
+                    state.Values.TryGetValue(resourceKey, out value) &&
+                    !string.IsNullOrWhiteSpace(value))
+                {
+                    editor.Definition.DefaultValue = value;
+                    if (!editor.Enabled.Checked)
+                        editor.Value.Text = value;
+                }
+            }
+        }
+
+        private static string ResolveProjectPath(string directory, string path)
+        {
+            string clean = path.Trim().Trim('"');
+            return Path.IsPathRooted(clean) ? clean : Path.Combine(directory, clean);
         }
 
         private void AppendOutput(string text, Color? color)
