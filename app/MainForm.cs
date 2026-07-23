@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace QTLCartographer.Gui
@@ -38,9 +40,18 @@ namespace QTLCartographer.Gui
         private Button helpButton;
         private ListView queueView;
         private ListView filesView;
+        private RichTextBox filePreview;
+        private ComboBox fileFilter;
+        private TabControl tabs;
+        private ProgressBar workflowProgress;
+        private ToolStripStatusLabel elapsedLabel;
+        private Timer elapsedTimer;
+        private string currentProjectFile;
+        private readonly StringBuilder currentError = new StringBuilder();
         private ToolStripStatusLabel statusLabel;
         private ToolDefinition selectedTool;
         private Process currentProcess;
+        private CommandRequest currentRequest;
         private bool runningQueue;
         private bool synchronizingProject;
         private int queueIndex;
@@ -60,8 +71,11 @@ namespace QTLCartographer.Gui
             StartPosition = FormStartPosition.CenterScreen;
             BackColor = Pale;
             Font = new Font("Segoe UI", 9F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            KeyPreview = true;
 
             BuildInterface();
+            BuildApplicationMenu();
             PopulateToolTree("");
             if (toolTree.Nodes.Count > 0 && toolTree.Nodes[0].Nodes.Count > 0)
                 toolTree.SelectedNode = toolTree.Nodes[0].Nodes[0];
@@ -75,6 +89,8 @@ namespace QTLCartographer.Gui
                 if (currentProcess != null && !currentProcess.HasExited)
                     currentProcess.Kill();
             };
+            elapsedTimer = new Timer { Interval = 500 };
+            elapsedTimer.Tick += delegate { UpdateElapsedTime(); };
         }
 
         private void BuildInterface()
@@ -101,7 +117,12 @@ namespace QTLCartographer.Gui
 
             StatusStrip status = new StatusStrip { SizingGrip = false };
             statusLabel = new ToolStripStatusLabel("Ready") { Spring = true, TextAlign = ContentAlignment.MiddleLeft };
+            elapsedLabel = new ToolStripStatusLabel("Elapsed 00:00");
+            workflowProgress = new ProgressBar { Width = 150, Height = 16 };
+            ToolStripControlHost progressHost = new ToolStripControlHost(workflowProgress);
             status.Items.Add(statusLabel);
+            status.Items.Add(elapsedLabel);
+            status.Items.Add(progressHost);
             Controls.Add(status);
 
             SplitContainer split = new SplitContainer
@@ -200,7 +221,7 @@ namespace QTLCartographer.Gui
             heading.Controls.Add(summaryLabel);
             heading.Controls.Add(helpButton);
 
-            TabControl tabs = new TabControl { Dock = DockStyle.Fill };
+            tabs = new TabControl { Dock = DockStyle.Fill };
             tabs.TabPages.Add(BuildConfigurePage());
             tabs.TabPages.Add(BuildOutputPage());
             tabs.TabPages.Add(BuildQueuePage());
@@ -209,6 +230,29 @@ namespace QTLCartographer.Gui
             content.Controls.Add(heading, 0, 0);
             content.Controls.Add(tabs, 0, 1);
             split.Panel2.Controls.Add(content);
+        }
+
+        private void BuildApplicationMenu()
+        {
+            MenuStrip menu = new MenuStrip { Dock = DockStyle.Top };
+            ToolStripMenuItem file = new ToolStripMenuItem("&File");
+            ((ToolStripMenuItem)file.DropDownItems.Add("&New project…", null, delegate { NewProject(); })).ShortcutKeys = Keys.Control | Keys.N;
+            ((ToolStripMenuItem)file.DropDownItems.Add("&Open project…", null, delegate { OpenProject(); })).ShortcutKeys = Keys.Control | Keys.O;
+            ((ToolStripMenuItem)file.DropDownItems.Add("&Save project", null, delegate { SaveProject(false); })).ShortcutKeys = Keys.Control | Keys.S;
+            file.DropDownItems.Add("Save project &as…", null, delegate { SaveProject(true); });
+            file.DropDownItems.Add(new ToolStripSeparator());
+            file.DropDownItems.Add("E&xit", null, delegate { Close(); });
+            ToolStripMenuItem analysis = new ToolStripMenuItem("&Analysis");
+            ((ToolStripMenuItem)analysis.DropDownItems.Add("&Results dashboard…", null, delegate { ShowResultsDashboard(); })).ShortcutKeys = Keys.Control | Keys.D;
+            analysis.DropDownItems.Add("&Load example analysis", null, delegate { LoadSampleWorkflow(); });
+            ToolStripMenuItem help = new ToolStripMenuItem("&Help");
+            ((ToolStripMenuItem)help.DropDownItems.Add("Selected program help", null, delegate { ShowProgramHelp(); })).ShortcutKeys = Keys.F1;
+            menu.Items.Add(file);
+            menu.Items.Add(analysis);
+            menu.Items.Add(help);
+            MainMenuStrip = menu;
+            Controls.Add(menu);
+            menu.BringToFront();
         }
 
         private TabPage BuildConfigurePage()
@@ -350,15 +394,20 @@ namespace QTLCartographer.Gui
             FlowLayoutPanel toolbar = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 44 };
             Button run = MakeButton("Run queue", true);
             run.Click += delegate { RunQueue(); };
-            Button sample = MakeButton("Load sample workflow", false);
+            Button sample = MakeButton("Load example analysis", false);
             sample.Click += delegate { LoadSampleWorkflow(); };
+            sample.AutoSize = true;
             Button remove = MakeButton("Remove selected", false);
             remove.Click += delegate { RemoveSelectedQueueItems(); };
             Button clear = MakeButton("Clear", false);
             clear.Click += delegate { queue.Clear(); RefreshQueue(); };
+            Button retry = MakeButton("Retry failed stage", false);
+            retry.AutoSize = true;
+            retry.Click += delegate { RetryFailedStage(); };
             toolbar.Controls.Add(run);
             toolbar.Controls.Add(sample);
             toolbar.Controls.Add(remove);
+            toolbar.Controls.Add(retry);
             toolbar.Controls.Add(clear);
 
             queueView = new ListView
@@ -370,8 +419,10 @@ namespace QTLCartographer.Gui
             };
             queueView.Columns.Add("#", 45);
             queueView.Columns.Add("Program", 125);
-            queueView.Columns.Add("Arguments", 510);
-            queueView.Columns.Add("Working directory", 260);
+            queueView.Columns.Add("Status", 95);
+            queueView.Columns.Add("Elapsed", 75);
+            queueView.Columns.Add("Arguments", 410);
+            queueView.Columns.Add("Working directory", 220);
             page.Controls.Add(queueView);
             page.Controls.Add(toolbar);
             return page;
@@ -387,10 +438,17 @@ namespace QTLCartographer.Gui
             open.Click += delegate { OpenSelectedFile(); };
             Button folder = MakeButton("Open folder", false);
             folder.Click += delegate { OpenWorkingDirectory(); };
+            fileFilter = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 110, AccessibleName = "Project file filter" };
+            fileFilter.Items.AddRange(new object[] { "All files", "Inputs", "Results", "Logs", "Plots" });
+            fileFilter.SelectedIndex = 0;
+            fileFilter.SelectedIndexChanged += delegate { RefreshFiles(); };
             toolbar.Controls.Add(refresh);
             toolbar.Controls.Add(open);
             toolbar.Controls.Add(folder);
+            toolbar.Controls.Add(new Label { Text = "Filter:", AutoSize = true, Margin = new Padding(12, 9, 3, 3) });
+            toolbar.Controls.Add(fileFilter);
 
+            SplitContainer split = new SplitContainer { Dock = DockStyle.Fill, SplitterDistance = 610 };
             filesView = new ListView
             {
                 Dock = DockStyle.Fill,
@@ -398,11 +456,21 @@ namespace QTLCartographer.Gui
                 FullRowSelect = true,
                 GridLines = true
             };
-            filesView.Columns.Add("Name", 350);
-            filesView.Columns.Add("Size", 100);
-            filesView.Columns.Add("Modified", 170);
-            filesView.DoubleClick += delegate { OpenSelectedFile(); };
-            page.Controls.Add(filesView);
+            filesView.Columns.Add("Name", 240);
+            filesView.Columns.Add("Type / purpose", 245);
+            filesView.Columns.Add("Size", 80);
+            filesView.Columns.Add("Modified", 135);
+            filesView.DoubleClick += delegate { PreviewSelectedFile(); };
+            filesView.SelectedIndexChanged += delegate { PreviewSelectedFile(); };
+            filePreview = new RichTextBox
+            {
+                Dock = DockStyle.Fill, ReadOnly = true, WordWrap = false,
+                Font = new Font("Consolas", 9F), BackColor = Color.White,
+                AccessibleName = "Selected project file preview"
+            };
+            split.Panel1.Controls.Add(filesView);
+            split.Panel2.Controls.Add(filePreview);
+            page.Controls.Add(split);
             page.Controls.Add(toolbar);
             return page;
         }
@@ -418,8 +486,8 @@ namespace QTLCartographer.Gui
                 Text = "QTL Cartographer for Windows " + ProductInfo.Version + "\r\n\r\n" +
                        "A native Windows desktop interface for QTL Cartographer 1.17. " +
                        "All statistical calculations are performed by the original GPL-licensed C engine.\r\n\r\n" +
-                       "The GUI exposes every program option, supports queued workflows, streams console output, " +
-                       "and keeps generated files organized in a project directory.\r\n\r\n" +
+                       "The GUI includes guided import, typed options, recoverable workflows, project persistence, " +
+                       "integrated LR/LOD charts, empirical permutation thresholds, peak tables, and report export.\r\n\r\n" +
                        "QTL Cartographer authors: C. J. Basten, B. S. Weir, and Z.-B. Zeng."
             };
             LinkLabel source = new LinkLabel
@@ -576,13 +644,7 @@ namespace QTLCartographer.Gui
                         Font = new Font("Consolas", 9F, FontStyle.Bold),
                         Margin = new Padding(4, 8, 2, 5)
                     };
-                    TextBox value = new TextBox
-                    {
-                        Text = option.DefaultValue,
-                        Dock = DockStyle.Fill,
-                        Enabled = false,
-                        Margin = new Padding(3, 5, 3, 5)
-                    };
+                    Control value = CreateOptionControl(option);
                     Button browse = MakeButton("…", false);
                     browse.Dock = DockStyle.Fill;
                     browse.Margin = new Padding(2, 4, 2, 4);
@@ -625,6 +687,63 @@ namespace QTLCartographer.Gui
                 SynchronizeProjectState(null);
                 UpdateCommandPreview();
             }
+        }
+
+        private Control CreateOptionControl(OptionDefinition option)
+        {
+            string description = option.Description ?? "";
+            if (!LooksLikeFileOption(option))
+            {
+                Match mapped = System.Text.RegularExpressions.Regex.Match(description, @"=>\s*\(([^)]+)\)");
+                if (mapped.Success)
+                {
+                    ComboBox choice = new ComboBox
+                    {
+                        Dock = DockStyle.Fill, Enabled = false, DropDownStyle = ComboBoxStyle.DropDown,
+                        Margin = new Padding(3, 5, 3, 5), AccessibleName = description
+                    };
+                    foreach (string item in mapped.Groups[1].Value.Split(','))
+                        choice.Items.Add(item.Trim());
+                    choice.Text = option.DefaultValue;
+                    return choice;
+                }
+                decimal numeric;
+                if (decimal.TryParse(option.DefaultValue, System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture, out numeric))
+                {
+                    decimal minimum = -2147483648;
+                    decimal maximum = 2147483647;
+                    Match range = Regex.Match(description, @"\[\s*(-?\d+(?:\.\d+)?)\s*[-,]\s*(-?\d+(?:\.\d+)?)\s*\]");
+                    decimal parsedMinimum;
+                    decimal parsedMaximum;
+                    if (range.Success &&
+                        decimal.TryParse(range.Groups[1].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out parsedMinimum) &&
+                        decimal.TryParse(range.Groups[2].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out parsedMaximum))
+                    {
+                        minimum = parsedMinimum;
+                        maximum = parsedMaximum;
+                    }
+                    NumericUpDown number = new NumericUpDown
+                    {
+                        Dock = DockStyle.Fill, Enabled = false, Minimum = minimum,
+                        Maximum = maximum, DecimalPlaces = option.DefaultValue.Contains(".") ? 6 : 0,
+                        Increment = option.DefaultValue.Contains(".") ? .1M : 1M,
+                        Margin = new Padding(3, 5, 3, 5), AccessibleName = description,
+                        Value = Math.Max(minimum, Math.Min(maximum, numeric))
+                    };
+                    return number;
+                }
+            }
+            TextBox text = new TextBox
+            {
+                Text = option.DefaultValue, Dock = DockStyle.Fill, Enabled = false,
+                Margin = new Padding(3, 5, 3, 5), AccessibleName = description
+            };
+            text.Validating += delegate(object sender, System.ComponentModel.CancelEventArgs e)
+            {
+                text.BackColor = string.IsNullOrWhiteSpace(text.Text) ? Color.MistyRose : Color.White;
+            };
+            return text;
         }
 
         private bool LooksLikeFileOption(OptionDefinition option)
@@ -736,6 +855,8 @@ namespace QTLCartographer.Gui
             Directory.CreateDirectory(request.WorkingDirectory);
             if (!ConfirmRcrossMap(request))
                 return;
+            if (!ConfirmOverwrite(request))
+                return;
             string executable = Path.Combine(ToolsDirectory, request.Tool.Name + ".exe");
             if (!File.Exists(executable))
             {
@@ -744,6 +865,13 @@ namespace QTLCartographer.Gui
             }
 
             AppendOutput("\r\n> " + request.DisplayCommand + "\r\n", Color.FromArgb(100, 190, 235));
+            currentError.Clear();
+            request.Status = "Running";
+            request.StartedAt = DateTime.Now;
+            request.FailureDetails = "";
+            RefreshQueue();
+            elapsedTimer.Start();
+            UpdateWorkflowProgress();
             Process process = new Process();
             process.StartInfo = new ProcessStartInfo(executable, request.Arguments)
             {
@@ -760,7 +888,11 @@ namespace QTLCartographer.Gui
             };
             process.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs e)
             {
-                if (e.Data != null) AppendOutput(e.Data + Environment.NewLine, Color.FromArgb(255, 150, 140));
+                if (e.Data != null)
+                {
+                    lock (currentError) { currentError.AppendLine(e.Data); }
+                    AppendOutput(e.Data + Environment.NewLine, Color.FromArgb(255, 150, 140));
+                }
             };
             process.Exited += delegate
             {
@@ -770,10 +902,17 @@ namespace QTLCartographer.Gui
                 {
                     AppendOutput("[Exited with code " + code + "]\r\n", code == 0 ? Color.FromArgb(125, 210, 145) : Color.FromArgb(255, 150, 140));
                     currentProcess = null;
+                    request.Elapsed = DateTime.Now - request.StartedAt;
+                    currentRequest = null;
+                    request.Status = code == 0 ? "Succeeded" : "Failed";
+                    request.FailureDetails = currentError.ToString();
                     runButton.Enabled = selectedTool != null;
                     cancelButton.Enabled = false;
                     statusLabel.Text = code == 0 ? "Completed " + request.Tool.Name : request.Tool.Name + " failed (exit " + code + ")";
                     RefreshFiles();
+                    RefreshQueue();
+                    UpdateWorkflowProgress();
+                    elapsedTimer.Stop();
                     if (code == 0)
                         SynchronizeProjectState(request);
                     if (fromQueue && runningQueue)
@@ -786,7 +925,7 @@ namespace QTLCartographer.Gui
                         else
                         {
                             runningQueue = false;
-                            MessageBox.Show(this, "The workflow stopped because " + request.Tool.Name + " failed.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ShowDetailedFailure(request, code);
                         }
                     }
                 });
@@ -795,6 +934,7 @@ namespace QTLCartographer.Gui
             try
             {
                 currentProcess = process;
+                currentRequest = request;
                 runButton.Enabled = false;
                 cancelButton.Enabled = true;
                 statusLabel.Text = "Running " + request.Tool.Name + "...";
@@ -805,10 +945,55 @@ namespace QTLCartographer.Gui
             catch (Exception ex)
             {
                 currentProcess = null;
+                currentRequest = null;
+                request.Status = "Failed";
+                request.FailureDetails = ex.Message;
                 runButton.Enabled = true;
                 cancelButton.Enabled = false;
                 MessageBox.Show(this, ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private bool ConfirmOverwrite(CommandRequest request)
+        {
+            if (request.OverwriteConfirmed)
+                return true;
+            List<string> outputs = new List<string>();
+            string output;
+            if (request.Options != null && request.Options.TryGetValue("-o", out output) && !string.IsNullOrWhiteSpace(output))
+                outputs.Add(ResolveProjectPath(request.WorkingDirectory, output));
+            else if (!string.IsNullOrWhiteSpace(request.RequestedStem))
+            {
+                Dictionary<string, string> extensions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { "Rmap", ".map" }, { "Rcross", ".cro" }, { "Qstats", ".qst" },
+                    { "LRmapqtl", ".lr" }, { "SRmapqtl", ".sr" }, { "Zmapqtl", ".z" },
+                    { "MImapqtl", ".mim" }, { "Eqtl", ".eqt" }, { "Preplot", ".plt" }
+                };
+                string extension;
+                if (extensions.TryGetValue(request.Tool.Name, out extension))
+                    outputs.Add(Path.Combine(request.WorkingDirectory, request.RequestedStem + extension));
+            }
+            List<string> existing = outputs.Where(File.Exists).ToList();
+            if (existing.Count == 0)
+                return true;
+            DialogResult result = MessageBox.Show(this,
+                "This analysis will overwrite:\r\n" + string.Join("\r\n", existing.ToArray()) +
+                "\r\n\r\nContinue?", "Confirm overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+            request.OverwriteConfirmed = result == DialogResult.Yes;
+            return request.OverwriteConfirmed;
+        }
+
+        private void ShowDetailedFailure(CommandRequest request, int code)
+        {
+            string relevant = request.FailureDetails;
+            if (relevant.Length > 1800) relevant = relevant.Substring(relevant.Length - 1800);
+            MessageBox.Show(this,
+                "Workflow stopped at " + request.Tool.Name + " (exit " + code + ").\r\n\r\nCommand:\r\n" +
+                request.DisplayCommand + "\r\n\r\nRelevant output:\r\n" + relevant +
+                "\r\nSuggested remedy: check that input and map files exist, validate the project inputs, then use Retry failed stage.",
+                "Analysis failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void InferStemFromOutput(OptionEditor editor)
@@ -953,6 +1138,7 @@ namespace QTLCartographer.Gui
             CommandRequest request = BuildCurrentRequest();
             if (request == null)
                 return;
+            request.Status = "Pending";
             queue.Add(request);
             RefreshQueue();
             statusLabel.Text = request.Tool.Name + " added to workflow queue";
@@ -966,8 +1152,13 @@ namespace QTLCartographer.Gui
                 CommandRequest item = queue[i];
                 ListViewItem row = new ListViewItem((i + 1).ToString());
                 row.SubItems.Add(item.Tool.Name);
+                row.SubItems.Add(string.IsNullOrEmpty(item.Status) ? "Pending" : item.Status);
+                row.SubItems.Add(item.Elapsed == TimeSpan.Zero ? "" : item.Elapsed.ToString(@"mm\:ss"));
                 row.SubItems.Add(item.Arguments);
                 row.SubItems.Add(item.WorkingDirectory);
+                if (item.Status == "Succeeded") row.BackColor = Color.Honeydew;
+                else if (item.Status == "Failed") row.BackColor = Color.MistyRose;
+                else if (item.Status == "Running") row.BackColor = Color.LightCyan;
                 queueView.Items.Add(row);
             }
         }
@@ -990,7 +1181,17 @@ namespace QTLCartographer.Gui
                 return;
             runningQueue = true;
             queueIndex = 0;
+            foreach (CommandRequest item in queue)
+            {
+                item.Status = "Pending";
+                item.Elapsed = TimeSpan.Zero;
+                item.OverwriteConfirmed = false;
+            }
             outputBox.Clear();
+            workflowProgress.Minimum = 0;
+            workflowProgress.Maximum = queue.Count;
+            workflowProgress.Value = 0;
+            RefreshQueue();
             RunNextQueueItem();
         }
 
@@ -1000,10 +1201,54 @@ namespace QTLCartographer.Gui
             {
                 runningQueue = false;
                 statusLabel.Text = "Workflow completed";
+                workflowProgress.Value = workflowProgress.Maximum;
+                SaveProject(false);
                 MessageBox.Show(this, "All workflow steps completed successfully.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             StartRequest(queue[queueIndex], true);
+        }
+
+        private void RetryFailedStage()
+        {
+            int failed = queue.FindIndex(delegate(CommandRequest item) { return item.Status == "Failed"; });
+            if (failed < 0)
+            {
+                MessageBox.Show(this, "There is no failed workflow stage to retry.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            for (int i = failed; i < queue.Count; i++)
+            {
+                queue[i].Status = "Pending";
+                queue[i].Elapsed = TimeSpan.Zero;
+                queue[i].FailureDetails = "";
+                queue[i].OverwriteConfirmed = false;
+            }
+            queueIndex = failed;
+            runningQueue = true;
+            RefreshQueue();
+            RunNextQueueItem();
+        }
+
+        private void UpdateWorkflowProgress()
+        {
+            if (workflowProgress == null) return;
+            int completed = queue.Count(item => item.Status == "Succeeded");
+            workflowProgress.Maximum = Math.Max(1, queue.Count);
+            workflowProgress.Value = Math.Min(workflowProgress.Maximum, completed);
+        }
+
+        private void UpdateElapsedTime()
+        {
+            if (currentProcess == null || currentProcess.HasExited) return;
+            CommandRequest running = currentRequest;
+            TimeSpan elapsed = running == null ? TimeSpan.Zero : DateTime.Now - running.StartedAt;
+            elapsedLabel.Text = "Elapsed " + elapsed.ToString(@"hh\:mm\:ss");
+            if (running != null)
+            {
+                running.Elapsed = elapsed;
+                RefreshQueue();
+            }
         }
 
         private ToolDefinition FindTool(string name)
@@ -1027,6 +1272,10 @@ namespace QTLCartographer.Gui
             }
             File.Copy(map, Path.Combine(work, "sample.mps"), true);
             File.Copy(cross, Path.Combine(work, "sample.raw"), true);
+            DialogResult explain = MessageBox.Show(this,
+                "Load example analysis copies sample.mps and sample.raw into the current working directory and replaces the workflow queue. Continue?",
+                "Load example analysis", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (explain != DialogResult.OK) return;
             queue.Clear();
             AddSampleStep("Rmap", "-i sample.mps -A", work);
             AddSampleStep("Rcross", "-i sample.raw -A", work);
@@ -1038,12 +1287,12 @@ namespace QTLCartographer.Gui
             AddSampleStep("Eqtl", "-A", work);
             AddSampleStep("Preplot", "-A", work);
             RefreshQueue();
-            statusLabel.Text = "Sample workflow loaded";
+            statusLabel.Text = "Example analysis loaded";
         }
 
         private void AddSampleStep(string name, string arguments, string work)
         {
-            queue.Add(new CommandRequest { Tool = FindTool(name), Arguments = arguments, WorkingDirectory = work });
+            queue.Add(new CommandRequest { Tool = FindTool(name), Arguments = arguments, WorkingDirectory = work, Status = "Pending" });
         }
 
         private void RefreshFiles()
@@ -1054,10 +1303,33 @@ namespace QTLCartographer.Gui
                 return;
             foreach (FileInfo file in new DirectoryInfo(directory).GetFiles())
             {
+                string category;
+                string purpose = DescribeFile(file.Extension, out category);
+                if (fileFilter != null && fileFilter.SelectedIndex > 0 &&
+                    !string.Equals(fileFilter.SelectedItem.ToString(), category, StringComparison.OrdinalIgnoreCase))
+                    continue;
                 ListViewItem item = new ListViewItem(file.Name) { Tag = file.FullName };
+                item.SubItems.Add(purpose);
                 item.SubItems.Add(FormatSize(file.Length));
                 item.SubItems.Add(file.LastWriteTime.ToString("g"));
                 filesView.Items.Add(item);
+            }
+        }
+
+        private static string DescribeFile(string extension, out string category)
+        {
+            switch (extension.ToLowerInvariant())
+            {
+                case ".mps": case ".raw": case ".inp": case ".map": case ".cro":
+                    category = "Inputs"; return extension == ".map" ? "Linkage map" : extension == ".cro" ? "Cross/genotype data" : "Imported source data";
+                case ".z": category = "Results"; return "Interval/composite interval mapping results";
+                case ".eqt": category = "Results"; return "Estimated QTL peaks and effects";
+                case ".lr": category = "Results"; return "Linear-regression mapping results";
+                case ".sr": category = "Results"; return "Stepwise-regression mapping results";
+                case ".qst": case ".mim": case ".mr": case ".bys": category = "Results"; return "Statistical analysis results";
+                case ".log": case ".rc": category = "Logs"; return extension == ".rc" ? "Project settings/resource file" : "Analysis log";
+                case ".plt": case ".png": case ".svg": category = "Plots"; return "Plot or chart";
+                default: category = "All files"; return "Project file";
             }
         }
 
@@ -1075,6 +1347,31 @@ namespace QTLCartographer.Gui
             Process.Start((string)filesView.SelectedItems[0].Tag);
         }
 
+        private void PreviewSelectedFile()
+        {
+            if (filesView.SelectedItems.Count == 0 || filePreview == null)
+                return;
+            string path = (string)filesView.SelectedItems[0].Tag;
+            string extension = Path.GetExtension(path).ToLowerInvariant();
+            if (new[] { ".png", ".jpg", ".jpeg", ".gif", ".exe", ".zip" }.Contains(extension))
+            {
+                filePreview.Text = "Binary file. Use Open selected to view it in the associated application.";
+                return;
+            }
+            try
+            {
+                using (StreamReader reader = new StreamReader(path, Encoding.Default, true))
+                {
+                    char[] buffer = new char[200000];
+                    int read = reader.Read(buffer, 0, buffer.Length);
+                    filePreview.Text = new string(buffer, 0, read) + (reader.Peek() >= 0 ? "\r\n\r\n[Preview truncated]" : "");
+                    filePreview.SelectionStart = 0;
+                    filePreview.ScrollToCaret();
+                }
+            }
+            catch (Exception ex) { filePreview.Text = "Preview unavailable: " + ex.Message; }
+        }
+
         private void OpenWorkingDirectory()
         {
             string directory = workingDirectoryBox.Text.Trim();
@@ -1082,6 +1379,129 @@ namespace QTLCartographer.Gui
                 return;
             Directory.CreateDirectory(directory);
             Process.Start("explorer.exe", Quote(directory));
+        }
+
+        private void NewProject()
+        {
+            using (NewProjectWizardForm wizard = new NewProjectWizardForm(workingDirectoryBox.Text.Trim()))
+            {
+                if (wizard.ShowDialog(this) != DialogResult.OK) return;
+                Directory.CreateDirectory(wizard.ProjectDirectory);
+                workingDirectoryBox.Text = wizard.ProjectDirectory;
+                stemBox.Text = wizard.ProjectStem;
+                queue.Clear();
+                string mapInput;
+                string crossInput;
+                if (wizard.UseExample)
+                {
+                    string example = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "example");
+                    mapInput = Path.Combine(wizard.ProjectDirectory, "sample.mps");
+                    crossInput = Path.Combine(wizard.ProjectDirectory, "sample.raw");
+                    File.Copy(Path.Combine(example, "sample.mps"), mapInput, true);
+                    File.Copy(Path.Combine(example, "sample.raw"), crossInput, true);
+                }
+                else
+                {
+                    mapInput = Path.Combine(wizard.ProjectDirectory, Path.GetFileName(wizard.MapFile));
+                    crossInput = Path.Combine(wizard.ProjectDirectory, Path.GetFileName(wizard.CrossFile));
+                    if (!string.Equals(wizard.MapFile, mapInput, StringComparison.OrdinalIgnoreCase)) File.Copy(wizard.MapFile, mapInput, true);
+                    if (!string.Equals(wizard.CrossFile, crossInput, StringComparison.OrdinalIgnoreCase)) File.Copy(wizard.CrossFile, crossInput, true);
+                }
+                AddSampleStep("Rmap", "-X " + Quote(wizard.ProjectStem) + " -i " + Quote(Path.GetFileName(mapInput)) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("Rcross", "-X " + Quote(wizard.ProjectStem) + " -i " + Quote(Path.GetFileName(crossInput)) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("Qstats", "-X " + Quote(wizard.ProjectStem) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("LRmapqtl", "-X " + Quote(wizard.ProjectStem) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("SRmapqtl", "-X " + Quote(wizard.ProjectStem) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("Zmapqtl", "-X " + Quote(wizard.ProjectStem) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("MImapqtl", "-X " + Quote(wizard.ProjectStem) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("Eqtl", "-X " + Quote(wizard.ProjectStem) + " -A", wizard.ProjectDirectory);
+                AddSampleStep("Preplot", "-X " + Quote(wizard.ProjectStem) + " -A", wizard.ProjectDirectory);
+                currentProjectFile = Path.Combine(wizard.ProjectDirectory, wizard.ProjectStem + ".qtlproject");
+                RefreshQueue();
+                RefreshFiles();
+                SaveProject(false);
+                tabs.SelectedIndex = 2;
+                statusLabel.Text = "New project created and validated";
+            }
+        }
+
+        private void SaveProject(bool saveAs)
+        {
+            if (saveAs || string.IsNullOrEmpty(currentProjectFile))
+            {
+                using (SaveFileDialog dialog = new SaveFileDialog
+                {
+                    Filter = "QTL Cartographer project (*.qtlproject)|*.qtlproject",
+                    InitialDirectory = Directory.Exists(workingDirectoryBox.Text) ? workingDirectoryBox.Text : "",
+                    FileName = (string.IsNullOrEmpty(stemBox.Text) ? "qtlcart" : stemBox.Text) + ".qtlproject"
+                })
+                {
+                    if (dialog.ShowDialog(this) != DialogResult.OK) return;
+                    currentProjectFile = dialog.FileName;
+                }
+            }
+            ProjectDocument document = new ProjectDocument
+            {
+                WorkingDirectory = workingDirectoryBox.Text.Trim(),
+                Stem = stemBox.Text.Trim(),
+                ResourceFile = resourceBox.Text.Trim(),
+                SelectedTool = selectedTool == null ? "" : selectedTool.Name,
+                SelectedArguments = BuildCurrentRequest() == null ? "" : BuildCurrentRequest().Arguments
+            };
+            foreach (CommandRequest request in queue)
+                document.Queue.Add(new ProjectStep
+                {
+                    Tool = request.Tool.Name, Arguments = request.Arguments,
+                    Status = request.Status, ElapsedSeconds = request.Elapsed.TotalSeconds
+                });
+            if (Directory.Exists(document.WorkingDirectory))
+                document.Results.AddRange(Directory.GetFiles(document.WorkingDirectory)
+                    .Where(path => new[] { ".z", ".eqt", ".lr", ".sr", ".qst", ".mim", ".plt" }.Contains(Path.GetExtension(path).ToLowerInvariant()))
+                    .Select(Path.GetFileName));
+            ProjectStore.Save(currentProjectFile, document);
+            statusLabel.Text = "Project saved: " + Path.GetFileName(currentProjectFile);
+        }
+
+        private void OpenProject()
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog { Filter = "QTL Cartographer project (*.qtlproject)|*.qtlproject" })
+            {
+                if (dialog.ShowDialog(this) != DialogResult.OK) return;
+                ProjectDocument document;
+                try { document = ProjectStore.Load(dialog.FileName); }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(this, "The project could not be opened:\r\n" + ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                currentProjectFile = dialog.FileName;
+                workingDirectoryBox.Text = document.WorkingDirectory;
+                stemBox.Text = document.Stem;
+                resourceBox.Text = document.ResourceFile;
+                queue.Clear();
+                foreach (ProjectStep step in document.Queue)
+                    queue.Add(new CommandRequest
+                    {
+                        Tool = FindTool(step.Tool), Arguments = step.Arguments,
+                        WorkingDirectory = document.WorkingDirectory, Status = step.Status,
+                        Elapsed = TimeSpan.FromSeconds(step.ElapsedSeconds)
+                    });
+                RefreshQueue();
+                RefreshFiles();
+                statusLabel.Text = "Project opened (created with version " + document.Version + ")";
+            }
+        }
+
+        private void ShowResultsDashboard()
+        {
+            string directory = workingDirectoryBox.Text.Trim();
+            if (!Directory.Exists(directory))
+            {
+                MessageBox.Show(this, "Open or create a project first.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            using (ResultsDashboardForm dashboard = new ResultsDashboardForm(directory, stemBox.Text.Trim()))
+                dashboard.ShowDialog(this);
         }
 
         private void SaveConsoleLog()

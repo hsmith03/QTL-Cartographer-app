@@ -18,5 +18,5 @@ jobs:
       - name: Upload Windows package
         uses: actions/upload-artifact@v4
         with:
-          name: QTL-Cartographer-Windows-x64
-          path: build/QTL-Cartographer-Windows-x64.zip
+          name: QTL-Cartographer-v2.0.0-Windows-x64
+          path: build/QTL-Cartographer-v2.0.0-Windows-x64.zip

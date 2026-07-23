@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace QTLCartographer.Gui
@@ -44,7 +45,7 @@ namespace QTLCartographer.Gui
     {
         public OptionDefinition Definition { get; set; }
         public System.Windows.Forms.CheckBox Enabled { get; set; }
-        public System.Windows.Forms.TextBox Value { get; set; }
+        public System.Windows.Forms.Control Value { get; set; }
     }
 
     internal sealed class CommandRequest
@@ -55,6 +56,11 @@ namespace QTLCartographer.Gui
         public string ResourceFile { get; set; }
         public string RequestedStem { get; set; }
         public Dictionary<string, string> Options { get; set; }
+        public string Status { get; set; }
+        public DateTime StartedAt { get; set; }
+        public TimeSpan Elapsed { get; set; }
+        public string FailureDetails { get; set; }
+        public bool OverwriteConfirmed { get; set; }
 
         public string DisplayCommand
         {

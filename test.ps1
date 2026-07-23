@@ -36,6 +36,10 @@ foreach ($name in $expected) {
     if (-not (Test-Path -LiteralPath $path) -or (Get-Item $path).Length -eq 0) { throw "Missing output: $name" }
 }
 
+Write-Host 'Testing results parsing, exports, import validation, and project persistence...'
+$featureTest = Start-Process -FilePath $app -ArgumentList @('--feature-smoke-test', "`"$run`"") -Wait -PassThru
+if ($featureTest.ExitCode -ne 0) { throw "Feature smoke test failed with exit code $($featureTest.ExitCode)." }
+
 Write-Host 'Testing five-chromosome map continuity and project stems...'
 $fiveChrom = Join-Path $root ("build\tests\nuzhdin-" + (Get-Date -Format 'yyyyMMdd-HHmmss'))
 New-Item -ItemType Directory -Force -Path $fiveChrom | Out-Null
