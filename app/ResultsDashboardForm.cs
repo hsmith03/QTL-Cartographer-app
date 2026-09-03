@@ -498,8 +498,7 @@ namespace QTLCartographer.Gui
         private string FindProjectFile(string extension)
         {
             string exact = Path.Combine(directory, (string.IsNullOrEmpty(stem) ? "qtlcart" : stem) + extension);
-            if (File.Exists(exact)) return exact;
-            return Directory.Exists(directory) ? Directory.GetFiles(directory, "*" + extension).OrderByDescending(File.GetLastWriteTimeUtc).FirstOrDefault() ?? "" : "";
+            return File.Exists(exact) ? exact : "";
         }
 
         private static Chart NewChart(string name)

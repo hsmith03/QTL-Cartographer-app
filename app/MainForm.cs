@@ -1601,6 +1601,15 @@ namespace QTLCartographer.Gui
             })
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
+                    List<string> included = ReproducibilityBundle.GetIncludedFiles(directory, stemBox.Text.Trim(), currentProjectFile, dialog.FileName);
+                    string[] preview = included.Take(25).Select(Path.GetFileName).ToArray();
+                    string remaining = included.Count > preview.Length ? "\r\n...and " + (included.Count - preview.Length) + " more files." : "";
+                    DialogResult confirmation = MessageBox.Show(this,
+                        "The bundle will contain " + included.Count + " project files:\r\n\r\n" +
+                        string.Join("\r\n", preview) + remaining +
+                        "\r\n\r\nGenotype and phenotype files may contain sensitive data. Review this list before sharing. Continue?",
+                        "Review reproducibility bundle", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                    if (confirmation != DialogResult.OK) return;
                     ReproducibilityBundle.Create(directory, stemBox.Text.Trim(), currentProjectFile, queue, dialog.FileName);
                     statusLabel.Text = "Reproducibility bundle created";
                 }

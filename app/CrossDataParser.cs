@@ -23,6 +23,7 @@ namespace QTLCartographer.Gui
         public int Marker { get; set; }
         public int GlobalIndex { get; set; }
         public string Name { get; set; }
+        public double PositionCm { get; set; }
     }
 
     internal sealed class CrossData
@@ -147,8 +148,40 @@ namespace QTLCartographer.Gui
 
         private static void ParseMarkers(string mapFile, CrossData data)
         {
+            string[] lines = File.ReadAllLines(mapFile);
+            int chromosomeCount = 0;
+            bool distancesAreMorgans = false;
+            foreach (string raw in lines)
+            {
+                Match chromosomeMatch = Regex.Match(raw.Trim(), @"^-c\s+(\d+)");
+                if (chromosomeMatch.Success) chromosomeCount = int.Parse(chromosomeMatch.Groups[1].Value);
+                Match unitMatch = Regex.Match(raw.Trim(), @"^-u\s+(\S+)");
+                if (unitMatch.Success) distancesAreMorgans = unitMatch.Groups[1].Value.StartsWith("m", StringComparison.OrdinalIgnoreCase);
+            }
+
+            Dictionary<int, Dictionary<int, double>> intervals = new Dictionary<int, Dictionary<int, double>>();
+            for (int chromosome = 1; chromosome <= chromosomeCount; chromosome++)
+                intervals[chromosome] = new Dictionary<int, double>();
+            foreach (string raw in lines)
+            {
+                Match intervalMatch = Regex.Match(raw, @"^-l\s+(\d+)\s+\|");
+                if (!intervalMatch.Success) continue;
+                int interval = int.Parse(intervalMatch.Groups[1].Value);
+                string fields = raw.Substring(intervalMatch.Index + intervalMatch.Length);
+                for (int chromosome = 1; chromosome <= chromosomeCount; chromosome++)
+                {
+                    int start = chromosome == 1 ? 0 : 9 + (chromosome - 2) * 8;
+                    int width = chromosome == 1 ? 9 : 8;
+                    if (start >= fields.Length) continue;
+                    string field = fields.Substring(start, Math.Min(width, fields.Length - start)).Trim();
+                    double distance;
+                    if (double.TryParse(field, NumberStyles.Float, Invariant, out distance))
+                        intervals[chromosome][interval] = distancesAreMorgans ? distance * 100.0 : distance;
+                }
+            }
+
             bool active = false;
-            foreach (string raw in File.ReadLines(mapFile))
+            foreach (string raw in lines)
             {
                 string line = raw.Trim();
                 if (line.StartsWith("-b", StringComparison.OrdinalIgnoreCase) && line.Contains("MarkerNames")) { active = true; continue; }
@@ -158,11 +191,21 @@ namespace QTLCartographer.Gui
                 int chromosome;
                 int marker;
                 if (p.Length >= 3 && int.TryParse(p[0], out chromosome) && int.TryParse(p[1], out marker))
+                {
+                    double position = 0;
+                    Dictionary<int, double> chromosomeIntervals;
+                    if (intervals.TryGetValue(chromosome, out chromosomeIntervals))
+                        for (int interval = 1; interval < marker; interval++)
+                        {
+                            double distance;
+                            if (chromosomeIntervals.TryGetValue(interval, out distance)) position += distance;
+                        }
                     data.Markers.Add(new MarkerMetadata
                     {
                         Chromosome = chromosome, Marker = marker,
-                        GlobalIndex = data.Markers.Count, Name = p[2]
+                        GlobalIndex = data.Markers.Count, Name = p[2], PositionCm = position
                     });
+                }
             }
         }
     }

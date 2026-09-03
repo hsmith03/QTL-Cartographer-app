@@ -5,8 +5,12 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$Version = '3.0.0'
 $root = $PSScriptRoot
+$productInfo = Get-Content -Raw (Join-Path $root 'app\ProductInfo.cs')
+if ($productInfo -notmatch 'public const string Version = "([^"]+)"') {
+    throw 'Application version could not be read from app\ProductInfo.cs.'
+}
+$Version = $Matches[1]
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 if (-not (Test-Path -LiteralPath $vswhere)) {
     throw 'Visual Studio Build Tools were not found. Install the Desktop development with C++ workload.'
@@ -83,5 +87,9 @@ Copy-Item -Recurse -Force (Join-Path $root 'example'), (Join-Path $root 'doc') $
 
 $zip = Join-Path $buildRoot "QTL-Cartographer-v$Version-Windows-x64.zip"
 Compress-Archive -Force -Path (Join-Path $appDir '*') -DestinationPath $zip
+$checksum = (Get-FileHash -Algorithm SHA256 -LiteralPath $zip).Hash.ToLowerInvariant()
+$checksumFile = $zip + '.sha256'
+Set-Content -LiteralPath $checksumFile -Encoding Ascii -Value "$checksum  $([IO.Path]::GetFileName($zip))"
 Write-Host "Application: $(Join-Path $appDir 'QTL-Cartographer.exe')"
 Write-Host "Package: $zip"
+Write-Host "SHA-256: $checksumFile"

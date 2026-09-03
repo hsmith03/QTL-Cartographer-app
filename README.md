@@ -36,8 +36,9 @@ Every original command-line executable is also included under `tools`.
 - Native empirical permutation workflow with configurable count and alpha
 - CSV peak tables, publication-quality PNG/SVG charts, and self-contained HTML reports
 - Guided new-project/import wizard for example or user data
-- CSV templates and import/export support for wide CSV, R/qtl, R/qtl2, PLINK,
-  and VCF genotype data where the source format supplies the required fields
+- CSV templates and import/export support for validated wide genotype matrices,
+  simplified R/qtl2-style CSV matrices, PLINK PED/MAP with explicit genetic-map
+  units, and biallelic VCF `GT` data
 - Missingness heatmaps, allele frequencies, segregation-distortion flags, and
   phenotype histograms before analysis
 - Model-aware covariate, environment, genotype-by-environment, multi-trait, and
@@ -57,8 +58,8 @@ Every original command-line executable is also included under `tools`.
 - Keyboard shortcuts, high-DPI scaling, and accessible control names
 - Manuscript-ready methods paragraphs and reproducibility ZIP bundles containing
   inputs, settings, seeds, versions, SHA-256 checksums, logs, and rerun scripts
-- Golden-result benchmarks for bundled examples plus independent R/qtl2 CSV
-  comparison support
+- Golden-result benchmarks for bundled examples plus independent reference-peak
+  CSV comparison support
 - Atomic project saves, backup copies, and changed-input hash detection
 - Interactive example-data tutorial
 - Original CLI interfaces for scripts and reproducible pipelines
@@ -69,10 +70,10 @@ Every original command-line executable is also included under `tools`.
 
 Requirements:
 
-- Windows 10 or later
+- Windows 11, or a Windows 10 installation covered by LTSC or ESU support
 - Visual Studio 2019 or later Build Tools
 - **Desktop development with C++** workload
-- .NET Framework 4 reference assemblies
+- .NET Framework 4.8 runtime and reference assemblies
 
 From PowerShell:
 
@@ -97,6 +98,11 @@ LOD units from each peak. Bootstrap percentile intervals are shown when native
 bootstrap output is present. Interoperability imports preserve the source data,
 but phenotype and genetic-map files remain required when formats such as VCF
 provide genotypes alone.
+
+R/qtl's native combined/rotated CSV layouts and R/qtl2 control-file semantics
+are not silently treated as generic matrices. Convert them to the documented
+wide CSV templates first so genotype encodings and sample identifiers can be
+validated explicitly.
 
 ## License and attribution
 

@@ -6,6 +6,19 @@ $root = $PSScriptRoot
 $app = Join-Path $root 'build\app\QTL-Cartographer.exe'
 if (-not (Test-Path -LiteralPath $app)) { throw 'Build the application before testing it.' }
 
+Write-Host 'Testing package metadata and checksum...'
+$productInfo = Get-Content -Raw (Join-Path $root 'app\ProductInfo.cs')
+if ($productInfo -notmatch 'public const string Version = "([^"]+)"') { throw 'Application version metadata is invalid.' }
+$version = $Matches[1]
+$zip = Join-Path $root "build\QTL-Cartographer-v$version-Windows-x64.zip"
+$checksumFile = $zip + '.sha256'
+if (-not (Test-Path -LiteralPath $zip) -or -not (Test-Path -LiteralPath $checksumFile)) { throw 'Versioned package or SHA-256 file is missing.' }
+$expectedChecksum = ((Get-Content -Raw $checksumFile).Trim() -split '\s+')[0]
+$actualChecksum = (Get-FileHash -Algorithm SHA256 -LiteralPath $zip).Hash.ToLowerInvariant()
+if ($expectedChecksum -ne $actualChecksum) { throw 'Package SHA-256 does not match the distributable ZIP.' }
+$runtimeConfig = Get-Content -Raw (Join-Path $root 'build\app\QTL-Cartographer.exe.config')
+if ($runtimeConfig -notmatch 'Version=v4\.8') { throw 'The packaged application does not require the supported .NET Framework 4.8 runtime.' }
+
 Write-Host 'Testing GUI discovery of every analysis program...'
 $guiTest = Start-Process -FilePath $app -ArgumentList '--smoke-test' -Wait -PassThru
 if ($guiTest.ExitCode -ne 0) { throw "GUI smoke test failed with exit code $($guiTest.ExitCode)." }

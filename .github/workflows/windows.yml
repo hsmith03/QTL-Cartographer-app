@@ -8,7 +8,7 @@ jobs:
   build-and-test:
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Build
         shell: powershell
         run: .\build.ps1
@@ -16,7 +16,9 @@ jobs:
         shell: powershell
         run: .\test.ps1
       - name: Upload Windows package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: QTL-Cartographer-v3.0.0-Windows-x64
-          path: build/QTL-Cartographer-v3.0.0-Windows-x64.zip
+          name: QTL-Cartographer-Windows-x64
+          path: |
+            build/QTL-Cartographer-v*-Windows-x64.zip
+            build/QTL-Cartographer-v*-Windows-x64.zip.sha256

@@ -62,7 +62,7 @@ namespace QTLCartographer.Gui
             StartPosition = FormStartPosition.CenterParent;
             FlowLayoutPanel tools = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 44 };
             Button bundled = new Button { Text = "Run bundled golden benchmark", AutoSize = true };
-            Button independent = new Button { Text = "Compare R/qtl2 CSV...", AutoSize = true };
+            Button independent = new Button { Text = "Compare reference peak CSV...", AutoSize = true };
             bundled.Click += delegate { RunBundled(); };
             independent.Click += delegate { RunIndependent(); };
             tools.Controls.Add(bundled); tools.Controls.Add(independent);
@@ -78,7 +78,7 @@ namespace QTLCartographer.Gui
 
         private void RunIndependent()
         {
-            using (OpenFileDialog dialog = new OpenFileDialog { Filter = "R/qtl2 reference CSV (*.csv)|*.csv", InitialDirectory = directory })
+            using (OpenFileDialog dialog = new OpenFileDialog { Filter = "Reference peak CSV (*.csv)|*.csv", InitialDirectory = directory })
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                     ShowResult("Independent implementation comparison", ScientificBenchmarkSuite.Compare(ResultsParser.LoadProject(directory, stem), dialog.FileName, 5.0, 3.0));
         }
@@ -103,12 +103,12 @@ namespace QTLCartographer.Gui
         public ModernImportForm(string directory, string stem, CrossData data)
         {
             this.directory = directory; this.stem = stem; this.data = data;
-            Text = "Modern format interoperability";
+            Text = "Data interoperability";
             Size = new Size(820, 560); StartPosition = FormStartPosition.CenterParent; AutoScaleMode = AutoScaleMode.Dpi;
             TableLayoutPanel panel = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(18), ColumnCount = 3, RowCount = 6 };
             panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150)); panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100)); panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95));
             format = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
-            format.Items.AddRange(new object[] { "CSV", "R/qtl", "R/qtl2", "PLINK", "VCF" }); format.SelectedIndex = 0;
+            format.Items.AddRange(new object[] { "Wide genotype CSV", "R/qtl2 CSV matrices", "PLINK (.map cM)", "PLINK (.map Morgans)", "VCF (biallelic GT)" }); format.SelectedIndex = 0;
             panel.Controls.Add(new Label { Text = "Format", Dock = DockStyle.Fill }, 0, 0); panel.Controls.Add(format, 1, 0); panel.SetColumnSpan(format, 2);
             primary = AddPath(panel, 1, "Primary file");
             secondary = AddPath(panel, 2, "Secondary file");

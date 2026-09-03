@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Keep empirical permutation thresholds isolated to the active project stem.
+- Preserve native marker positions in exported map CSV files.
+- Validate quoted CSV fields, row widths, duplicate IDs, and matching R/qtl2
+  genotype/phenotype sample IDs.
+- Require explicit PLINK genetic-position units and report VCF variants skipped
+  because they are multiallelic.
+- Preview privacy-sensitive reproducibility bundle contents and exclude
+  unrelated file types.
+- Require the supported .NET Framework 4.8 runtime, pin CI actions by commit,
+  derive package versions from application metadata, and publish SHA-256 files.
+
 ## 3.0.0 - 2026-07-23
 
 - Repair clipped banner, subtitle, navigation categories, and tab labels at

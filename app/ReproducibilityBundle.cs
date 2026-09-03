@@ -20,12 +20,46 @@ namespace QTLCartographer.Gui
         [DataMember] public string Stem { get; set; }
         [DataMember] public Dictionary<string, string> Sha256 { get; set; }
         [DataMember] public List<string> Commands { get; set; }
+        [DataMember] public List<string> ExcludedFiles { get; set; }
     }
 
     internal static class ReproducibilityBundle
     {
+        private static readonly HashSet<string> RecognizedDataExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ".inp", ".raw", ".mps", ".map", ".cro", ".csv", ".ped", ".vcf", ".qtlproject", ".log"
+        };
+
+        public static List<string> GetIncludedFiles(string directory, string stem, string projectFile, string destination = "")
+        {
+            if (!Directory.Exists(directory)) return new List<string>();
+            string activeStem = string.IsNullOrWhiteSpace(stem) ? "qtlcart" : stem.Trim();
+            string projectPath = string.IsNullOrEmpty(projectFile) ? "" : Path.GetFullPath(projectFile);
+            HashSet<string> generatedBundlePaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (!string.IsNullOrEmpty(destination))
+            {
+                generatedBundlePaths.Add(Path.GetFullPath(destination));
+                generatedBundlePaths.Add(Path.GetFullPath(destination + ".tmp"));
+                generatedBundlePaths.Add(Path.GetFullPath(destination + ".bak"));
+            }
+            return Directory.GetFiles(directory)
+                .Where(file =>
+                {
+                    string name = Path.GetFileName(file);
+                    if (generatedBundlePaths.Contains(Path.GetFullPath(file))) return false;
+                    if (string.Equals(Path.GetFullPath(file), projectPath, StringComparison.OrdinalIgnoreCase)) return true;
+                    if (string.Equals(name, "qtlcart.rc", StringComparison.OrdinalIgnoreCase)) return true;
+                    if (name.StartsWith(activeStem + ".", StringComparison.OrdinalIgnoreCase) ||
+                        name.StartsWith(activeStem + "-", StringComparison.OrdinalIgnoreCase)) return true;
+                    return RecognizedDataExtensions.Contains(Path.GetExtension(name));
+                })
+                .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
         public static void Create(string directory, string stem, string projectFile, IEnumerable<CommandRequest> requests, string destination)
         {
+            List<string> includedFiles = GetIncludedFiles(directory, stem, projectFile, destination);
+            HashSet<string> includedPaths = new HashSet<string>(includedFiles.Select(Path.GetFullPath), StringComparer.OrdinalIgnoreCase);
             ReproducibilityManifest manifest = new ReproducibilityManifest
             {
                 ApplicationVersion = ProductInfo.Version,
@@ -34,7 +68,9 @@ namespace QTLCartographer.Gui
                 OperatingSystem = Environment.OSVersion.ToString(),
                 Stem = stem,
                 Sha256 = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase),
-                Commands = requests.Select(request => request.DisplayCommand).ToList()
+                Commands = requests.Select(request => request.DisplayCommand).ToList(),
+                ExcludedFiles = Directory.GetFiles(directory).Where(file => !includedPaths.Contains(Path.GetFullPath(file)))
+                    .Select(Path.GetFileName).OrderBy(name => name, StringComparer.OrdinalIgnoreCase).ToList()
             };
             string temp = destination + ".tmp";
             if (File.Exists(temp)) File.Delete(temp);
@@ -42,7 +78,7 @@ namespace QTLCartographer.Gui
             using (ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Create))
             using (SHA256 sha = SHA256.Create())
             {
-                foreach (string file in Directory.GetFiles(directory))
+                foreach (string file in includedFiles)
                 {
                     if (string.Equals(Path.GetFullPath(file), Path.GetFullPath(destination), StringComparison.OrdinalIgnoreCase)) continue;
                     if (string.Equals(Path.GetFullPath(file), Path.GetFullPath(temp), StringComparison.OrdinalIgnoreCase)) continue;
@@ -56,7 +92,7 @@ namespace QTLCartographer.Gui
                     archive.CreateEntryFromFile(projectFile, "project/" + Path.GetFileName(projectFile), CompressionLevel.Optimal);
                 WriteEntry(archive, "rerun-analysis.cmd", BuildScript(manifest.Commands));
                 WriteEntry(archive, "README.txt",
-                    "QTL Cartographer reproducibility bundle\r\n\r\nExtract this archive on Windows. Review rerun-analysis.cmd, ensure the packaged QTL Cartographer tools are on PATH, and run it from the project directory.\r\nChecksums are stored in manifest.json.\r\n");
+                    "QTL Cartographer reproducibility bundle\r\n\r\nExtract this archive on Windows. Review rerun-analysis.cmd, ensure the packaged QTL Cartographer tools are on PATH, and run it from the project directory.\r\nChecksums and the names of files deliberately excluded from the bundle are stored in manifest.json.\r\nGenotype and phenotype files may contain sensitive data; review the archive before sharing it.\r\n");
                 ZipArchiveEntry manifestEntry = archive.CreateEntry("manifest.json");
                 using (Stream output = manifestEntry.Open())
                     new DataContractJsonSerializer(typeof(ReproducibilityManifest)).WriteObject(output, manifest);

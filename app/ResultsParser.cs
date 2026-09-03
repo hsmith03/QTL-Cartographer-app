@@ -90,8 +90,11 @@ namespace QTLCartographer.Gui
             if (!string.IsNullOrEmpty(eqt))
                 ParseEqt(eqt, results);
             string map = Find(directory, stem, ".map");
+            string activeStem = string.IsNullOrEmpty(stem) ? "qtlcart" : stem;
             foreach (string file in Directory.Exists(directory)
-                ? Directory.GetFiles(directory, "*.z*e") : new string[0])
+                ? Directory.GetFiles(directory).Where(path =>
+                    Path.GetFileName(path).StartsWith(activeStem + ".z", StringComparison.OrdinalIgnoreCase) &&
+                    path.EndsWith("e", StringComparison.OrdinalIgnoreCase)) : new string[0])
                 ParsePermutationMaxima(file, results);
             if (results.Peaks.Count == 0)
                 DetectLocalPeaks(results);
@@ -287,7 +290,9 @@ namespace QTLCartographer.Gui
         {
             if (!Directory.Exists(directory)) return;
             string prefix = string.IsNullOrEmpty(stem) ? "qtlcart" : stem;
-            foreach (string file in Directory.GetFiles(directory, prefix + ".z*b"))
+            foreach (string file in Directory.GetFiles(directory).Where(path =>
+                Path.GetFileName(path).StartsWith(prefix + ".z", StringComparison.OrdinalIgnoreCase) &&
+                path.EndsWith("b", StringComparison.OrdinalIgnoreCase)))
             {
                 Dictionary<int, List<double>> positions = new Dictionary<int, List<double>>();
                 foreach (string raw in File.ReadLines(file))
@@ -327,9 +332,7 @@ namespace QTLCartographer.Gui
             if (!Directory.Exists(directory))
                 return "";
             string exact = Path.Combine(directory, (string.IsNullOrEmpty(stem) ? "qtlcart" : stem) + extension);
-            if (File.Exists(exact))
-                return exact;
-            return Directory.GetFiles(directory, "*" + extension).OrderByDescending(File.GetLastWriteTimeUtc).FirstOrDefault() ?? "";
+            return File.Exists(exact) ? exact : "";
         }
     }
 }

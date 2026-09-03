@@ -82,6 +82,8 @@ namespace QTLCartographer.Gui
         {
             System.IO.File.WriteAllText(System.IO.Path.Combine(directory, "qtlcart.z3e"),
                 "# permutation global maxima\r\n1 10.0\r\n2 12.0\r\n3 14.0\r\n4 16.0\r\n");
+            System.IO.File.WriteAllText(System.IO.Path.Combine(directory, "unrelated.z9e"),
+                "# a different analysis must not affect qtlcart\r\n1 9999.0\r\n");
             AnalysisResults results = ResultsParser.LoadProject(directory, "qtlcart");
             if (results.Points.Count == 0 || results.Peaks.Count == 0)
                 throw new InvalidOperationException("Results dashboard parser did not load Zmapqtl/Eqtl output.");
@@ -89,6 +91,13 @@ namespace QTLCartographer.Gui
                 throw new InvalidOperationException("Results parser collapsed chromosome series.");
             if (results.EmpiricalThreshold(.05) != 16.0)
                 throw new InvalidOperationException("Empirical permutation threshold calculation failed.");
+            if (results.PermutationMaxima.Count != 4)
+                throw new InvalidOperationException("Permutation results from a different project stem were mixed into the active analysis.");
+            string isolationDirectory = System.IO.Path.Combine(directory, "stem-isolation");
+            System.IO.Directory.CreateDirectory(isolationDirectory);
+            System.IO.File.Copy(System.IO.Path.Combine(directory, "qtlcart.z"), System.IO.Path.Combine(isolationDirectory, "unrelated.z"), true);
+            if (ResultsParser.LoadProject(isolationDirectory, "qtlcart").Points.Count != 0)
+                throw new InvalidOperationException("A result from a different project stem was loaded as the active analysis.");
             if (results.Peaks.Any(p => p.Support15Right < p.Support15Left || p.Support20Right < p.Support20Left))
                 throw new InvalidOperationException("QTL support interval calculation failed.");
 
@@ -141,8 +150,13 @@ namespace QTLCartographer.Gui
             string interoperability = System.IO.Path.Combine(directory, "interoperability");
             ModernFormatConverter.WriteTemplates(interoperability);
             ModernFormatConverter.ExportCrossCsv(cross, interoperability, "sample");
-            if (!System.IO.File.Exists(System.IO.Path.Combine(interoperability, "sample-genotypes.csv")))
+            string exportedGenotypes = System.IO.Path.Combine(interoperability, "sample-genotypes.csv");
+            string exportedMap = System.IO.Path.Combine(interoperability, "sample-map.csv");
+            if (!System.IO.File.Exists(exportedGenotypes))
                 throw new InvalidOperationException("Modern CSV export failed.");
+            string[] exportedMapLines = System.IO.File.ReadAllLines(exportedMap);
+            if (exportedMapLines.Length < 3 || exportedMapLines[1] != "\"T175\",1,0" || exportedMapLines[2] != "\"C35\",1,4.18")
+                throw new InvalidOperationException("Modern map CSV export did not preserve marker positions in centimorgans.");
             TestModernImports(interoperability);
 
             string reference = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "example", "sample-golden-peaks.csv");
@@ -151,10 +165,15 @@ namespace QTLCartographer.Gui
                 throw new InvalidOperationException("Golden scientific benchmark failed: " + benchmark.Summary);
 
             string bundle = System.IO.Path.Combine(directory, "feature-reproducibility.zip");
+            string unrelated = System.IO.Path.Combine(directory, "private-notes.docx");
+            System.IO.File.WriteAllText(unrelated, "must not be packaged");
             ReproducibilityBundle.Create(directory, "qtlcart", project,
                 new[] { new CommandRequest { Tool = new ToolDefinition("Zmapqtl", "", ""), Arguments = "-X qtlcart -A", WorkingDirectory = directory } }, bundle);
             if (!System.IO.File.Exists(bundle) || new System.IO.FileInfo(bundle).Length == 0)
                 throw new InvalidOperationException("Reproducibility bundle export failed.");
+            using (System.IO.Compression.ZipArchive archive = System.IO.Compression.ZipFile.OpenRead(bundle))
+                if (archive.Entries.Any(entry => entry.FullName.EndsWith("private-notes.docx", StringComparison.OrdinalIgnoreCase)))
+                    throw new InvalidOperationException("Reproducibility bundle included an unrelated document.");
 
             FuzzResultParser(directory);
             TestCrossTypeValidation(directory);
@@ -170,9 +189,10 @@ namespace QTLCartographer.Gui
                 throw new InvalidOperationException("VCF import failed.");
 
             string rqtl2 = System.IO.Path.Combine(directory, "rqtl2.csv");
-            System.IO.File.WriteAllText(rqtl2, "id,m1,m2\r\ns1,0,1\r\ns2,2,NA\r\n");
-            ModernImportResult csvResult = ModernFormatConverter.Import("R/qtl2", rqtl2,
-                System.IO.Path.Combine(directory, "qtl-phenotypes-template.csv"), directory, "rqtl2-test");
+            string rqtl2Phenotypes = System.IO.Path.Combine(directory, "rqtl2-phenotypes.csv");
+            System.IO.File.WriteAllText(rqtl2, "id,\"marker, one\",m2\r\ns1,0,1\r\ns2,2,NA\r\n");
+            System.IO.File.WriteAllText(rqtl2Phenotypes, "id,trait\r\ns1,5.2\r\ns2,6.1\r\n");
+            ModernImportResult csvResult = ModernFormatConverter.Import("R/qtl2", rqtl2, rqtl2Phenotypes, directory, "rqtl2-test");
             if (csvResult.Individuals != 2 || csvResult.Markers != 2)
                 throw new InvalidOperationException("R/qtl2 import failed.");
 
@@ -183,6 +203,16 @@ namespace QTLCartographer.Gui
             ModernImportResult plink = ModernFormatConverter.Import("PLINK", ped, map, directory, "plink-test");
             if (plink.Individuals != 2 || plink.Markers != 2 || plink.Traits != 1)
                 throw new InvalidOperationException("PLINK import failed.");
+            ModernImportResult plinkMorgans = ModernFormatConverter.Import("PLINK (.map Morgans)", ped, map, directory, "plink-morgans-test");
+            if (!System.IO.File.ReadAllText(plinkMorgans.MapCsv).Contains("\"m2\",1,500"))
+                throw new InvalidOperationException("PLINK Morgan-to-centimorgan conversion failed.");
+
+            string mismatchedPhenotypes = System.IO.Path.Combine(directory, "mismatched-phenotypes.csv");
+            System.IO.File.WriteAllText(mismatchedPhenotypes, "id,trait\r\ns1,5\r\ns3,6\r\n");
+            bool mismatchedRejected = false;
+            try { ModernFormatConverter.Import("R/qtl2", rqtl2, mismatchedPhenotypes, directory, "mismatched"); }
+            catch (System.IO.InvalidDataException) { mismatchedRejected = true; }
+            if (!mismatchedRejected) throw new InvalidOperationException("Mismatched R/qtl2 sample ids were not rejected.");
 
             string malformed = System.IO.Path.Combine(directory, "malformed.csv");
             System.IO.File.WriteAllText(malformed, "wrong,header\r\n");
